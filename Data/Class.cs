@@ -1,4 +1,6 @@
-﻿namespace SchoolAdministrationSystem.Data
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SchoolAdministrationSystem.Data
 {
     public class Class : BaseEntity
     {
@@ -8,6 +10,5 @@
         public List<Student> Students { get; set; } = new List<Student>();
 
         public List<Absence> Absences { get; set; } = new List<Absence>();
-
     }
 }

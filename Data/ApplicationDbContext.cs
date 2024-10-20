@@ -18,13 +18,20 @@ namespace SchoolAdministrationSystem.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Class>()
-            //    .HasMany(c => c.Students)
-            //    .WithMany(s => s.Absences)
-            //    .UsingEntity<Absence>();
-
-            //modelBuilder.Entity<Absence>()
-            //    .HasKey(r => new { a., a. });
+            modelBuilder.Entity<Class>()
+                .HasMany(c => c.Students)
+                .WithMany(s => s.Classes)
+                .UsingEntity<Absence>(
+                    j => j
+                        .HasOne(a => a.Student)
+                        .WithMany(s => s.Absences)
+                        .HasForeignKey(a => a.StudentId),
+                    j => j
+                        .HasOne(a => a.Class)
+                        .WithMany(c => c.Absences)
+                        .HasForeignKey(a => a.ClassId),
+                    j => j.HasKey(a => a.Id) 
+                );
 
             base.OnModelCreating(modelBuilder);
         }

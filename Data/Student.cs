@@ -21,5 +21,7 @@ namespace SchoolAdministrationSystem.Data
         public int LeftAbsenceDays { get; set; } // Starting with 15 days for a year
 
         public List<Absence> Absences { get; set; } = new List<Absence>();
+
+        public List<Class> Classes { get; set; } = new List<Class>();
     }
 }
