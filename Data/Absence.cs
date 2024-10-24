@@ -16,11 +16,25 @@ namespace SchoolAdministrationSystem.Data
         public DateTime End { get; set; }
 
         [Required]
-        public int StudentId { get; set; }
-        public Student Student { get; set; }
+        public int ClassId { get; set; }
+        public virtual Class? Class { get; set; }
 
         [Required]
-        public int ClassId { get; set; }
-        public Class Class { get; set; }
+        public int StudentId { get; set; }
+        public virtual Student? Student { get; set; }
+
+        public int Days
+        {
+            get
+            {
+                return DaysBetween(Start, End);
+            }
+        }
+
+        int DaysBetween(DateTime d1, DateTime d2)
+        {
+            TimeSpan span = d2.Subtract(d1);
+            return (int)span.TotalDays;
+        }
     }
 }

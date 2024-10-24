@@ -48,8 +48,8 @@ namespace SchoolAdministrationSystem.Controllers
         // GET: Absences/Create
         public IActionResult Create()
         {
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Id");
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Address");
+            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality");
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName");
             return View();
         }
 
@@ -66,8 +66,8 @@ namespace SchoolAdministrationSystem.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Id", absence.ClassId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Address", absence.StudentId);
+            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.Class.Speciality);
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.Student.FullName);
             return View(absence);
         }
 
@@ -84,8 +84,8 @@ namespace SchoolAdministrationSystem.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Id", absence.ClassId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Address", absence.StudentId);
+            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.ClassId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.StudentId);
             return View(absence);
         }
 
@@ -121,8 +121,8 @@ namespace SchoolAdministrationSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Id", absence.ClassId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Address", absence.StudentId);
+            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.Class.Speciality);
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.Student.FullName);
             return View(absence);
         }
 

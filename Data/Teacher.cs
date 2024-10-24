@@ -11,7 +11,7 @@ namespace SchoolAdministrationSystem.Data
         [Required]
         public string LastName { get; set; }
         [Required]
-        [ForeignKey("Class")]
+        [ForeignKey("Speciality")]
         public string Number { get; set; }
 
     }

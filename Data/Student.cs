@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace SchoolAdministrationSystem.Data
 {
@@ -9,6 +10,14 @@ namespace SchoolAdministrationSystem.Data
         public string MiddleName { get; set; }
         [Required]
         public string LastName { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {MiddleName} {LastName}";
+            }
+        }
         [Required]
         public string Gender { get; set; }
         [Required]
@@ -18,10 +27,10 @@ namespace SchoolAdministrationSystem.Data
         [Required]
         public string PhoneNumber { get; set; }
 
-        public int LeftAbsenceDays { get; set; } // Starting with 15 days for a year
+        public int LeftAbsenceDays { get; set; } = 15;
 
-        public List<Absence> Absences { get; set; } = new List<Absence>();
+        public virtual List<Absence>? Absences { get; set; } = new List<Absence>();
 
-        public List<Class> Classes { get; set; } = new List<Class>();
+        public virtual List<Class> Classes { get; set; } = new List<Class>();
     }
 }

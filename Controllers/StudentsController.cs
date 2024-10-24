@@ -148,6 +148,11 @@ namespace SchoolAdministrationSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet("StudentApi/ByClass/:classId")]
+        public async Task<List<Student>> GetStudentsAsync(int? id)
+        {
+            return _context.Students.Where(item => item.Classes[0].Id == id).ToList();
+        }
         private bool StudentExists(int id)
         {
             return _context.Students.Any(e => e.Id == id);
