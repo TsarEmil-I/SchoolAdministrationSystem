@@ -2,28 +2,28 @@
 
 #nullable disable
 
-namespace SchoolAdministrationSystem.Data.Migrations
+namespace SchoolAdministrationSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class fixInconvos : Migration
+    public partial class teacherFix : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Number",
-                table: "Classes");
+                name: "ClassId",
+                table: "Teachers");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Number",
-                table: "Classes",
-                type: "nvarchar(max)",
+            migrationBuilder.AddColumn<int>(
+                name: "ClassId",
+                table: "Teachers",
+                type: "int",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: 0);
         }
     }
 }

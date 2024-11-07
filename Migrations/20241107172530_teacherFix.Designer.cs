@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolAdministrationSystem.Data;
 
 #nullable disable
 
-namespace SchoolAdministrationSystem.Data.Migrations
+namespace SchoolAdministrationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241107172530_teacherFix")]
+    partial class teacherFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -274,7 +277,13 @@ namespace SchoolAdministrationSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TeacherId")
+                        .IsUnique();
 
                     b.ToTable("Classes");
                 });
@@ -292,6 +301,9 @@ namespace SchoolAdministrationSystem.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClassId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -319,6 +331,8 @@ namespace SchoolAdministrationSystem.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassId");
+
                     b.ToTable("Students");
                 });
 
@@ -339,10 +353,6 @@ namespace SchoolAdministrationSystem.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -423,12 +433,41 @@ namespace SchoolAdministrationSystem.Data.Migrations
 
             modelBuilder.Entity("SchoolAdministrationSystem.Data.Class", b =>
                 {
+                    b.HasOne("SchoolAdministrationSystem.Data.Teacher", "Teacher")
+                        .WithOne("Class")
+                        .HasForeignKey("SchoolAdministrationSystem.Data.Class", "TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("SchoolAdministrationSystem.Data.Student", b =>
+                {
+                    b.HasOne("SchoolAdministrationSystem.Data.Class", "Class")
+                        .WithMany("Students")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("SchoolAdministrationSystem.Data.Class", b =>
+                {
                     b.Navigation("Absences");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("SchoolAdministrationSystem.Data.Student", b =>
                 {
                     b.Navigation("Absences");
+                });
+
+            modelBuilder.Entity("SchoolAdministrationSystem.Data.Teacher", b =>
+                {
+                    b.Navigation("Class");
                 });
 #pragma warning restore 612, 618
         }

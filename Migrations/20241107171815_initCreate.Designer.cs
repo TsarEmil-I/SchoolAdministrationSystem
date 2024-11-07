@@ -9,11 +9,11 @@ using SchoolAdministrationSystem.Data;
 
 #nullable disable
 
-namespace SchoolAdministrationSystem.Data.Migrations
+namespace SchoolAdministrationSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241020135534_init")]
-    partial class init
+    [Migration("20241107171815_initCreate")]
+    partial class initCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -273,15 +273,17 @@ namespace SchoolAdministrationSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Speciality")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TeacherId")
+                        .IsUnique();
 
                     b.ToTable("Classes");
                 });
@@ -299,6 +301,9 @@ namespace SchoolAdministrationSystem.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClassId")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -326,6 +331,8 @@ namespace SchoolAdministrationSystem.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassId");
+
                     b.ToTable("Students");
                 });
 
@@ -337,6 +344,9 @@ namespace SchoolAdministrationSystem.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -346,10 +356,6 @@ namespace SchoolAdministrationSystem.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MiddleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -430,12 +436,41 @@ namespace SchoolAdministrationSystem.Data.Migrations
 
             modelBuilder.Entity("SchoolAdministrationSystem.Data.Class", b =>
                 {
+                    b.HasOne("SchoolAdministrationSystem.Data.Teacher", "Teacher")
+                        .WithOne("Class")
+                        .HasForeignKey("SchoolAdministrationSystem.Data.Class", "TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("SchoolAdministrationSystem.Data.Student", b =>
+                {
+                    b.HasOne("SchoolAdministrationSystem.Data.Class", "Class")
+                        .WithMany("Students")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+                });
+
+            modelBuilder.Entity("SchoolAdministrationSystem.Data.Class", b =>
+                {
                     b.Navigation("Absences");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("SchoolAdministrationSystem.Data.Student", b =>
                 {
                     b.Navigation("Absences");
+                });
+
+            modelBuilder.Entity("SchoolAdministrationSystem.Data.Teacher", b =>
+                {
+                    b.Navigation("Class");
                 });
 #pragma warning restore 612, 618
         }
