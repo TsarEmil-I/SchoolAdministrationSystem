@@ -13,9 +13,9 @@ namespace SchoolAdministrationSystem.Data
         [MaxLength(100)]
         public string Reason { get; set; }
         [Required]
-        public DateTime Start { get; set; }
+        public DateOnly Start { get; set; }
         [Required]
-        public DateTime End { get; set; }
+        public DateOnly End { get; set; }
 
         [Required]
         [DisplayName("From class")]
@@ -35,9 +35,12 @@ namespace SchoolAdministrationSystem.Data
             }
         }
 
-        int DaysBetween(DateTime d1, DateTime d2)
-        {
-            TimeSpan span = d2.Subtract(d1);
+        int DaysBetween(DateOnly d1, DateOnly d2)
+        { 
+            DateTime dt1 = d1.ToDateTime(TimeOnly.MinValue);
+            DateTime dt2 = d2.ToDateTime(TimeOnly.MinValue);
+
+            TimeSpan span = dt2.Subtract(dt1);
             return (int)span.TotalDays;
         }
     }
