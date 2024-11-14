@@ -23,7 +23,7 @@ namespace SchoolAdministrationSystem.Data
             }
         }
         [Required]
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
         [Required]
 
         private int age;

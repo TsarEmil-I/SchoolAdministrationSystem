@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace SchoolAdministrationSystem.Data
 {
@@ -40,6 +41,10 @@ namespace SchoolAdministrationSystem.Data
                 .HasForeignKey(a => a.ClassId);
 
             modelBuilder.Entity<Absence>().HasKey(a => a.Id);
+
+            modelBuilder.Entity<Student>()
+            .Property(s => s.Gender)
+            .HasConversion(new EnumToStringConverter<Gender>());
 
             base.OnModelCreating(modelBuilder);
         }
