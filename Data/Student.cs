@@ -49,6 +49,8 @@ namespace SchoolAdministrationSystem.Data
         [Required]
         public string Address { get; set; }
         [Required]
+        [MinLength(10)]
+        [MaxLength(10)]
         [DisplayName("Phone number")]
         public string PhoneNumber { get; set; }
 
