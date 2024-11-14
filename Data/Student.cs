@@ -25,7 +25,27 @@ namespace SchoolAdministrationSystem.Data
         [Required]
         public string Gender { get; set; }
         [Required]
-        public int Age { get; set; }
+
+        private int age;
+        public int Age
+        {
+            get
+            {
+               return age;
+            }
+
+            set
+            {
+                if (value > 0)
+                {
+                    age = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Age cannot be negative!");
+                }
+            }
+        }
         [Required]
         public string Address { get; set; }
         [Required]
