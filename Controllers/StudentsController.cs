@@ -44,6 +44,14 @@ namespace SchoolAdministrationSystem.Controllers
             return View(student);
         }
 
+        [HttpGet("Students/List")]
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudents(int id)
+        {
+            return await _context.Students
+                .Where(s => s.ClassId == id)
+                .ToListAsync();
+        }
+
         // GET: Students/Create
         public IActionResult Create()
         {
