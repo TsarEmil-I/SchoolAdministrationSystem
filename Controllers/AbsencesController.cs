@@ -58,16 +58,34 @@ namespace SchoolAdministrationSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SequenceNumber,Reason,Start,End,StudentId,ClassId,Id")] Absence absence)
+        public async Task<IActionResult> Create([Bind("Reason,Start,End,StudentId,ClassId")] Absence absence)
         {
             if (ModelState.IsValid)
             {
+                absence.Student = await _context.Students.FirstOrDefaultAsync(s => s.Id == absence.StudentId);
+                absence.Class = await _context.Classes.FirstOrDefaultAsync(c => c.Id == absence.ClassId);
+
+                if (absence.Student == null || absence.Class == null)
+                {
+                    ModelState.AddModelError("", "Invalid student or class selected.");
+                    return View(absence);
+                }
+
+                absence.Student.LeftAbsenceDays -= absence.Days;
+
+                absence.SequenceNumber = GenerateSequenceNumber(absence);
+
                 _context.Add(absence);
                 await _context.SaveChangesAsync();
+
+                _context.Update(absence.Student);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.Class.Speciality);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.Student.FullName);
+
+            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.ClassId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.StudentId);
             return View(absence);
         }
 
@@ -164,6 +182,28 @@ namespace SchoolAdministrationSystem.Controllers
         private bool AbsenceExists(int id)
         {
             return _context.Absences.Any(e => e.Id == id);
+        }
+
+        //private int CalculateLeftAbsenceDays()
+
+        private string GenerateSequenceNumber(Absence absence)
+        {
+            var classEntity = _context.Classes.FirstOrDefault(c => c.Id == absence.ClassId);
+            if (classEntity == null)
+            {
+                throw new Exception("Invalid class selected");
+            }
+
+            var classCode = absence.ClassId;
+
+            var studentId = absence.StudentId.ToString("D2");
+
+            var leftAbsenceDays = absence.Student.LeftAbsenceDays.ToString("D2");
+
+            var currentDate = DateTime.Now;
+            var date = $"{currentDate:dd.MM.yy}";
+
+            return $"{classCode}-{studentId}-{leftAbsenceDays}/{date}";
         }
     }
 }

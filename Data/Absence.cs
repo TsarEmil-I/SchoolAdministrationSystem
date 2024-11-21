@@ -6,9 +6,8 @@ namespace SchoolAdministrationSystem.Data
 {
     public class Absence : BaseEntity
     {
-        [Required]
         [DisplayName("Sequence Number")]
-        public string SequenceNumber { get; set; } // Not a primary key, just a tracking number for the school administration!
+        public string? SequenceNumber { get; set; } // Not a primary key, just a tracking number for the school administration!
         [Required]
         [MaxLength(100)]
         public string Reason { get; set; }

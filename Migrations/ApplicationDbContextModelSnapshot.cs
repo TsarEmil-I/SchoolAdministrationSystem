@@ -259,7 +259,7 @@ namespace SchoolAdministrationSystem.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Absences");
+                    b.ToTable("Absences", (string)null);
                 });
 
             modelBuilder.Entity("SchoolAdministrationSystem.Data.Class", b =>
@@ -282,7 +282,7 @@ namespace SchoolAdministrationSystem.Migrations
                     b.HasIndex("TeacherId")
                         .IsUnique();
 
-                    b.ToTable("Classes");
+                    b.ToTable("Classes", (string)null);
                 });
 
             modelBuilder.Entity("SchoolAdministrationSystem.Data.Student", b =>
@@ -331,7 +331,7 @@ namespace SchoolAdministrationSystem.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("SchoolAdministrationSystem.Data.Teacher", b =>
@@ -356,7 +356,7 @@ namespace SchoolAdministrationSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
