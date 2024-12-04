@@ -4,56 +4,76 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1 class="text-3xl font-bold text-gray-900">Edit</h1>
 
-<h4>Absence</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SequenceNumber" class="control-label"></label>
-                <input asp-for="SequenceNumber" class="form-control" />
-                <span asp-validation-for="SequenceNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Reason" class="control-label"></label>
-                <input asp-for="Reason" class="form-control" />
-                <span asp-validation-for="Reason" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Start" class="control-label"></label>
-                <input asp-for="Start" class="form-control" type="date" />
-                <span asp-validation-for="Start" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="End" class="control-label"></label>
-                <input asp-for="End" class="form-control" type="date"/>
-                <span asp-validation-for="End" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClassId" class="control-label"></label>
-                <select asp-for="ClassId" class="form-control" asp-items="ViewBag.ClassId"></select>
-                <span asp-validation-for="ClassId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
-                <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentId"></select>
-                <span asp-validation-for="StudentId" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="mt-4">
+    <h4 class="text-lg font-medium text-gray-700">Absence</h4>
+    <hr class="my-4" />
+
+    <form asp-action="Edit" class="space-y-4">
+        <!-- Validation Summary -->
+        <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
+
+        <!-- Sequence Number -->
+        <div class="flex flex-col">
+            <label asp-for="SequenceNumber" class="text-sm font-medium text-gray-700">Sequence Number</label>
+            <input asp-for="SequenceNumber" class="px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            <span asp-validation-for="SequenceNumber" class="text-red-500 text-sm"></span>
+        </div>
+
+        <!-- Reason -->
+        <div class="flex flex-col">
+            <label asp-for="Reason" class="text-sm font-medium text-gray-700">Reason</label>
+            <input asp-for="Reason" class="px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            <span asp-validation-for="Reason" class="text-red-500 text-sm"></span>
+        </div>
+
+        <!-- Start Date -->
+        <div class="flex flex-col">
+            <label asp-for="Start" class="text-sm font-medium text-gray-700">Start Date</label>
+            <input asp-for="Start" class="px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" type="date" />
+            <span asp-validation-for="Start" class="text-red-500 text-sm"></span>
+        </div>
+
+        <!-- End Date -->
+        <div class="flex flex-col">
+            <label asp-for="End" class="text-sm font-medium text-gray-700">End Date</label>
+            <input asp-for="End" class="px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" type="date" />
+            <span asp-validation-for="End" class="text-red-500 text-sm"></span>
+        </div>
+
+        <!-- Class Selection -->
+        <div class="flex flex-col">
+            <label asp-for="ClassId" class="text-sm font-medium text-gray-700">Class</label>
+            <select asp-for="ClassId" class="px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" asp-items="ViewBag.ClassId"></select>
+            <span asp-validation-for="ClassId" class="text-red-500 text-sm"></span>
+        </div>
+
+        <!-- Student Selection -->
+        <div class="flex flex-col">
+            <label asp-for="StudentId" class="text-sm font-medium text-gray-700">Student</label>
+            <select asp-for="StudentId" class="px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" asp-items="ViewBag.StudentId"></select>
+            <span asp-validation-for="StudentId" class="text-red-500 text-sm"></span>
+        </div>
+
+        <!-- Hidden Input for ID -->
+        <input type="hidden" asp-for="Id" />
+
+        <!-- Save Button -->
+        <div class="flex justify-end">
+            <input type="submit" value="Save" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400" />
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="mt-6">
+    <a asp-action="Index" class="inline-block text-blue-600 hover:text-blue-800 font-medium">
+        Back to List
+    </a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

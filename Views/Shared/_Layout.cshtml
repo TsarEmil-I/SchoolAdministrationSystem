@@ -4,56 +4,63 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SchoolAdministrationSystem</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SchoolAdministrationSystem.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/tailwind-output.css" />
+    <script src="~/js/site.js"></script>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-900">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><b>School Administration</b></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Absences" asp-action="Index">Absences Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Classes" asp-action="Index">Classes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="Index">Students</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Teachers" asp-action="Index">Teachers</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
+        <nav class="bg-white shadow-md">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <!-- Logo -->
+                <a href="/" class="text-lg font-bold text-blue-600 hover:text-blue-800">School Administration</a>
+
+                <!-- Navigation Links -->
+                <ul class="flex space-x-4">
+                    <li><a href="Home/Privacy" class="text-gray-600 hover:text-blue-600">Privacy</a></li>
+                    <li><a href="/Absences" class="text-gray-600 hover:text-blue-600">Absences Dashboard</a></li>
+                    <li><a href="/Classes" class="text-gray-600 hover:text-blue-600">Classes</a></li>
+                    <li><a href="/Students" class="text-gray-600 hover:text-blue-600">Students</a></li>
+                    <li><a href="/Teachers" class="text-gray-600 hover:text-blue-600">Teachers</a></li>
+                </ul>
+
+                <!-- Login/Register Buttons -->
+                <div>
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <!-- Show Logout for Authenticated Users -->
+                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="inline">
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Logout
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <!-- Show Login/Register for Unauthenticated Users -->
+                        <a href="@Url.Page("/Account/Login", new { area = "Identity" })" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mr-2">
+                            Login
+                        </a>
+                        <a href="@Url.Page("/Account/Register", new { area = "Identity" })" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400">
+                            Register
+                        </a>
+                    }
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+
+    <div class="container mx-auto mt-8">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - SchoolAdministrationSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-t mt-8 py-4 text-center text-gray-600">
+        <div class="container mx-auto">
+            &copy; 2024 - SchoolAdministrationSystem - <a href="/Home/Privacy" class="text-blue-600 hover:underline">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

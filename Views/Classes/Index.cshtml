@@ -4,38 +4,53 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="text-2xl font-semibold mb-6">Classes</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p class="mb-4">
+    <a asp-action="Create" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
+        + Create New
+    </a>
 </p>
-<table class="table">
+
+<table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
     <thead>
-        <tr>
-            <th>
+        <tr class="bg-gray-100">
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
                 @Html.DisplayNameFor(model => model.Speciality)
             </th>
-            <th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
                 @Html.DisplayNameFor(model => model.Teacher.FullName)
             </th>
-            <th></th>
+            <th class="px-6 py-3 text-left text-sm font-medium text-gray-600"></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Speciality)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.FullName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="border-t border-gray-200">
+                <td class="px-6 py-4 text-sm text-gray-600">
+                    @Html.DisplayFor(modelItem => item.Speciality)
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600">
+                    @Html.DisplayFor(modelItem => item.Teacher.FullName)
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-600 space-x-2">
+                    <!-- Edit Button -->
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                        Edit
+                    </a> |
+
+                    <!-- Details Button -->
+                    <a asp-action="Details" asp-route-id="@item.Id" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        Details
+                    </a> |
+
+                    <!-- Delete Button -->
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
