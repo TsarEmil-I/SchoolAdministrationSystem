@@ -72,6 +72,15 @@ namespace SchoolAdministrationSystem.Controllers
                 }
 
                 absence.Student.LeftAbsenceDays -= absence.Days;
+                int absenceDays = absence.Days;
+
+                if (absence.Student.LeftAbsenceDays <= 0 || absence.Student.LeftAbsenceDays < absenceDays)
+                {
+                    ModelState.AddModelError("", "The student does not have enough remaining absence days.");
+                    ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.ClassId);
+                    ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.StudentId);
+                    return View(absence);
+                }
 
                 absence.SequenceNumber = GenerateSequenceNumber(absence);
 
