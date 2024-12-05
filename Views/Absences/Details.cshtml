@@ -40,11 +40,11 @@
 
     <!-- Action Buttons: Edit and Back to List -->
     <div class="mt-6 flex justify-between">
-        <a asp-action="Edit" asp-route-id="@Model?.Id" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400">
-            Edit
-        </a>
         <a asp-action="Index" class="inline-block text-blue-600 hover:text-blue-800 font-medium">
             Back to List
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400">
+            Edit
         </a>
     </div>
 </div>
