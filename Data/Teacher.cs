@@ -8,13 +8,16 @@ namespace SchoolAdministrationSystem.Data
     {
         [Required]
         [DisplayName("First Name")]
+        [RegularExpression(@"^[А-Яа-яЁё]+$", ErrorMessage = "First Name must contain only Cyrillic letters.")]
         public string FirstName { get; set; }
 
         [DisplayName("Second Name")]
+        [RegularExpression(@"^[А-Яа-яЁё]+$", ErrorMessage = "Middle Name must contain only Cyrillic letters.")]
         public string MiddleName { get; set; }
-        
+
         [Required]
         [DisplayName("Last Name")]
+        [RegularExpression(@"^[А-Яа-яЁё]+$", ErrorMessage = "Last Name must contain only Cyrillic letters.")]
         public string LastName { get; set; }
 
         [DisplayName("Head Teacher")]
@@ -25,7 +28,7 @@ namespace SchoolAdministrationSystem.Data
                 return $"{FirstName} {MiddleName} {LastName}";
             }
         }
-        public virtual Class? Class { get; set; }
 
+        public virtual Class? Class { get; set; }
     }
 }
