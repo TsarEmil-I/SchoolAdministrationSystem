@@ -49,10 +49,10 @@ namespace SchoolAdministrationSystem.Data
         [Required]
         public string Address { get; set; }
         [Required]
-        [MinLength(10)]
-        [MaxLength(10)]
         [DisplayName("Phone number")]
+        [RegularExpression(@"^\+[0-9]{1,3}[0-9]{8,12}$", ErrorMessage = "Phone number must be in international format (e.g., +359xxxxxxxx).")]
         public string PhoneNumber { get; set; }
+
 
         [Required]
         [DisplayName("Class")]

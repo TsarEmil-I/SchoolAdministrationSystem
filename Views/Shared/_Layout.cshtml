@@ -8,14 +8,19 @@
     <script src="~/js/site.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900">
-    <header>
-        <nav class="bg-white shadow-md">
-            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+
+    <!-- Sidebar and Content Wrapper -->
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="bg-white shadow-md w-64 min-h-screen fixed top-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
+            <div class="container mx-auto px-4 py-4">
                 <!-- Logo -->
-                <a href="/" class="text-lg font-bold text-blue-600 hover:text-blue-800">School Administration</a>
+                <a href="/" class="text-lg font-bold text-blue-600 hover:text-blue-800 block py-2 mb-4">
+                    School Administration
+                </a>
 
                 <!-- Navigation Links -->
-                <ul class="flex space-x-4">
+                <ul class="space-y-6">
                     <li><a href="Home/Privacy" class="text-gray-600 hover:text-blue-600">Privacy</a></li>
                     <li><a href="/Absences" class="text-gray-600 hover:text-blue-600">Absences Dashboard</a></li>
                     <li><a href="/Classes" class="text-gray-600 hover:text-blue-600">Classes</a></li>
@@ -24,10 +29,9 @@
                 </ul>
 
                 <!-- Login/Register Buttons -->
-                <div>
+                <div class="mt-4">
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
-                        <!-- Show Logout for Authenticated Users -->
                         <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="inline">
                             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                                 Logout
@@ -36,7 +40,6 @@
                     }
                     else
                     {
-                        <!-- Show Login/Register for Unauthenticated Users -->
                         <a href="@Url.Page("/Account/Login", new { area = "Identity" })" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mr-2">
                             Login
                         </a>
@@ -46,13 +49,22 @@
                     }
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
 
-    <div class="container mx-auto mt-8">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <!-- Main Content Area -->
+        <div class="flex-1 ml-0 lg:ml-64 p-4 transition-all duration-300 ease-in-out">
+            <!-- Hamburger Button (Visible only on smaller screens) -->
+            <button id="hamburger" class="lg:hidden p-2 text-gray-600 hover:bg-gray-200 rounded mb-4">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <!-- Page Content -->
+            <main role="main" class="pb-3 min-h-screen">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer class="border-t mt-8 py-4 text-center text-gray-600">
@@ -60,6 +72,15 @@
             &copy; 2024 - SchoolAdministrationSystem - <a href="/Home/Privacy" class="text-blue-600 hover:underline">Privacy</a>
         </div>
     </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Toggle sidebar visibility on smaller screens
+        document.getElementById("hamburger").addEventListener("click", function () {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("-translate-x-full");
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
