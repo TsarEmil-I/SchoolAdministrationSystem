@@ -10,22 +10,22 @@
 <body class="bg-gray-100 text-gray-900">
 
     <!-- Sidebar and Content Wrapper -->
-    <div class="flex min-h-screen">
+    <div class="flex min-h-screen w-full">
         <!-- Sidebar -->
         <div id="sidebar" class="bg-white shadow-md w-64 min-h-screen fixed top-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
             <div class="container mx-auto px-4 py-4">
                 <!-- Logo -->
                 <a href="/" class="text-lg font-bold text-blue-600 hover:text-blue-800 block py-2 mb-4">
-                    School Administration
+                    СУУА
                 </a>
 
                 <!-- Navigation Links -->
                 <ul class="space-y-6">
-                    <li><a href="Home/Privacy" class="text-gray-600 hover:text-blue-600">Privacy</a></li>
-                    <li><a href="/Absences" class="text-gray-600 hover:text-blue-600">Absences Dashboard</a></li>
-                    <li><a href="/Classes" class="text-gray-600 hover:text-blue-600">Classes</a></li>
-                    <li><a href="/Students" class="text-gray-600 hover:text-blue-600">Students</a></li>
-                    <li><a href="/Teachers" class="text-gray-600 hover:text-blue-600">Teachers</a></li>
+                    <li><a href="Home/Privacy" class="text-gray-600 hover:text-blue-600">За нас</a></li>
+                    <li><a href="/Absences" class="text-gray-600 hover:text-blue-600">Отсъствия</a></li>
+                    <li><a href="/Classes" class="text-gray-600 hover:text-blue-600">Класове</a></li>
+                    <li><a href="/Students" class="text-gray-600 hover:text-blue-600">Ученици</a></li>
+                    <li><a href="/Teachers" class="text-gray-600 hover:text-blue-600">Учители</a></li>
                 </ul>
 
                 <!-- Login/Register Buttons -->
@@ -34,25 +34,31 @@
                     {
                         <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="inline">
                             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                Logout
+                                Излез
                             </button>
                         </form>
                     }
                     else
                     {
-                        <a href="@Url.Page("/Account/Login", new { area = "Identity" })" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mr-2">
-                            Login
-                        </a>
-                        <a href="@Url.Page("/Account/Register", new { area = "Identity" })" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400">
-                            Register
-                        </a>
+                        <div class="flex">
+                            <div>
+                                <a href="@Url.Page("/Account/Login", new { area = "Identity" })" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mr-2">
+                                    Влез
+                                </a>
+                            </div>
+                            <div>
+                                <a href="@Url.Page("/Account/Register", new { area = "Identity" })" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                    Регистрация
+                                </a>
+                            </div>
+                        </div>
                     }
                 </div>
             </div>
         </div>
 
         <!-- Main Content Area -->
-        <div class="flex-1 ml-0 lg:ml-64 p-4 transition-all duration-300 ease-in-out">
+        <div class="flex-1 w-full ml-0 lg:ml-64 p-4 transition-all duration-300 ease-in-out">
             <!-- Hamburger Button (Visible only on smaller screens) -->
             <button id="hamburger" class="lg:hidden p-2 text-gray-600 hover:bg-gray-200 rounded mb-4">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -69,7 +75,7 @@
 
     <footer class="border-t mt-8 py-4 text-center text-gray-600">
         <div class="container mx-auto">
-            &copy; 2024 - SchoolAdministrationSystem - <a href="/Home/Privacy" class="text-blue-600 hover:underline">Privacy</a>
+            &copy; 2024 - Всички права запазени СУУА - <a href="/Home/Privacy" class="text-blue-600 hover:underline">За нас</a>
         </div>
     </footer>
 

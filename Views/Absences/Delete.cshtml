@@ -1,41 +1,41 @@
 ﻿@model SchoolAdministrationSystem.Data.Absence
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Премахване на отсъствие";
 }
 
-<h1 class="text-2xl font-semibold mb-6">Delete Absence</h1>
+<h1 class="text-2xl font-semibold mb-6">Премахване на отсъствие</h1>
 
-<h3 class="text-lg font-medium text-red-600 mb-4">Are you sure you want to delete this absence?</h3>
+<h3 class="text-lg font-medium text-red-600 mb-4">Сигурни ли сте, че желаете да премахнете отсъствието?</h3>
 
 <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h4 class="text-lg font-semibold mb-4">Absence Details</h4>
+    <h4 class="text-lg font-semibold mb-4">Информация за отсъствието</h4>
     <hr class="mb-6" />
 
     <!-- Displaying the Absence Details -->
     <dl class="space-y-4">
         <div class="flex items-center">
-            <dt class="w-1/3 font-medium text-gray-700">Sequence Number:</dt>
+            <dt class="w-1/3 font-medium text-gray-700">Входящ номер:</dt>
             <dd class="w-2/3 text-gray-900">@Html.DisplayFor(model => model.SequenceNumber)</dd>
         </div>
         <div class="flex items-center">
-            <dt class="w-1/3 font-medium text-gray-700">Reason:</dt>
+            <dt class="w-1/3 font-medium text-gray-700">Причина:</dt>
             <dd class="w-2/3 text-gray-900">@Html.DisplayFor(model => model.Reason)</dd>
         </div>
         <div class="flex items-center">
-            <dt class="w-1/3 font-medium text-gray-700">Start:</dt>
+            <dt class="w-1/3 font-medium text-gray-700">От дата:</dt>
             <dd class="w-2/3 text-gray-900">@Html.DisplayFor(model => model.Start)</dd>
         </div>
         <div class="flex items-center">
-            <dt class="w-1/3 font-medium text-gray-700">End:</dt>
+            <dt class="w-1/3 font-medium text-gray-700">До дата:</dt>
             <dd class="w-2/3 text-gray-900">@Html.DisplayFor(model => model.End)</dd>
         </div>
         <div class="flex items-center">
-            <dt class="w-1/3 font-medium text-gray-700">Student:</dt>
+            <dt class="w-1/3 font-medium text-gray-700">Ученик:</dt>
             <dd class="w-2/3 text-gray-900">@Html.DisplayFor(model => model.Student.FirstName) @Html.DisplayFor(model => model.Student.LastName)</dd>
         </div>
         <div class="flex items-center">
-            <dt class="w-1/3 font-medium text-gray-700">Class:</dt>
+            <dt class="w-1/3 font-medium text-gray-700">Клас:</dt>
             <dd class="w-2/3 text-gray-900">@Html.DisplayFor(model => model.Class.Speciality)</dd>
         </div>
     </dl>
@@ -46,11 +46,11 @@
         <div class="flex justify-between">
             <!-- Delete Button -->
             <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
-                Delete
+                Премахни
             </button>
             <!-- Back to List Button -->
             <a asp-action="Index" class="px-4 py-2 text-blue-500 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Back to List
+                Назад
             </a>
         </div>
     </form>

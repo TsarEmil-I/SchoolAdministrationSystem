@@ -1,16 +1,16 @@
 ﻿@model SchoolAdministrationSystem.Data.Class
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Създаване на клас";
 }
 
-<h1 class="text-2xl font-semibold mb-6">Create Class</h1>
+<h1 class="text-2xl font-semibold mb-6">Създай клас</h1>
 
-<h4 class="text-lg mb-4">Class Details</h4>
+<h4 class="text-lg mb-4">Информация за клас</h4>
 <hr class="mb-6" />
 
 <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h4 class="text-lg font-semibold mb-4">Class Information</h4>
+    <h4 class="text-lg font-semibold mb-4">Информация за клас</h4>
     <hr class="mb-6" />
 
     <form asp-action="Create" class="space-y-6">
@@ -18,16 +18,16 @@
 
         <!-- Speciality Field -->
         <div class="form-group">
-            <label asp-for="Speciality" class="block font-medium text-gray-700 mb-1">Speciality</label>
+            <label asp-for="Speciality" class="block font-medium text-gray-700 mb-1">Клас</label>
             <input asp-for="Speciality" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <span asp-validation-for="Speciality" class="text-red-500"></span>
         </div>
 
         <!-- Teacher Selection -->
         <div class="form-group">
-            <label asp-for="TeacherId" class="block font-medium text-gray-700 mb-1">Teacher</label>
+            <label asp-for="TeacherId" class="block font-medium text-gray-700 mb-1">Класен ръководител</label>
             <select asp-for="TeacherId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.TeacherId">
-                <option value="">Select Teacher</option>
+                <option value="">Изберете учител</option>
             </select>
             <span asp-validation-for="TeacherId" class="text-red-500"></span>
         </div>
@@ -37,12 +37,12 @@
             <!-- Back to List Button (on the left) -->
             <div class="mr-4 flex items-center">
                 <a asp-action="Index" class="px-4 py-2 text-blue-500 hover:underline font-medium">
-                    Back to List
+                    Назад
                 </a>
             </div>
             <!-- Create Button (on the right) -->
             <div>
-                <input type="submit" value="Create" class="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300" />
+                <input type="submit" value="Създай" class="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300" />
             </div>
         </div>
     </form>

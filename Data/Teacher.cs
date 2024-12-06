@@ -7,20 +7,20 @@ namespace SchoolAdministrationSystem.Data
     public class Teacher : BaseEntity
     {
         [Required]
-        [DisplayName("First Name")]
-        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "First Name must contain only Cyrillic letters and dashes.")]
+        [DisplayName("Име")]
+        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Името трябва да съдържа само букви на кирилица, без специални знаци и цифри.")]
         public string FirstName { get; set; }
 
-        [DisplayName("Second Name")]
-        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Middle Name must contain only Cyrillic letters and dashes.")]
+        [DisplayName("Презиме")]
+        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Презимето трябва да съдържа само букви на кирилица, без специални знаци и цифри.")]
         public string MiddleName { get; set; }
 
         [Required]
-        [DisplayName("Last Name")]
-        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Last Name must contain only Cyrillic letters and dashes.")]
+        [DisplayName("Фамилия")]
+        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Фамилията трябва да съдържа само букви на кирилица, без специални знаци и цифри.")]
         public string LastName { get; set; }
 
-        [DisplayName("Head Teacher")]
+        [DisplayName("Класен ръководител")]
         public string FullName
         {
             get

@@ -1,86 +1,83 @@
 ﻿@model SchoolAdministrationSystem.Data.Student
 
 @{
-    ViewData["Title"] = "Create Student";
+    ViewData["Title"] = "Добавяне на ученик";
 }
 
-<h1 class="text-2xl font-semibold mb-6">Create Student</h1>
+<h1 class="text-2xl font-semibold mb-6">Добавяне на ученик</h1>
 
 <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h4 class="text-lg font-semibold mb-4">Student Information</h4>
+    <h4 class="text-lg font-semibold mb-4">Информация за ученик</h4>
     <hr class="mb-6" />
 
     <form asp-action="Create" class="space-y-6">
-        <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+        <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
 
         <div class="form-group">
-            <label asp-for="FirstName" class="block font-medium text-gray-700">First Name</label>
+            <label asp-for="FirstName" class="block font-medium text-gray-700">Име</label>
             <input asp-for="FirstName" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
+            <span asp-validation-for="FirstName" class="text-red-600 font-bold"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="MiddleName" class="block font-medium text-gray-700">Middle Name</label>
+            <label asp-for="MiddleName" class="block font-medium text-gray-700">Презиме</label>
             <input asp-for="MiddleName" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="MiddleName" class="text-danger"></span>
+            <span asp-validation-for="MiddleName" class="text-red-600 font-bold"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="LastName" class="block font-medium text-gray-700">Last Name</label>
+            <label asp-for="LastName" class="block font-medium text-gray-700">Фамилия</label>
             <input asp-for="LastName" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
+            <span asp-validation-for="LastName" class="text-red-600 font-bold"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Gender" class="block font-medium text-gray-700">Gender</label>
+            <label asp-for="Gender" class="block font-medium text-gray-700">Пол</label>
             <select asp-for="Gender" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="Html.GetEnumSelectList<SchoolAdministrationSystem.Data.Gender>()">
-                <option value="">Select Gender</option>
+                <option value="">Изберете</option>
             </select>
-            <span asp-validation-for="Gender" class="text-danger"></span>
+            <span asp-validation-for="Gender" class="text-red-600 font-bold"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Age" class="block font-medium text-gray-700">Age</label>
+            <label asp-for="Age" class="block font-medium text-gray-700">Възраст</label>
             <input asp-for="Age" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="Age" class="text-danger"></span>
+            <span asp-validation-for="Age" class="text-red-600 font-bold"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="Address" class="block font-medium text-gray-700">Address</label>
+            <label asp-for="Address" class="block font-medium text-gray-700">Местожителство</label>
             <input asp-for="Address" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="Address" class="text-danger"></span>
+            <span asp-validation-for="Address" class="text-red-600 font-bold"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="PhoneNumber" class="block font-medium text-gray-700">Phone Number</label>
+            <label asp-for="PhoneNumber" class="block font-medium text-gray-700">Телефонен номер</label>
             <input asp-for="PhoneNumber" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            <span asp-validation-for="PhoneNumber" class="text-red-600 font-bold"></span>
         </div>
 
         <div class="form-group">
-            <label asp-for="ClassId" class="block font-medium text-gray-700">Class</label>
+            <label asp-for="ClassId" class="block font-medium text-gray-700">Клас</label>
             <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.ClassId">
-                <option value="">Select Class</option>
             </select>
-            <span asp-validation-for="ClassId" class="text-danger"></span>
+            <span asp-validation-for="ClassId" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Swap the order of buttons -->
         <div class="form-group flex justify-between">
             <!-- Back to List button (on the left) -->
             <a asp-action="Index" class="px-4 py-2 text-blue-500 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Back to List
+                Назад
             </a>
             <!-- Create button (on the right) -->
             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
-                Create
+                Добави
             </button>
         </div>
     </form>
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @Html.Partial("_ValidationScriptsPartial")
 }

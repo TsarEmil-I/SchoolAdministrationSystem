@@ -7,19 +7,18 @@ namespace SchoolAdministrationSystem.Data
     public class Student : BaseEntity
     {
         [Required]
-        [DisplayName("First Name")]
-        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "First Name must contain only Cyrillic letters and dashes.")]
+        [DisplayName("Име")]
+        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Името трябва да съдържа само букви на кирилица, без специални знаци и цифри.")]
         public string FirstName { get; set; }
 
-        [DisplayName("Second Name")]
-        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Middle Name must contain only Cyrillic letters and dashes.")]
+        [DisplayName("Презиме")]
+        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Презимето трябва да съдържа само букви на кирилица, без специални знаци и цифри.")]
         public string MiddleName { get; set; }
 
         [Required]
-        [DisplayName("Last Name")]
-        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Last Name must contain only Cyrillic letters and dashes.")]
+        [DisplayName("Фамилия")]
+        [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Фамилията трябва да съдържа само букви, без специални знаци и цифри.")]
         public string LastName { get; set; }
-
 
         public string FullName
         {
@@ -30,10 +29,12 @@ namespace SchoolAdministrationSystem.Data
         }
 
         [Required]
+        [DisplayName("Пол")]
         public Gender Gender { get; set; }
 
         [Required]
         private int age;
+        [DisplayName("Възраст")]
         public int Age
         {
             get
@@ -49,25 +50,33 @@ namespace SchoolAdministrationSystem.Data
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException("Age cannot be negative!");
+                    throw new ArgumentOutOfRangeException("Възрастта не може да бъде отрицателна!");
                 }
             }
         }
 
         [Required]
+        [DisplayName("Местожителство")]
         public string Address { get; set; }
 
         [Required]
-        [DisplayName("Phone number")]
-        [RegularExpression(@"^\+[0-9]{1,3}[0-9]{8,12}$", ErrorMessage = "Phone number must be in international format (e.g., +359xxxxxxxx).")]
+        [DisplayName("Телефон")]
+        [RegularExpression(@"^\+[0-9]{1,3}[0-9]{8,12}$", ErrorMessage = "Телефонният номер трябва да е в международен формат (напр., +359xxxxxxxx).")]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [DisplayName("Class")]
+        [DisplayName("Клас")]
         public int ClassId { get; set; }
         public virtual Class? Class { get; set; }
 
-        public int LeftAbsenceDays { get; set; } = 15;
+        [DisplayName("Оставащи дни")]
+        public int LeftAbsenceDays
+        {
+            get
+            {
+                return 15 - Absences.Sum(item => item.Days);
+            }
+        }
 
         public virtual List<Absence>? Absences { get; set; } = new List<Absence>();
     }

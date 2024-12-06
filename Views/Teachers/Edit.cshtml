@@ -1,44 +1,52 @@
 ﻿@model SchoolAdministrationSystem.Data.Teacher
 
 @{
-    ViewData["Title"] = "Edit Teacher";
+    ViewData["Title"] = "Редактиране на учител";
 }
 
-<h1 class="text-2xl font-semibold mb-6">Edit Teacher</h1>
+<h1 class="text-2xl font-semibold mb-6">Редактиране</h1>
 
 <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h4 class="text-lg font-semibold mb-4">Teacher Information</h4>
+    <h4 class="text-lg font-semibold mb-4">Редактиране на учител</h4>
     <hr class="mb-6" />
 
     <form asp-action="Edit" class="space-y-6">
+        <!-- Validation Summary -->
+        <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
+
+        <!-- First Name Field -->
         <div class="form-group">
-            <label asp-for="FirstName" class="block font-medium text-gray-700">First Name</label>
+            <label asp-for="FirstName" class="block font-medium text-gray-700">Име</label>
             <input asp-for="FirstName" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
+            <span asp-validation-for="FirstName" class="text-red-600 font-bold"></span>
         </div>
 
+        <!-- Middle Name Field -->
         <div class="form-group">
-            <label asp-for="MiddleName" class="block font-medium text-gray-700">Middle Name</label>
+            <label asp-for="MiddleName" class="block font-medium text-gray-700">Презиме</label>
             <input asp-for="MiddleName" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="MiddleName" class="text-danger"></span>
+            <span asp-validation-for="MiddleName" class="text-red-600 font-bold"></span>
         </div>
 
+        <!-- Last Name Field -->
         <div class="form-group">
-            <label asp-for="LastName" class="block font-medium text-gray-700">Last Name</label>
+            <label asp-for="LastName" class="block font-medium text-gray-700">Фамилия</label>
             <input asp-for="LastName" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
+            <span asp-validation-for="LastName" class="text-red-600 font-bold"></span>
         </div>
 
+        <!-- Hidden ID Field -->
         <input type="hidden" asp-for="Id" />
 
+        <!-- Submit and Back to List Buttons -->
         <div class="form-group flex justify-between">
-            <!-- Back to List button (on the left) -->
+            <!-- Back to List button -->
             <a asp-action="Index" class="px-4 py-2 text-blue-500 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Back to List
+                Назад
             </a>
-            <!-- Save button (on the right) -->
+            <!-- Save button -->
             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
-                Save
+                Запази
             </button>
         </div>
     </form>

@@ -71,7 +71,7 @@ namespace SchoolAdministrationSystem.Controllers
                     return View(absence);
                 }
 
-                absence.Student.LeftAbsenceDays -= absence.Days;
+                //absence.Student.LeftAbsenceDays -= absence.Days;
                 int absenceDays = absence.Days;
 
                 if (absence.Student.LeftAbsenceDays <= 0 || absence.Student.LeftAbsenceDays < absenceDays)

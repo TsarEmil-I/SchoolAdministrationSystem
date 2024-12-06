@@ -6,9 +6,10 @@ namespace SchoolAdministrationSystem.Data
     public class Class : BaseEntity
     {
         [Required]
+        [DisplayName("Клас")]
         public string Speciality { get; set; }
 
-        [DisplayName("Head Teacher")]
+        [DisplayName("Класен ръководител")]
         public int TeacherId { get; set; }
         public virtual Teacher? Teacher { get; set; }
 

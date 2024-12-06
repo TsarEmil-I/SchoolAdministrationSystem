@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<SchoolAdministrationSystem.Data.Student>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ученици";
 }
 
-<h1 class="text-2xl font-semibold mb-6">Students</h1>
+<h1 class="text-2xl font-semibold mb-6">Ученици</h1>
 
 <p class="mb-4">
     <a asp-action="Create" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
-        + Create New
+        + Добави
     </a>
 </p>
 
@@ -16,40 +16,70 @@
     <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
         <thead>
             <tr class="bg-gray-100">
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">First Name</th>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Last Name</th>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Gender</th>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Age</th>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Class</th>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Left Absence Days</th>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">Actions</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
+                    @Html.DisplayNameFor(model => model.FirstName) <!-- Име -->
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
+                    @Html.DisplayNameFor(model => model.MiddleName) <!-- Презиме -->
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
+                    @Html.DisplayNameFor(model => model.LastName) <!-- Фамилия -->
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
+                    @Html.DisplayNameFor(model => model.Gender) <!-- Пол -->
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
+                    @Html.DisplayNameFor(model => model.Age) <!-- Възраст -->
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
+                    @Html.DisplayNameFor(model => model.Class.Speciality) <!-- Клас -->
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
+                    @Html.DisplayNameFor(model => model.LeftAbsenceDays) <!-- Оставащи дни -->
+                </th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600"></th> <!-- Empty Column for Actions -->
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr class="border-t border-gray-200">
-                    <td class="px-6 py-4 text-sm text-gray-600">@Html.DisplayFor(modelItem => item.FirstName)</td>
-                    <td class="px-6 py-4 text-sm text-gray-600">@Html.DisplayFor(modelItem => item.LastName)</td>
-                    <td class="px-6 py-4 text-sm text-gray-600">@Html.DisplayFor(modelItem => item.Gender)</td>
-                    <td class="px-6 py-4 text-sm text-gray-600">@Html.DisplayFor(modelItem => item.Age)</td>
-                    <td class="px-6 py-4 text-sm text-gray-600">@Html.DisplayFor(modelItem => item.Class.Speciality)</td>
-                    <td class="px-6 py-4 text-sm text-gray-600">@Html.DisplayFor(modelItem => item.LeftAbsenceDays)</td>
+                    <td class="px-6 py-4 text-sm text-gray-600">
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-600">
+                        @Html.DisplayFor(modelItem => item.MiddleName)
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-600">
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-600">
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-600">
+                        @Html.DisplayFor(modelItem => item.Age)
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-600">
+                        @Html.DisplayFor(modelItem => item.Class.Speciality)
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-600">
+                        @Html.DisplayFor(modelItem => item.LeftAbsenceDays)
+                    </td>
                     <td class="px-6 py-4 text-sm text-gray-600">
                         <div class="flex space-x-2">
                             <!-- Edit Button -->
                             <a asp-action="Edit" asp-route-id="@item.Id" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                                Edit
+                                Редактирай
                             </a>
 
                             <!-- Details Button -->
                             <a asp-action="Details" asp-route-id="@item.Id" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                Details
+                                Информация
                             </a>
 
                             <!-- Delete Button -->
                             <a asp-action="Delete" asp-route-id="@item.Id" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400">
-                                Delete
+                                Премахни
                             </a>
                         </div>
                     </td>

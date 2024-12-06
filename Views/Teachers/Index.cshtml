@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<SchoolAdministrationSystem.Data.Teacher>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Учители";
 }
 
-<h1 class="text-2xl font-semibold mb-6">Teachers</h1>
+<h1 class="text-2xl font-semibold mb-6">Учители</h1>
 
 <p class="mb-4">
     <a asp-action="Create" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
-        + Create New
+        + Добави
     </a>
 </p>
 
@@ -45,17 +45,17 @@
                     <td class="px-6 py-4 text-sm text-gray-600 space-x-2">
                         <!-- Edit Button -->
                         <a asp-action="Edit" asp-route-id="@item.Id" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                            Edit
-                        </a> |
+                            Редактирай
+                        </a> 
 
                         <!-- Details Button -->
                         <a asp-action="Details" asp-route-id="@item.Id" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                            Details
-                        </a> |
+                            Информация
+                        </a> 
 
                         <!-- Delete Button -->
                         <a asp-action="Delete" asp-route-id="@item.Id" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400">
-                            Delete
+                            Премахни
                         </a>
                     </td>
                 </tr>

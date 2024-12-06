@@ -1,60 +1,60 @@
 ﻿@model SchoolAdministrationSystem.Data.Absence
 
 @{
-    ViewData["Title"] = "Edit Absence";
+    ViewData["Title"] = "Редактиране на отсъствие";
 }
 
-<h1 class="text-2xl font-semibold mb-6">Edit Absence</h1>
+<h1 class="text-2xl font-semibold mb-6">Редактиране</h1>
 
 <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h4 class="text-lg font-semibold mb-4">Absence Information</h4>
+    <h4 class="text-lg font-semibold mb-4">Информация за отсъствието</h4>
     <hr class="mb-6" />
 
     <form asp-action="Edit" class="space-y-6">
         <!-- Sequence Number -->
         <div class="form-group">
-            <label asp-for="SequenceNumber" class="block font-medium text-gray-700">Sequence Number</label>
+            <label asp-for="SequenceNumber" class="block font-medium text-gray-700">Входящ номер</label>
             <input asp-for="SequenceNumber" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="SequenceNumber" class="text-danger"></span>
+            <span asp-validation-for="SequenceNumber" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Reason -->
         <div class="form-group">
-            <label asp-for="Reason" class="block font-medium text-gray-700">Reason</label>
+            <label asp-for="Reason" class="block font-medium text-gray-700">Причина</label>
             <input asp-for="Reason" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="Reason" class="text-danger"></span>
+            <span asp-validation-for="Reason" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Start Date -->
         <div class="form-group">
-            <label asp-for="Start" class="block font-medium text-gray-700">Start Date</label>
+            <label asp-for="Start" class="block font-medium text-gray-700">От дата:</label>
             <input asp-for="Start" type="date" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="Start" class="text-danger"></span>
+            <span asp-validation-for="Start" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- End Date -->
         <div class="form-group">
-            <label asp-for="End" class="block font-medium text-gray-700">End Date</label>
+            <label asp-for="End" class="block font-medium text-gray-700">До дата:</label>
             <input asp-for="End" type="date" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="End" class="text-danger"></span>
+            <span asp-validation-for="End" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Class Selection -->
         <div class="form-group">
-            <label asp-for="ClassId" class="block font-medium text-gray-700">Class</label>
+            <label asp-for="ClassId" class="block font-medium text-gray-700">Клас</label>
             <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.ClassId">
-                <option value="">Select Class</option>
+                <option value="">Изберете клас</option>
             </select>
-            <span asp-validation-for="ClassId" class="text-danger"></span>
+            <span asp-validation-for="ClassId" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Student Selection -->
         <div class="form-group">
-            <label asp-for="StudentId" class="block font-medium text-gray-700">Student</label>
+            <label asp-for="StudentId" class="block font-medium text-gray-700">Ученик</label>
             <select asp-for="StudentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.StudentId">
-                <option value="">Select Student</option>
+                <option value="">Изберете ученик</option>
             </select>
-            <span asp-validation-for="StudentId" class="text-danger"></span>
+            <span asp-validation-for="StudentId" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Hidden Input for ID -->
@@ -63,17 +63,16 @@
         <!-- Save and Back to List Buttons -->
         <div class="form-group flex justify-between">
             <a asp-action="Index" class="px-4 py-2 text-blue-500 font-bold hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Back to List
+                Назад
             </a>
             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
-                Save
+                Запази
             </button>
         </div>
     </form>
 </div>
 
 @section Scripts {
-
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
