@@ -14,6 +14,20 @@
         <!-- Validation Summary -->
         <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
 
+        <!-- Class Dropdown -->
+        <div class="form-group">
+            <label asp-for="ClassId" class="block font-medium text-gray-700">Клас</label>
+            <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.ClassId"></select>
+            <span asp-validation-for="ClassId" class="text-red-600 font-bold"></span>
+        </div>
+
+        <!-- Student Dropdown -->
+        <div class="form-group">
+            <label asp-for="StudentId" class="block font-medium text-gray-700">Ученик</label>
+            <select asp-for="StudentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.StudentId"></select>
+            <span asp-validation-for="StudentId" class="text-red-600 font-bold"></span>
+        </div>
+
         <!-- Reason -->
         <div class="form-group">
             <label asp-for="Reason" class="block font-medium text-gray-700">Причина</label>
@@ -33,20 +47,6 @@
             <label asp-for="End" class="block font-medium text-gray-700">До дата:</label>
             <input asp-for="End" type="date" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <span asp-validation-for="End" class="text-red-600 font-bold"></span>
-        </div>
-
-        <!-- Class Dropdown -->
-        <div class="form-group">
-            <label asp-for="ClassId" class="block font-medium text-gray-700">Клас</label>
-            <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.ClassId"></select>
-            <span asp-validation-for="ClassId" class="text-red-600 font-bold"></span>
-        </div>
-
-        <!-- Student Dropdown -->
-        <div class="form-group">
-            <label asp-for="StudentId" class="block font-medium text-gray-700">Ученик</label>
-            <select asp-for="StudentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.StudentId"></select>
-            <span asp-validation-for="StudentId" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Hidden Fields -->

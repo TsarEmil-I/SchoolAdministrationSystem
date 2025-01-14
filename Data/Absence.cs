@@ -44,6 +44,11 @@ namespace SchoolAdministrationSystem.Data
 
             int weekdayCount = 0;
 
+            //if (dt1 > dt2 || dt1 < DateTime.Today)
+            //{
+            //    throw new ValidationException("Не може отсъствието да бъде въведено преди днешна дата или началната дата да е по-голяма от крайната!");
+            //}
+
             for (DateTime current = dt1; current <= dt2; current = current.AddDays(1))
             {
                 if (current.DayOfWeek != DayOfWeek.Saturday && current.DayOfWeek != DayOfWeek.Sunday)
@@ -51,6 +56,7 @@ namespace SchoolAdministrationSystem.Data
                     weekdayCount++;
                 }
             }
+
 
             return weekdayCount;
         }

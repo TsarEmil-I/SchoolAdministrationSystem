@@ -11,11 +11,22 @@
     <hr class="mb-6" />
 
     <form asp-action="Edit" class="space-y-6">
-        <!-- Sequence Number -->
+        <!-- Class Selection -->
         <div class="form-group">
-            <label asp-for="SequenceNumber" class="block font-medium text-gray-700">Входящ номер</label>
-            <input asp-for="SequenceNumber" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <span asp-validation-for="SequenceNumber" class="text-red-600 font-bold"></span>
+            <label asp-for="ClassId" class="block font-medium text-gray-700">Клас</label>
+            <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.ClassId">
+                <option value="">Изберете клас</option>
+            </select>
+            <span asp-validation-for="ClassId" class="text-red-600 font-bold"></span>
+        </div>
+
+        <!-- Student Selection -->
+        <div class="form-group">
+            <label asp-for="StudentId" class="block font-medium text-gray-700">Ученик</label>
+            <select asp-for="StudentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.StudentId">
+                <option value="">Изберете ученик</option>
+            </select>
+            <span asp-validation-for="StudentId" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Reason -->
@@ -37,24 +48,6 @@
             <label asp-for="End" class="block font-medium text-gray-700">До дата:</label>
             <input asp-for="End" type="date" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
             <span asp-validation-for="End" class="text-red-600 font-bold"></span>
-        </div>
-
-        <!-- Class Selection -->
-        <div class="form-group">
-            <label asp-for="ClassId" class="block font-medium text-gray-700">Клас</label>
-            <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.ClassId">
-                <option value="">Изберете клас</option>
-            </select>
-            <span asp-validation-for="ClassId" class="text-red-600 font-bold"></span>
-        </div>
-
-        <!-- Student Selection -->
-        <div class="form-group">
-            <label asp-for="StudentId" class="block font-medium text-gray-700">Ученик</label>
-            <select asp-for="StudentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.StudentId">
-                <option value="">Изберете ученик</option>
-            </select>
-            <span asp-validation-for="StudentId" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Hidden Input for ID -->
