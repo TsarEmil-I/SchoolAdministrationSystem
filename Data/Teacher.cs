@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SchoolAdministrationSystem.Data
 {
@@ -29,6 +30,7 @@ namespace SchoolAdministrationSystem.Data
             }
         }
 
+        [JsonIgnore]
         public virtual Class? Class { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace SchoolAdministrationSystem.Data
 {
@@ -11,6 +12,7 @@ namespace SchoolAdministrationSystem.Data
 
         [DisplayName("Класен ръководител")]
         public int TeacherId { get; set; }
+        [JsonIgnore]
         public virtual Teacher? Teacher { get; set; }
 
         public virtual List<Student>? Students { get; set; } = new List<Student>();

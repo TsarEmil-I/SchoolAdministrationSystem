@@ -42,12 +42,6 @@ namespace SchoolAdministrationSystem.Data
             DateTime dt1 = d1.ToDateTime(TimeOnly.MinValue);
             DateTime dt2 = d2.ToDateTime(TimeOnly.MinValue);
 
-            //if (dt1 > dt2)
-            //{
-            //    // Swap dates if the start date is later than the end date
-            //    (dt1, dt2) = (dt2, dt1);
-            //}
-
             int weekdayCount = 0;
 
             for (DateTime current = dt1; current <= dt2; current = current.AddDays(1))

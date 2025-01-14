@@ -71,7 +71,6 @@ namespace SchoolAdministrationSystem.Controllers
                     return View(absence);
                 }
 
-                //absence.Student.LeftAbsenceDays -= absence.Days;
                 int absenceDays = absence.Days;
 
                 if (absence.Student.LeftAbsenceDays <= 0 || absence.Student.LeftAbsenceDays < absenceDays)
@@ -84,12 +83,19 @@ namespace SchoolAdministrationSystem.Controllers
 
                 absence.SequenceNumber = GenerateSequenceNumber(absence);
 
+                //var student = await _context.Students
+                // .Include(s => s.Absences)  
+                // .FirstOrDefaultAsync(s => s.Id == absence.StudentId);
+
+                // BL?:
+                // So in Student.cs there is LeftAbsenceDays which is calculated over and over again every time when
+                // it is accessed. It subtracts 15 - (used Days for an absence). These Days are calculated in
+                // DaysBetween() method in Absence.cs. As well as previously used days for an absence which are
+                // saved in Absences list. TOGAVA SHTO NE RABOTISH MA?!
+
                 _context.Add(absence);
                 await _context.SaveChangesAsync();
-
-                _context.Update(absence.Student);
-                await _context.SaveChangesAsync();
-
+                
                 return RedirectToAction(nameof(Index));
             }
 

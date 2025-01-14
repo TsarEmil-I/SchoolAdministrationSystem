@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SchoolAdministrationSystem</title>
     <link rel="stylesheet" href="/css/tailwind-output.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
 </head>
 <body class="bg-gray-100 text-gray-900">
@@ -21,11 +22,11 @@
 
                 <!-- Navigation Links -->
                 <ul class="space-y-6">
-                    <li><a href="Home/Privacy" class="text-gray-600 hover:text-blue-600">За нас</a></li>
-                    <li><a href="/Absences" class="text-gray-600 hover:text-blue-600">Отсъствия</a></li>
-                    <li><a href="/Classes" class="text-gray-600 hover:text-blue-600">Класове</a></li>
-                    <li><a href="/Students" class="text-gray-600 hover:text-blue-600">Ученици</a></li>
-                    <li><a href="/Teachers" class="text-gray-600 hover:text-blue-600">Учители</a></li>
+                    <li><a asp-controller="Home" asp-action="Privacy" class="text-gray-600 hover:text-blue-600">За нас</a></li>
+                    <li><a asp-controller="Absences" asp-action="Index" class="text-gray-600 hover:text-blue-600">Отсъствия</a></li>
+                    <li><a asp-controller="Classes" asp-action="Index" class="text-gray-600 hover:text-blue-600">Класове</a></li>
+                    <li><a asp-controller="Students" asp-action="Index" class="text-gray-600 hover:text-blue-600">Ученици</a></li>
+                    <li><a asp-controller="Teachers" asp-action="Index" class="text-gray-600 hover:text-blue-600">Учители</a></li>
                 </ul>
 
                 <!-- Login/Register Buttons -->

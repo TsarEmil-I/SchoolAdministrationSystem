@@ -5,7 +5,7 @@
     const leftAbsenceField = document.getElementById("LeftAbsenceDays");
 
     const option = document.createElement("option");
-    option.innerHTML = "Изберете ученик";
+    option.innerHTML = "Изберете клас";
     option.setAttribute("selected", "selected");
     option.setAttribute("disabled", "disabled");
     option.setAttribute("value", "0");
@@ -45,3 +45,4 @@
     });
 
 });
+

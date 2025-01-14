@@ -14,7 +14,13 @@
     <dl class="space-y-6">
         <div class="grid grid-cols-2 gap-6">
             <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.SequenceNumber)</dt>
-            <dd class="text-gray-900">@Html.DisplayFor(model => model.SequenceNumber)</dd>
+            <dd class="text-gray-900" id="sequenceNumber">@Html.DisplayFor(model => model.SequenceNumber)</dd>
+        </div>
+        <div class="mt-4 text-center">
+            <button id="copyButton"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                Копирай входящ номер
+            </button>
         </div>
         <div class="grid grid-cols-2 gap-6">
             <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.Reason)</dt>
@@ -38,7 +44,7 @@
         </div>
     </dl>
 
-    <!-- Action Buttons: Edit and Back to List -->
+    <!-- Action Buttons: Edit, Back to List, and Copy -->
     <div class="mt-6 flex justify-between">
         <a asp-action="Index" class="inline-block text-blue-600 hover:text-blue-800 font-medium">
             Назад
@@ -46,5 +52,25 @@
         <a asp-action="Edit" asp-route-id="@Model?.Id" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400">
             Редактирай
         </a>
-    </div>
+    </div>    
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const copyButton = document.getElementById("copyButton");
+        const sequenceNumberElement = document.getElementById("sequenceNumber");
+
+        copyButton.addEventListener("click", function () {
+            const sequenceNumber = sequenceNumberElement.textContent.trim();
+
+            navigator.clipboard.writeText(sequenceNumber)
+                .then(() => {
+                    alert("Входящият номер е копиран успешно!");
+                })
+                .catch(err => {
+                    console.error("Грешка при копирането на текста:", err);
+                    alert("Неуспешно копиране.");
+                });
+        });
+    });
+</script>

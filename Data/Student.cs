@@ -69,12 +69,14 @@ namespace SchoolAdministrationSystem.Data
         public int ClassId { get; set; }
         public virtual Class? Class { get; set; }
 
+        private const int TotalStartingAbsenceDays = 15;
+
         [DisplayName("Оставащи дни")]
         public int LeftAbsenceDays
         {
             get
             {
-                return 15 - Absences.Sum(item => item.Days);
+                return TotalStartingAbsenceDays - (Absences?.Sum(a => a.Days) ?? 0);
             }
         }
 
