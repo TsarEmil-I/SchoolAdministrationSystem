@@ -1,5 +1,4 @@
-﻿@model SchoolAdministrationSystem.Data.Absence
-
+﻿@model SchoolAdministrationSystem.DTOs.RequestDTOs.AbsenceRequestDTO
 @{
     ViewData["Title"] = "Добавяне на отсъствие";
 }
@@ -17,14 +16,17 @@
         <!-- Class Dropdown -->
         <div class="form-group">
             <label asp-for="ClassId" class="block font-medium text-gray-700">Клас</label>
-            <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.ClassId"></select>
+            <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.ClassId">
+                <option value="0" selected disabled>Изберете клас</option>
+            </select>
             <span asp-validation-for="ClassId" class="text-red-600 font-bold"></span>
         </div>
 
         <!-- Student Dropdown -->
         <div class="form-group">
             <label asp-for="StudentId" class="block font-medium text-gray-700">Ученик</label>
-            <select asp-for="StudentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.StudentId"></select>
+            <select asp-for="StudentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.StudentId">
+            </select>
             <span asp-validation-for="StudentId" class="text-red-600 font-bold"></span>
         </div>
 
@@ -50,7 +52,7 @@
         </div>
 
         <!-- Hidden Fields -->
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Id" value="0" />
 
         <!-- Buttons -->
         <div class="form-group flex justify-between">

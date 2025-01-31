@@ -1,4 +1,4 @@
-﻿namespace SchoolAdministrationSystem.Data
+﻿namespace SchoolAdministrationSystem.Data.Entities
 {
     public enum Gender
     {

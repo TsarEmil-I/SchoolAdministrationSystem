@@ -1,224 +1,108 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SchoolAdministrationSystem.Data;
+using SchoolAdministrationSystem.Data.Entities;
+using SchoolAdministrationSystem.DTOs.RequestDTOs;
 
 namespace SchoolAdministrationSystem.Controllers
 {
     public class AbsencesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AbsenceService _absenceService;
+        private readonly ClassService _classService;
+        private readonly StudentService _studentService;
 
-        public AbsencesController(ApplicationDbContext context)
+        public AbsencesController(AbsenceService absenceService, ClassService classService, StudentService studentService)
         {
-            _context = context;
+            _absenceService = absenceService;
+            _classService = classService;
+            _studentService = studentService;
         }
 
-        // GET: Absences
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Absences.Include(a => a.Class).Include(a => a.Student);
-            return View(await applicationDbContext.ToListAsync());
+            var absences = await _absenceService.GetAllAbsencesAsync();
+            return View(absences);
         }
 
-        // GET: Absences/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var absence = await _context.Absences
-                .Include(a => a.Class)
-                .Include(a => a.Student)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (absence == null)
-            {
-                return NotFound();
-            }
+            var absence = await _absenceService.GetAbsenceByIdAsync(id);
+            if (absence == null) return NotFound();
 
             return View(absence);
         }
 
-        // GET: Absences/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality");
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName");
+            ViewBag.ClassId = (await _classService.GetAllClassesAsync())
+                           .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
+                           .ToList();
             return View();
         }
 
-        // POST: Absences/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Reason,Start,End,StudentId,ClassId")] Absence absence)
+        public async Task<IActionResult> Create(AbsenceRequestDTO absenceDto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                absence.Student = await _context.Students.FirstOrDefaultAsync(s => s.Id == absence.StudentId);
-                absence.Class = await _context.Classes.FirstOrDefaultAsync(c => c.Id == absence.ClassId);
-
-                if (absence.Student == null || absence.Class == null)
-                {
-                    ModelState.AddModelError("", "Invalid student or class selected.");
-                    return View(absence);
-                }
-
-                int absenceDays = absence.Days;
-
-                if (absence.Student.LeftAbsenceDays <= 0 || absence.Student.LeftAbsenceDays < absenceDays)
-                {
-                    ModelState.AddModelError("", "The student does not have enough remaining absence days.");
-                    ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.ClassId);
-                    ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.StudentId);
-                    return View(absence);
-                }
-
-                absence.SequenceNumber = GenerateSequenceNumber(absence);
-
-                //var student = await _context.Students
-                // .Include(s => s.Absences)  
-                // .FirstOrDefaultAsync(s => s.Id == absence.StudentId);
-
-                // BL?:
-                // So in Student.cs there is LeftAbsenceDays which is calculated over and over again every time when
-                // it is accessed. It subtracts 15 - (used Days for an absence). These Days are calculated in
-                // DaysBetween() method in Absence.cs. As well as previously used days for an absence which are
-                // saved in Absences list. TOGAVA SHTO NE RABOTISH MA?!
-
-                _context.Add(absence);
-                await _context.SaveChangesAsync();
-                
-                return RedirectToAction(nameof(Index));
+                ViewBag.ClassId = (await _classService.GetAllClassesAsync())
+                               .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
+                               .ToList();
+                return View(absenceDto);
             }
 
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.ClassId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.StudentId);
+            await _absenceService.CreateAbsenceAsync(absenceDto);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var absence = await _absenceService.GetAbsenceByIdAsync(id);
+            if (absence == null) return NotFound();
+            ViewBag.ClassId = (await _classService.GetAllClassesAsync())
+               .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
+               .ToList();
+            ViewBag.StudentId = (await _studentService.GetAllStudentsByClassIdAsync(absence.ClassId))
+               .Select(s => new SelectListItem() { Text = s.FullName, Value = s.Id.ToString() })
+               .ToList();
+
             return View(absence);
         }
 
-        // GET: Absences/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var absence = await _context.Absences.FindAsync(id);
-            if (absence == null)
-            {
-                return NotFound();
-            }
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.ClassId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.StudentId);
-            return View(absence);
-        }
-
-        // POST: Absences/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SequenceNumber,Reason,Start,End,StudentId,ClassId,Id")] Absence absence)
+        public async Task<IActionResult> Edit(int id, AbsenceRequestDTO absenceDto)
         {
-            if (id != absence.Id)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
-            }
+                ViewBag.ClassId = (await _classService.GetAllClassesAsync())
+                   .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
+                   .ToList();
+                ViewBag.StudentId = (await _studentService.GetAllStudentsByClassIdAsync(absenceDto.ClassId))
+                   .Select(s => new SelectListItem() { Text = s.FullName, Value = s.Id.ToString() })
+                   .ToList();
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(absence);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AbsenceExists(absence.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(absenceDto);
             }
-            ViewData["ClassId"] = new SelectList(_context.Classes, "Id", "Speciality", absence.Class.Speciality);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName", absence.Student.FullName);
-            return View(absence);
+            await _absenceService.UpdateAbsenceAsync(id, absenceDto);
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Absences/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var absence = await _context.Absences
-                .Include(a => a.Class)
-                .Include(a => a.Student)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (absence == null)
-            {
-                return NotFound();
-            }
+            var absence = await _absenceService.GetAbsenceByIdAsync(id);
+            if (absence == null) return NotFound();
 
             return View(absence);
         }
 
-        // POST: Absences/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var absence = await _context.Absences.FindAsync(id);
-            if (absence != null)
-            {
-                _context.Absences.Remove(absence);
-            }
-
-            await _context.SaveChangesAsync();
+            await _absenceService.DeleteAbsenceAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool AbsenceExists(int id)
-        {
-            return _context.Absences.Any(e => e.Id == id);
-        }
-
-        //private int CalculateLeftAbsenceDays()
-
-        private string GenerateSequenceNumber(Absence absence)
-        {
-            var classEntity = _context.Classes.FirstOrDefault(c => c.Id == absence.ClassId);
-            if (classEntity == null)
-            {
-                throw new Exception("Invalid class selected");
-            }
-
-            var classCode = absence.ClassId;
-
-            var studentId = absence.StudentId.ToString("D2");
-
-            var leftAbsenceDays = absence.Student.LeftAbsenceDays.ToString("D2");
-
-            var currentDate = DateTime.Now;
-            var date = $"{currentDate:dd.MM.yy}";
-
-            return $"{classCode}-{studentId}-{leftAbsenceDays}/{date}";
         }
     }
 }

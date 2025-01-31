@@ -1,163 +1,101 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SchoolAdministrationSystem.Data;
+using SchoolAdministrationSystem.DTOs;
+using SchoolAdministrationSystem.DTOs.RequestDTOs;
+using SchoolAdministrationSystem.Models;
+using System.Threading.Tasks;
 
 namespace SchoolAdministrationSystem.Controllers
 {
     public class ClassesController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public ClassesController(ApplicationDbContext context)
+        private readonly ClassService _classService;
+        private readonly TeacherService _teacherService;
+        public ClassesController(ClassService classService, TeacherService teacherService)
         {
-            _context = context;
+            _classService = classService;
+            _teacherService = teacherService;
         }
 
-        // GET: Classes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Classes.Include(t => t.Teacher);
-            return View(await applicationDbContext.ToListAsync());
+            var classes = await _classService.GetAllClassesAsync();
+            return View(classes);
         }
 
-        // GET: Classes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var classDetails = await _classService.GetClassByIdAsync(id);
+            if (classDetails == null) return NotFound();
 
-            var @class = await _context.Classes
-                .Include(t => t.Teacher)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (@class == null)
-            {
-                return NotFound();
-            }
-
-            return View(@class);
+            return View(classDetails);
         }
 
-        // GET: Classes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "FullName");
+            ViewBag.TeacherId = (await _teacherService.GetAllTeachersWithoutClassesAsync())
+                .Select(t => new SelectListItem() { Text = t.FullName, Value = t.Id.ToString() })
+                .ToList();
             return View();
         }
-
-        // POST: Classes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Speciality,TeacherId,StudentCount,Id")] Class @class)
+        public async Task<IActionResult> Create(ClassRequestDTO classDto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(@class);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewBag.TeacherId = (await _teacherService.GetAllTeachersWithoutClassesAsync())
+                    .Select(t => new SelectListItem() { Text = t.FullName, Value = t.Id.ToString() })
+                    .ToList();
+                return View(classDto);
             }
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "FullName", @class.TeacherId);
-            return View(@class);
+
+
+            await _classService.CreateClassAsync(classDto);
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Classes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var classDetails = await _classService.GetClassByIdAsync(id);
+            if (classDetails == null) return NotFound();
 
-            var @class = await _context.Classes.FindAsync(id);
-            if (@class == null)
-            {
-                return NotFound();
-            }
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "FullName", @class.TeacherId);
-            return View(@class);
+            ViewBag.TeacherId = (await _teacherService.GetAllTeachersWithoutClassesAsync())
+                .Select(t => new SelectListItem() { Text = t.FullName, Value = t.Id.ToString() })
+                .ToList();
+
+            return View(classDetails);
         }
 
-        // POST: Classes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Speciality,TeacherId,StudentCount,Id")] Class @class)
+        public async Task<IActionResult> Edit(int id, ClassRequestDTO classDto)
         {
-            if (id != @class.Id)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                ViewBag.TeacherId = (await _teacherService.GetAllTeachersWithoutClassesAsync())
+                    .Select(t => new SelectListItem() { Text = t.FullName, Value = t.Id.ToString() })
+                    .ToList();
+                return View(classDto);
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(@class);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClassExists(@class.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "FullName", @class.TeacherId);
-            return View(@class);
+            await _classService.UpdateClassAsync(id, classDto);
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: Classes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var classDetails = await _classService.GetClassByIdAsync(id);
+            if (classDetails == null) return NotFound();
 
-            var @class = await _context.Classes
-                .Include(t => t.Teacher)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (@class == null)
-            {
-                return NotFound();
-            }
-
-            return View(@class);
+            return View(classDetails);
         }
 
-        // POST: Classes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @class = await _context.Classes.FindAsync(id);
-            if (@class != null)
-            {
-                _context.Classes.Remove(@class);
-            }
-
-            await _context.SaveChangesAsync();
+            await _classService.DeleteClassAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ClassExists(int id)
-        {
-            return _context.Classes.Any(e => e.Id == id);
         }
     }
 }

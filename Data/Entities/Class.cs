@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace SchoolAdministrationSystem.Data
+namespace SchoolAdministrationSystem.Data.Entities
 {
     public class Class : BaseEntity
     {

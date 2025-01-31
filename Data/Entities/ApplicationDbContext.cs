@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace SchoolAdministrationSystem.Data
+namespace SchoolAdministrationSystem.Data.Entities
 {
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -23,12 +23,12 @@ namespace SchoolAdministrationSystem.Data
                 .HasOne(c => c.Teacher)
                 .WithOne(t => t.Class)
                 .HasForeignKey<Class>(c => c.TeacherId);
-            
+
             modelBuilder.Entity<Class>()
                 .HasMany(c => c.Students)
-                .WithOne(s => s.Class)      
-                .HasForeignKey(s => s.ClassId) 
-                .OnDelete(DeleteBehavior.Restrict); 
+                .WithOne(s => s.Class)
+                .HasForeignKey(s => s.ClassId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Absence>()
                 .HasOne(a => a.Student)

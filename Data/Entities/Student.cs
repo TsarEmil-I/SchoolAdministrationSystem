@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace SchoolAdministrationSystem.Data
+namespace SchoolAdministrationSystem.Data.Entities
 {
     public class Student : BaseEntity
     {
@@ -35,6 +35,7 @@ namespace SchoolAdministrationSystem.Data
         [Required]
         private int age;
         [DisplayName("Възраст")]
+        [Range(6, 99, ErrorMessage = "Възрастта трябва да бъде положително число: 6-99!")]
         public int Age
         {
             get

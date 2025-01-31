@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace SchoolAdministrationSystem.Data
+namespace SchoolAdministrationSystem.Data.Entities
 {
     public class Teacher : BaseEntity
     {
@@ -29,6 +29,8 @@ namespace SchoolAdministrationSystem.Data
                 return $"{FirstName} {MiddleName} {LastName}";
             }
         }
+
+        public int ClassId { get; set; }
 
         [JsonIgnore]
         public virtual Class? Class { get; set; }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SchoolAdministrationSystem.Data;
+using SchoolAdministrationSystem.Data.Entities;
+using SchoolAdministrationSystem.Data.Repositories;
 
 namespace SchoolAdministrationSystem
 {
@@ -11,6 +12,20 @@ namespace SchoolAdministrationSystem
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<AbsenceService>(); 
+            builder.Services.AddScoped<ClassService>(); 
+            builder.Services.AddScoped<StudentService>(); 
+            builder.Services.AddScoped<TeacherService>();
+
+            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+            builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+            builder.Services.AddScoped<IAbsenceRepository, AbsenceRepository>();
+            builder.Services.AddScoped<IClassRepository, ClassRepository>();
+
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -22,6 +37,7 @@ namespace SchoolAdministrationSystem
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();
 
