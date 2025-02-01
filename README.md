@@ -9,12 +9,12 @@ This project is a School Administration System designed to help streamline the a
   
 ## 2. User Roles and Permissions
 + Role-based access control for administrators and teachers.
-+ Administrators have full control over managing users, configuring the system, and accessing reports.
-+ Teachers can manage and track students' attendance.
-+ Students can access their own information and submit requests for absence.
++ Administrators have full control over managing users, configuring the system, importing CSV information and accessing reports.
++ Teachers can manage and track their students' attendance.
++ Students can access their own information and their parents are able to submit requests for absence.
 
 ### Technologies Used
-+ Backend: ASP.NET Core (C#)
++ Backend: ASP.NET Core (C#), JavaScript
 + Frontend: HTML, Tailwind CSS
 + Database: Microsoft SQL Server (a subject to change)
 + Authentication: ASP.NET Identity
