@@ -4,12 +4,13 @@ using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.DTOs.RequestDTOs;
 using SchoolAdministrationSystem.DTOs.ResponseDTOs;
 using SchoolAdministrationSystem.Models;
+using SchoolAdministrationSystem.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class StudentService
+public class StudentService : IStudentService
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;

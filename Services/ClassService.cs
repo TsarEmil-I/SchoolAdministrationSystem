@@ -5,12 +5,13 @@ using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.DTOs.RequestDTOs;
 using SchoolAdministrationSystem.DTOs.ResponseDTOs;
 using SchoolAdministrationSystem.Models;
+using SchoolAdministrationSystem.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class ClassService
+public class ClassService : IClassService
 {
     private readonly ApplicationDbContext _context;
     private readonly IMapper _mapper;

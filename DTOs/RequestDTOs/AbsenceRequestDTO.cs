@@ -21,5 +21,6 @@ namespace SchoolAdministrationSystem.DTOs.RequestDTOs
 
         [Required]
         public int StudentId { get; set; }
+
     }
 }

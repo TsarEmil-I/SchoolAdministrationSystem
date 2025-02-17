@@ -27,6 +27,17 @@
                     <li><a asp-controller="Classes" asp-action="Index" class="text-gray-600 hover:text-blue-600">Класове</a></li>
                     <li><a asp-controller="Students" asp-action="Index" class="text-gray-600 hover:text-blue-600">Ученици</a></li>
                     <li><a asp-controller="Teachers" asp-action="Index" class="text-gray-600 hover:text-blue-600">Учители</a></li>
+
+                    <li class="relative">
+                        <button id="adminMenuButton" class="text-gray-600 hover:text-blue-600 flex items-center w-full focus:outline-none">
+                            Администрация ▼
+                        </button>
+                        <ul id="adminDropdown" class="absolute left-0 mt-2 w-48 bg-white border rounded-md shadow-lg hidden">
+                            <li><a asp-controller="Admin" asp-action="Settings" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Настройки</a></li>
+                            <li><a asp-controller="Admin" asp-action="Reports" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Справки</a></li>
+                            <li><a asp-controller="Admin" asp-action="AddData" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Добави данни</a></li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <!-- Login/Register Buttons -->
@@ -82,12 +93,38 @@
 
     <!-- Scripts -->
     <script>
-        // Toggle sidebar visibility on smaller screens
+       //?????
         document.getElementById("hamburger").addEventListener("click", function () {
             const sidebar = document.getElementById("sidebar");
             sidebar.classList.toggle("-translate-x-full");
         });
+   
+        document.getElementById("hamburger").addEventListener("click", function () {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("-translate-x-full");
+        });
+
+
+        //Administration menu script
+        document.addEventListener("DOMContentLoaded", function () {
+            const adminMenuButton = document.getElementById("adminMenuButton");
+            const adminDropdown = document.getElementById("adminDropdown");
+
+            if (adminMenuButton && adminDropdown) {
+                adminMenuButton.addEventListener("click", function (event) {
+                    event.stopPropagation(); 
+                    adminDropdown.classList.toggle("hidden");
+                });
+
+                document.addEventListener("click", function (event) {
+                    if (!adminMenuButton.contains(event.target) && !adminDropdown.contains(event.target)) {
+                        adminDropdown.classList.add("hidden");
+                    }
+                });
+            }
+        });
     </script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

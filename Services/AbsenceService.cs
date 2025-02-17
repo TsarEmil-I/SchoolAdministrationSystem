@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.Data.Repositories;
 using SchoolAdministrationSystem.DTOs.RequestDTOs;
 using SchoolAdministrationSystem.DTOs.ResponseDTOs;
+using SchoolAdministrationSystem.Services;
 
-public class AbsenceService
+public class AbsenceService : IAbsenceService
 {
     private readonly IAbsenceRepository _absenceRepository;
     private readonly IStudentRepository _studentRepository;
@@ -44,10 +46,11 @@ public class AbsenceService
         }
 
         int absenceDays = absence.Days;
+        string leftDays = absence.Student.LeftAbsenceDays.ToString();
 
         if (absence.Student.LeftAbsenceDays <= 0 || absence.Student.LeftAbsenceDays < absenceDays)
         {
-            throw new Exception("Ученикът няма достатъчно оставащи дни!");
+            throw new ArgumentException($"Ученикът няма достатъчно оставащи дни! Оставащи дни: {leftDays}");
         }
 
         await _absenceRepository.CreateAbsenceAsync(absence);
@@ -61,9 +64,17 @@ public class AbsenceService
     public async Task<AbsenceResponseDTO> UpdateAbsenceAsync(int id, AbsenceRequestDTO absenceDto)
     {
         var existingAbsence = await _absenceRepository.GetAbsenceByIdAsync(id);
+        int absenceDays = existingAbsence.Days;
+        string leftDays = existingAbsence.Student.LeftAbsenceDays.ToString();
+
         if (existingAbsence == null)
         {
             return null;
+        }
+
+        if (existingAbsence.Student.LeftAbsenceDays <= 0 || existingAbsence.Student.LeftAbsenceDays < absenceDays)
+        {
+            throw new ArgumentException($"Ученикът няма достатъчно оставащи дни! Оставащи дни: {leftDays}");
         }
 
         _mapper.Map(absenceDto, existingAbsence);

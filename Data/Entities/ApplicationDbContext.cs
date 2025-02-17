@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SchoolAdministrationSystem.Data.Seeders;
 
 namespace SchoolAdministrationSystem.Data.Entities
 {
@@ -47,6 +48,8 @@ namespace SchoolAdministrationSystem.Data.Entities
             .HasConversion(new EnumToStringConverter<Gender>());
 
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Seed();
+
         }
 
         public DbSet<Student> Students { get; set; }

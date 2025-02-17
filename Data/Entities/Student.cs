@@ -45,14 +45,7 @@ namespace SchoolAdministrationSystem.Data.Entities
 
             set
             {
-                if (value > 0)
-                {
-                    age = value;
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException("Възрастта не може да бъде отрицателна!");
-                }
+                age = value;
             }
         }
 

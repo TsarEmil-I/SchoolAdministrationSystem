@@ -52,8 +52,17 @@ namespace SchoolAdministrationSystem.Controllers
                 return View(absenceDto);
             }
 
-            await _absenceService.CreateAbsenceAsync(absenceDto);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _absenceService.CreateAbsenceAsync(absenceDto);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentException m)
+            {
+                ModelState.AddModelError("", m.Message); 
+                return View(absenceDto);
+            }
+
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -85,8 +94,17 @@ namespace SchoolAdministrationSystem.Controllers
 
                 return View(absenceDto);
             }
-            await _absenceService.UpdateAbsenceAsync(id, absenceDto);
-            return RedirectToAction(nameof(Index));
+
+            try
+            {
+                await _absenceService.UpdateAbsenceAsync(id, absenceDto);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentException m)
+            {
+                ModelState.AddModelError("", m.Message);
+                return View(absenceDto);
+            }
         }
 
         public async Task<IActionResult> Delete(int id)
