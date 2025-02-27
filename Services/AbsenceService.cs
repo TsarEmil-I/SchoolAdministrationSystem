@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.Data.Repositories;
-using SchoolAdministrationSystem.DTOs.RequestDTOs;
-using SchoolAdministrationSystem.DTOs.ResponseDTOs;
+using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Services;
 
 public class AbsenceService : IAbsenceService
@@ -21,19 +19,19 @@ public class AbsenceService : IAbsenceService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<AbsenceResponseDTO>> GetAllAbsencesAsync()
+    public async Task<IEnumerable<AbsenceDTO>> GetAllAbsencesAsync()
     {
         var absences = await _absenceRepository.GetAllAbsencesAsync();
-        return _mapper.Map<IEnumerable<AbsenceResponseDTO>>(absences);
+        return _mapper.Map<IEnumerable<AbsenceDTO>>(absences);
     }
 
-    public async Task<AbsenceResponseDTO> GetAbsenceByIdAsync(int id)
+    public async Task<AbsenceDTO> GetAbsenceByIdAsync(int id)
     {
         var absence = await _absenceRepository.GetAbsenceByIdAsync(id);
-        return absence == null ? null : _mapper.Map<AbsenceResponseDTO>(absence);
+        return absence == null ? null : _mapper.Map<AbsenceDTO>(absence);
     }
 
-    public async Task<AbsenceResponseDTO> CreateAbsenceAsync(AbsenceRequestDTO absenceDto)
+    public async Task<AbsenceDTO> CreateAbsenceAsync(AbsenceDTO absenceDto)
     {
         var absence = _mapper.Map<Absence>(absenceDto);
 
@@ -58,21 +56,21 @@ public class AbsenceService : IAbsenceService
         absence.SequenceNumber = GenerateSequenceNumber(absence);
         await _absenceRepository.UpdateAbsenceAsync(absence);
 
-        return _mapper.Map<AbsenceResponseDTO>(absence);
+        return _mapper.Map<AbsenceDTO>(absence);
     }
 
-    public async Task<AbsenceResponseDTO> UpdateAbsenceAsync(int id, AbsenceRequestDTO absenceDto)
+    public async Task<AbsenceDTO> UpdateAbsenceAsync(int id, AbsenceDTO absenceDto)
     {
         var existingAbsence = await _absenceRepository.GetAbsenceByIdAsync(id);
-        int absenceDays = existingAbsence.Days;
-        string leftDays = existingAbsence.Student.LeftAbsenceDays.ToString();
+        int absenceDays = absenceDto.Days;
+        int leftDays = existingAbsence.Student.LeftAbsenceDays;
 
         if (existingAbsence == null)
         {
             return null;
         }
 
-        if (existingAbsence.Student.LeftAbsenceDays <= 0 || existingAbsence.Student.LeftAbsenceDays < absenceDays)
+        if (leftDays <= 0 || leftDays < absenceDays)
         {
             throw new ArgumentException($"Ученикът няма достатъчно оставащи дни! Оставащи дни: {leftDays}");
         }
@@ -83,7 +81,7 @@ public class AbsenceService : IAbsenceService
         existingAbsence.SequenceNumber = GenerateSequenceNumber(existingAbsence);
         await _absenceRepository.UpdateAbsenceAsync(existingAbsence);
 
-        return _mapper.Map<AbsenceResponseDTO>(existingAbsence);
+        return _mapper.Map<AbsenceDTO>(existingAbsence);
     }
 
     public async Task<bool> DeleteAbsenceAsync(int id)

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.Data.Repositories;
+using SchoolAdministrationSystem.Services;
 
 namespace SchoolAdministrationSystem
 {
@@ -14,6 +15,12 @@ namespace SchoolAdministrationSystem
             // Add services to the container.
 
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<IStudentService, StudentService>();
+            builder.Services.AddScoped<IAbsenceService, AbsenceService>();
+            builder.Services.AddScoped<ITeacherService, TeacherService>();
+            builder.Services.AddScoped<IClassService, ClassService>();
+
 
             builder.Services.AddScoped<AbsenceService>(); 
             builder.Services.AddScoped<ClassService>(); 

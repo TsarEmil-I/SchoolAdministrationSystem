@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolAdministrationSystem.Data.Entities;
-using SchoolAdministrationSystem.DTOs.RequestDTOs;
-using SchoolAdministrationSystem.DTOs.ResponseDTOs;
 
 namespace SchoolAdministrationSystem.Data.Repositories
 {

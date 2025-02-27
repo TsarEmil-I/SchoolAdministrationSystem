@@ -1,4 +1,4 @@
-﻿@model SchoolAdministrationSystem.DTOs.ResponseDTOs.AbsenceResponseDTO
+﻿@model AbsenceDTO
 
 @{
     ViewData["Title"] = "Информация за отсъствие";
@@ -23,24 +23,24 @@
             </button>
         </div>
         <div class="grid grid-cols-2 gap-6">
-            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.Reason)</dt>
+            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.Student.FullName):</dt>
+            <dd class="text-gray-900">@Html.DisplayFor(model => model.Student.FullName)</dd>
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.Class.Speciality):</dt>
+            <dd class="text-gray-900">@Html.DisplayFor(model => model.Class.Speciality)</dd>
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.Reason):</dt>
             <dd class="text-gray-900">@Html.DisplayFor(model => model.Reason)</dd>
         </div>
         <div class="grid grid-cols-2 gap-6">
-            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.Start)</dt>
+            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.Start):</dt>
             <dd class="text-gray-900">@Html.DisplayFor(model => model.Start)</dd>
         </div>
         <div class="grid grid-cols-2 gap-6">
-            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.End)</dt>
+            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.End):</dt>
             <dd class="text-gray-900">@Html.DisplayFor(model => model.End)</dd>
-        </div>
-        <div class="grid grid-cols-2 gap-6">
-            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.Student)</dt>
-            <dd class="text-gray-900">@Html.DisplayFor(model => model.Student)</dd>
-        </div>
-        <div class="grid grid-cols-2 gap-6">
-            <dt class="font-medium text-gray-700">@Html.DisplayNameFor(model => model.Class)</dt>
-            <dd class="text-gray-900">@Html.DisplayFor(model => model.Class)</dd>
         </div>
     </dl>
 
@@ -52,7 +52,7 @@
         <a asp-action="Edit" asp-route-id="@Model?.Id" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400">
             Редактирай
         </a>
-    </div>    
+    </div>
 </div>
 
 <script>

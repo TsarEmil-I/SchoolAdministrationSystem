@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
-namespace SchoolAdministrationSystem.DTOs.RequestDTOs
+namespace SchoolAdministrationSystem.DTOs
 {
-    public class ClassRequestDTO : BaseRequestDTO
+    public class ClassDTO : BaseDTO
     {
         [Required(ErrorMessage = "Това поле е задължително")]
         [Display(Name = "Клас")]
@@ -11,5 +12,12 @@ namespace SchoolAdministrationSystem.DTOs.RequestDTOs
         [Required(ErrorMessage = "Това поле е задължително")]
         [Display(Name = "Класен ръководител")]
         public int TeacherId { get; set; }
+        public TeacherDTO? Teacher { get; set; }
+
+        [JsonIgnore]
+        public List<StudentDTO>? Students { get; set; }
+
+        [JsonIgnore]
+        public List<AbsenceDTO>? Absences { get; set; }
     }
 }

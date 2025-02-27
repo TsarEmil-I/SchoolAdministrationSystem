@@ -1,11 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolAdministrationSystem.Data.Entities;
-using SchoolAdministrationSystem.DTOs.RequestDTOs;
-using SchoolAdministrationSystem.DTOs.ResponseDTOs;
-using SchoolAdministrationSystem.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SchoolAdministrationSystem.Data.Repositories
 {

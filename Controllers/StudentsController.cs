@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.DTOs;
-using SchoolAdministrationSystem.DTOs.RequestDTOs;
-using SchoolAdministrationSystem.DTOs.ResponseDTOs;
-using SchoolAdministrationSystem.Models;
-using System.Threading.Tasks;
 
 namespace SchoolAdministrationSystem.Controllers
 {
@@ -36,7 +30,7 @@ namespace SchoolAdministrationSystem.Controllers
         }
 
         [HttpGet("Students/List")]
-        public async Task<IEnumerable<StudentResponseDTO>> GetStudents(int id)
+        public async Task<IEnumerable<StudentDTO>> GetStudents(int id)
         {
             return await _studentService.GetAllStudentsByClassIdAsync(id);
         }
@@ -52,7 +46,7 @@ namespace SchoolAdministrationSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(StudentRequestDTO studentDto)
+        public async Task<IActionResult> Create(StudentDTO studentDto)
         {
             if (!ModelState.IsValid)
             {
@@ -79,7 +73,7 @@ namespace SchoolAdministrationSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, StudentRequestDTO studentDto)
+        public async Task<IActionResult> Edit(int id, StudentDTO studentDto)
         {
             if (!ModelState.IsValid)
             {

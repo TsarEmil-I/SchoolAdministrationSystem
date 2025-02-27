@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SchoolAdministrationSystem.Data.Entities;
-using SchoolAdministrationSystem.DTOs.RequestDTOs;
-using SchoolAdministrationSystem.DTOs.ResponseDTOs;
-using SchoolAdministrationSystem.Models;
+using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 public class StudentService : IStudentService
 {
@@ -21,30 +15,30 @@ public class StudentService : IStudentService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<StudentResponseDTO>> GetAllStudentsByClassIdAsync(int classId)
+    public async Task<IEnumerable<StudentDTO>> GetAllStudentsByClassIdAsync(int classId)
     {
         var students = await _context.Students
             .Where(s => s.ClassId == classId)
             .Include(s => s.Class)
             .ToListAsync();
-        return _mapper.Map<IEnumerable<StudentResponseDTO>>(students);
+        return _mapper.Map<IEnumerable<StudentDTO>>(students);
     }
 
-    public async Task<List<StudentResponseDTO>> GetAllStudentsAsync()
+    public async Task<List<StudentDTO>> GetAllStudentsAsync()
     {
         var students = await _context.Students.ToListAsync();
-        return _mapper.Map<List<StudentResponseDTO>>(students);
+        return _mapper.Map<List<StudentDTO>>(students);
     }
 
-    public async Task<StudentResponseDTO> GetStudentByIdAsync(int id)
+    public async Task<StudentDTO> GetStudentByIdAsync(int id)
     {
         var student = await _context.Students
             .Include(s => s.Class)
             .FirstOrDefaultAsync(s => s.Id == id);
-        return student == null ? null : _mapper.Map<StudentResponseDTO>(student);
+        return student == null ? null : _mapper.Map<StudentDTO>(student);
     }
 
-    public async Task<StudentResponseDTO> CreateStudentAsync(StudentRequestDTO studentDto)
+    public async Task<StudentDTO> CreateStudentAsync(StudentDTO studentDto)
     {
         var studentEntity = _mapper.Map<Student>(studentDto);
 
@@ -58,10 +52,10 @@ public class StudentService : IStudentService
         _context.Students.Add(studentEntity);
         await _context.SaveChangesAsync();
 
-        return _mapper.Map<StudentResponseDTO>(studentEntity);
+        return _mapper.Map<StudentDTO>(studentEntity);
     }
 
-    public async Task<StudentResponseDTO> UpdateStudentAsync(int id, StudentRequestDTO studentDto)
+    public async Task<StudentDTO> UpdateStudentAsync(int id, StudentDTO studentDto)
     {
         var existingStudent = await _context.Students.FindAsync(id);
         if (existingStudent == null)
@@ -73,7 +67,7 @@ public class StudentService : IStudentService
         _context.Students.Update(existingStudent);
         await _context.SaveChangesAsync();
 
-        return _mapper.Map<StudentResponseDTO>(existingStudent);
+        return _mapper.Map<StudentDTO>(existingStudent);
     }
 
     public async Task<bool> DeleteStudentAsync(int id)

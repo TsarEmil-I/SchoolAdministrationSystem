@@ -1,14 +1,13 @@
-﻿using SchoolAdministrationSystem.DTOs.RequestDTOs;
-using SchoolAdministrationSystem.DTOs.ResponseDTOs;
+﻿using SchoolAdministrationSystem.DTOs;
 
 namespace SchoolAdministrationSystem.Services
 {
     public interface IStudentService
     {
-        public Task<List<StudentResponseDTO>> GetAllStudentsAsync();
-        public Task<IEnumerable<StudentResponseDTO>> GetAllStudentsByClassIdAsync(int classId);
-        public Task<StudentResponseDTO> CreateStudentAsync(StudentRequestDTO studentDto);
-        public Task<StudentResponseDTO> UpdateStudentAsync(int id, StudentRequestDTO studentDto);
+        public Task<List<StudentDTO>> GetAllStudentsAsync();
+        public Task<IEnumerable<StudentDTO>> GetAllStudentsByClassIdAsync(int classId);
+        public Task<StudentDTO> CreateStudentAsync(StudentDTO studentDto);
+        public Task<StudentDTO> UpdateStudentAsync(int id, StudentDTO studentDto);
         public Task<bool> DeleteStudentAsync(int id);
     }
 }

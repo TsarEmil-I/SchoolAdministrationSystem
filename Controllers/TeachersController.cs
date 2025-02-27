@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.DTOs;
-using SchoolAdministrationSystem.DTOs.RequestDTOs;
 using SchoolAdministrationSystem.Models;
 using System.Threading.Tasks;
 
@@ -40,7 +39,7 @@ namespace SchoolAdministrationSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TeacherRequestDTO teacherDto)
+        public async Task<IActionResult> Create(TeacherDTO teacherDto)
         {
             if (!ModelState.IsValid) return View(teacherDto);
 
@@ -58,7 +57,7 @@ namespace SchoolAdministrationSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, TeacherRequestDTO teacherDto)
+        public async Task<IActionResult> Edit(int id, TeacherDTO teacherDto)
         {
             if (!ModelState.IsValid) return View(teacherDto);
 

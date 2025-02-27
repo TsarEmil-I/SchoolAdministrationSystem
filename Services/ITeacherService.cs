@@ -1,15 +1,14 @@
-﻿using SchoolAdministrationSystem.DTOs.RequestDTOs;
-using SchoolAdministrationSystem.DTOs.ResponseDTOs;
+﻿using SchoolAdministrationSystem.DTOs;
 
 namespace SchoolAdministrationSystem.Services
 {
     public interface ITeacherService
     {
-        public Task<IEnumerable<TeacherResponseDTO>> GetAllTeachersAsync();
-        public Task<IEnumerable<TeacherResponseDTO>> GetAllTeachersWithoutClassesAsync();
-        public Task<TeacherResponseDTO> GetTeacherByIdAsync(int id);
-        public Task<TeacherResponseDTO> CreateTeacherAsync(TeacherRequestDTO teacherDto);
-        public Task<TeacherResponseDTO> UpdateTeacherAsync(int id, TeacherRequestDTO teacherDto);
+        public Task<IEnumerable<TeacherDTO>> GetAllTeachersAsync();
+        public Task<IEnumerable<TeacherDTO>> GetAllTeachersWithoutClassesAsync();
+        public Task<TeacherDTO> GetTeacherByIdAsync(int id);
+        public Task<TeacherDTO> CreateTeacherAsync(TeacherDTO teacherDto);
+        public Task<TeacherDTO> UpdateTeacherAsync(int id, TeacherDTO teacherDto);
         public Task<bool> DeleteTeacherAsync(int id);
     }
 }

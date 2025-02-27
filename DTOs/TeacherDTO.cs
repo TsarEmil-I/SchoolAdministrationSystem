@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
-namespace SchoolAdministrationSystem.DTOs.RequestDTOs
+namespace SchoolAdministrationSystem.DTOs
 {
-    public class TeacherRequestDTO : BaseRequestDTO
+    public class TeacherDTO : BaseDTO
     {
         [Required(ErrorMessage = "Това поле е задължително")]
         [Display(Name = "Име")]
@@ -17,5 +18,19 @@ namespace SchoolAdministrationSystem.DTOs.RequestDTOs
         [Display(Name = "Фамилия")]
         [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Фамилията трябва да съдържа само букви на кирилица, без специални знаци и цифри.")]
         public string LastName { get; set; }
+
+        [DisplayName("Класен ръководител")]
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {MiddleName} {LastName}";
+            }
+
+        }
+        public int ClassId { get; set; }
+
+        public ClassDTO? Class { get; set; }
+
     }
 }

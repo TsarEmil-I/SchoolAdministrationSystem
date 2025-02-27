@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using SchoolAdministrationSystem.Data.Entities;
-using SchoolAdministrationSystem.DTOs.RequestDTOs;
-using SchoolAdministrationSystem.DTOs.ResponseDTOs;
+using SchoolAdministrationSystem.DTOs;
 
 namespace SchoolAdministrationSystem.Profiles
 {
@@ -9,8 +8,8 @@ namespace SchoolAdministrationSystem.Profiles
     {
         public AbsenceProfile()
         {
-            CreateMap<Absence, AbsenceResponseDTO>();
-            CreateMap<AbsenceRequestDTO, Absence>();
+            CreateMap<Absence, AbsenceDTO>();
+            CreateMap<AbsenceDTO, Absence>();
         }
     }
 }

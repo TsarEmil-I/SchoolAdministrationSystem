@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.Data.Entities;
-using SchoolAdministrationSystem.DTOs.RequestDTOs;
+using SchoolAdministrationSystem.DTOs;
 
 namespace SchoolAdministrationSystem.Controllers
 {
@@ -42,7 +43,7 @@ namespace SchoolAdministrationSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AbsenceRequestDTO absenceDto)
+        public async Task<IActionResult> Create(AbsenceDTO absenceDto)
         {
             if (!ModelState.IsValid)
             {
@@ -81,7 +82,7 @@ namespace SchoolAdministrationSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, AbsenceRequestDTO absenceDto)
+        public async Task<IActionResult> Edit(int id, AbsenceDTO absenceDto)
         {
             if (!ModelState.IsValid)
             {
@@ -103,6 +104,12 @@ namespace SchoolAdministrationSystem.Controllers
             catch (ArgumentException m)
             {
                 ModelState.AddModelError("", m.Message);
+                ViewBag.ClassId = (await _classService.GetAllClassesAsync())
+                   .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
+                   .ToList();
+                ViewBag.StudentId = (await _studentService.GetAllStudentsByClassIdAsync(absenceDto.ClassId))
+                   .Select(s => new SelectListItem() { Text = s.FullName, Value = s.Id.ToString() })
+                   .ToList();
                 return View(absenceDto);
             }
         }

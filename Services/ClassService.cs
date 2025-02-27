@@ -2,14 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.DTOs;
-using SchoolAdministrationSystem.DTOs.RequestDTOs;
-using SchoolAdministrationSystem.DTOs.ResponseDTOs;
-using SchoolAdministrationSystem.Models;
 using SchoolAdministrationSystem.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 public class ClassService : IClassService
 {
@@ -22,24 +16,24 @@ public class ClassService : IClassService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ClassResponseDTO>> GetAllClassesAsync()
+    public async Task<IEnumerable<ClassDTO>> GetAllClassesAsync()
     {
         var classes = await _context.Classes
             .Include(c => c.Teacher)
             .ToListAsync();
-        return _mapper.Map<IEnumerable<ClassResponseDTO>>(classes);
+        return _mapper.Map<IEnumerable<ClassDTO>>(classes);
     }
 
-    public async Task<ClassResponseDTO> GetClassByIdAsync(int id)
+    public async Task<ClassDTO> GetClassByIdAsync(int id)
     {
         var classEntity = await _context.Classes
             .Include(c => c.Teacher)
             .FirstOrDefaultAsync(c => c.Id == id);
 
-        return classEntity == null ? null : _mapper.Map<ClassResponseDTO>(classEntity);
+        return classEntity == null ? null : _mapper.Map<ClassDTO>(classEntity);
     }
 
-    public async Task<ClassResponseDTO> CreateClassAsync(ClassRequestDTO classDto)
+    public async Task<ClassDTO> CreateClassAsync(ClassDTO classDto)
     {
         var classEntity = _mapper.Map<Class>(classDto);
 
@@ -53,10 +47,10 @@ public class ClassService : IClassService
         _context.Classes.Add(classEntity);
         await _context.SaveChangesAsync();
 
-        return _mapper.Map<ClassResponseDTO>(classEntity);
+        return _mapper.Map<ClassDTO>(classEntity);
     }
 
-    public async Task<ClassResponseDTO> UpdateClassAsync(int id, ClassRequestDTO classDto)
+    public async Task<ClassDTO> UpdateClassAsync(int id, ClassDTO classDto)
     {
         var existingClass = await _context.Classes.FindAsync(id);
         if (existingClass == null)
@@ -68,7 +62,7 @@ public class ClassService : IClassService
         _context.Classes.Update(existingClass);
         await _context.SaveChangesAsync();
 
-        return _mapper.Map<ClassResponseDTO>(existingClass);
+        return _mapper.Map<ClassDTO>(existingClass);
     }
 
     public async Task<bool> DeleteClassAsync(int id)
