@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace SchoolAdministrationSystem.DTOs
 {
@@ -30,6 +31,7 @@ namespace SchoolAdministrationSystem.DTOs
         }
         public int ClassId { get; set; }
 
+        [JsonIgnore]
         public ClassDTO? Class { get; set; }
 
     }

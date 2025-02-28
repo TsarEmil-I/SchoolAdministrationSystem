@@ -51,6 +51,7 @@ namespace SchoolAdministrationSystem.DTOs
         [DisplayName("Клас")]
         [Required(ErrorMessage = "Това поле е задължително")]
         public int ClassId { get; set; }
+        [JsonIgnore]
         public ClassDTO? Class { get; set; }
         [DisplayName("Оставащи дни")]
         public int LeftAbsenceDays

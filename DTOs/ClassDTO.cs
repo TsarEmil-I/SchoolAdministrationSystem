@@ -12,6 +12,7 @@ namespace SchoolAdministrationSystem.DTOs
         [Required(ErrorMessage = "Това поле е задължително")]
         [Display(Name = "Класен ръководител")]
         public int TeacherId { get; set; }
+        [JsonIgnore]
         public TeacherDTO? Teacher { get; set; }
 
         [JsonIgnore]
