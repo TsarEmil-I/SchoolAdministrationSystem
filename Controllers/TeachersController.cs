@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Models;
@@ -9,10 +10,11 @@ namespace SchoolAdministrationSystem.Controllers
     public class TeachersController : Controller
     {
         private readonly TeacherService _teacherService;
-
-        public TeachersController(TeacherService teacherService)
+        private readonly UserManager<IdentityUser> _userManager;
+        public TeachersController(TeacherService teacherService, UserManager<IdentityUser> userManager)
         {
             _teacherService = teacherService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -34,6 +36,9 @@ namespace SchoolAdministrationSystem.Controllers
             ViewBag.TeacherId = (await _teacherService.GetAllTeachersWithoutClassesAsync())
                            .Select(t => new SelectListItem() { Text = t.FullName, Value = t.Id.ToString() })
                            .ToList();
+            ViewBag.UserId = _userManager.Users.ToList()
+                .Select(item => new SelectListItem() { Text = item.UserName, Value = item.Id })
+                .ToList();
             return View();
         }
 

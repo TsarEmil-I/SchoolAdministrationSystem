@@ -10,10 +10,8 @@
     <hr class="mb-6" />
 
     <form asp-action="Create" class="space-y-6">
-        <!-- Validation Summary -->
         <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
 
-        <!-- Report Type Dropdown -->
         <div class="form-group">
             <label asp-for="ReportType" class="block font-medium text-gray-700">Тип на справката</label>
             <select asp-for="ReportType" id="reportType" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -25,7 +23,6 @@
             <span asp-validation-for="ReportType" class="text-red-600 font-bold"></span>
         </div>
 
-        <!-- Student Dropdown (Hidden by Default) -->
         <div id="studentField" class="hidden">
             <label asp-for="StudentId" class="block font-medium text-gray-700">Ученик</label>
             <select asp-for="StudentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.Students">
@@ -34,7 +31,6 @@
             <span asp-validation-for="StudentId" class="text-red-600 font-bold"></span>
         </div>
 
-        <!-- Class Dropdown (Hidden by Default) -->
         <div id="classField" class="hidden">
             <label asp-for="ClassId" class="block font-medium text-gray-700">Клас</label>
             <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.Classes">
@@ -43,7 +39,6 @@
             <span asp-validation-for="ClassId" class="text-red-600 font-bold"></span>
         </div>
 
-        <!-- Period Fields (Hidden by Default) -->
         <div id="periodFields" class="hidden">
             <div class="form-group">
                 <label asp-for="StartDate" class="block font-medium text-gray-700">Начална дата</label>
@@ -58,7 +53,6 @@
             </div>
         </div>
 
-        <!-- Submit Button -->
         <div class="flex justify-center">
             <button type="submit" class="bg-red-500 hover:bg-red-600 font-bold text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400">
                 Извлечи справка
@@ -81,12 +75,10 @@
             reportTypeDropdown.addEventListener("change", function () {
                 const selectedType = this.value;
 
-                // Hide all fields first
                 studentField.classList.add("hidden");
                 classField.classList.add("hidden");
                 periodFields.classList.add("hidden");
 
-                // Show the relevant fields
                 if (selectedType === "student") {
                     studentField.classList.remove("hidden");
                 } else if (selectedType === "class") {

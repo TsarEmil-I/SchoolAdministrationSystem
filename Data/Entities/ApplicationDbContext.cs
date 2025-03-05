@@ -48,8 +48,6 @@ namespace SchoolAdministrationSystem.Data.Entities
             .HasConversion(new EnumToStringConverter<Gender>());
 
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Seed();
-
         }
 
         public DbSet<Student> Students { get; set; }

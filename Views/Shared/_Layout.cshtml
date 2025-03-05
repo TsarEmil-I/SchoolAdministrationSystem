@@ -10,42 +10,41 @@
 </head>
 <body class="bg-gray-100 text-gray-900">
 
-    <!-- Sidebar and Content Wrapper -->
     <div class="flex min-h-screen w-full">
         <!-- Sidebar -->
         <div id="sidebar" class="bg-white shadow-md w-64 min-h-screen fixed top-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
             <div class="container mx-auto px-4 py-4">
-                <!-- Logo -->
                 <a href="/" class="text-lg font-bold text-blue-600 hover:text-blue-800 block py-2 mb-4">
                     СУУА
                 </a>
 
-                <!-- Navigation Links -->
                 <ul class="space-y-6">
                     <li><a asp-controller="Home" asp-action="Privacy" class="text-gray-600 hover:text-blue-600">За нас</a></li>
                     <li><a asp-controller="Absences" asp-action="Index" class="text-gray-600 hover:text-blue-600">Отсъствия</a></li>
                     <li><a asp-controller="Classes" asp-action="Index" class="text-gray-600 hover:text-blue-600">Класове</a></li>
                     <li><a asp-controller="Students" asp-action="Index" class="text-gray-600 hover:text-blue-600">Ученици</a></li>
                     <li><a asp-controller="Teachers" asp-action="Index" class="text-gray-600 hover:text-blue-600">Учители</a></li>
-
-                    <li class="relative">
-                        <button id="adminMenuButton" class="text-gray-600 hover:text-blue-600 flex items-center w-full focus:outline-none">
-                            Администрация ▼
-                        </button>
-                        <ul id="adminDropdown" class="absolute left-0 mt-2 w-48 bg-white border rounded-md shadow-lg hidden">
-                            <li><a asp-controller="Admin" asp-action="Settings" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Настройки</a></li>
-                            <li><a asp-controller="Reports" asp-action="Create" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Справки</a></li>
-                            <li><a asp-controller="Admin" asp-action="AddData" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Добави данни</a></li>
-                        </ul>
-                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="relative">
+                            <button id="adminMenuButton" class="text-gray-600 hover:text-blue-600 flex items-center w-full focus:outline-none">
+                                Администрация ▼
+                            </button>
+                            <ul id="adminDropdown" class="absolute left-0 mt-2 w-48 bg-white border rounded-md shadow-lg hidden">
+                                <li><a asp-controller="Admin" asp-action="Settings" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Настройки</a></li>
+                                <li><a asp-controller="Reports" asp-action="Create" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Справки</a></li>
+                                <li><a asp-controller="Admin" asp-action="AddData" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Добави данни</a></li>
+                            </ul>
+                        </li>
+                    }
                 </ul>
 
-                <!-- Login/Register Buttons -->
                 <div class="mt-4">
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
-                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="inline">
-                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+                              method="post" class="inline">
+                            <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700">
                                 Излез
                             </button>
                         </form>
@@ -69,7 +68,6 @@
             </div>
         </div>
 
-        <!-- Main Content Area -->
         <div class="flex-1 w-full ml-0 lg:ml-64 p-4 transition-all duration-300 ease-in-out">
             <!-- Hamburger Button (Visible only on smaller screens) -->
             <button id="hamburger" class="lg:hidden p-2 text-gray-600 hover:bg-gray-200 rounded mb-4">
@@ -78,7 +76,6 @@
                 </svg>
             </button>
 
-            <!-- Page Content -->
             <main role="main" class="pb-3 min-h-screen">
                 @RenderBody()
             </main>
@@ -93,12 +90,12 @@
 
     <!-- Scripts -->
     <script>
-       //?????
+        //?????
         document.getElementById("hamburger").addEventListener("click", function () {
             const sidebar = document.getElementById("sidebar");
             sidebar.classList.toggle("-translate-x-full");
         });
-   
+
         document.getElementById("hamburger").addEventListener("click", function () {
             const sidebar = document.getElementById("sidebar");
             sidebar.classList.toggle("-translate-x-full");
@@ -112,7 +109,7 @@
 
             if (adminMenuButton && adminDropdown) {
                 adminMenuButton.addEventListener("click", function (event) {
-                    event.stopPropagation(); 
+                    event.stopPropagation();
                     adminDropdown.classList.toggle("hidden");
                 });
 

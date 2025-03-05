@@ -9,23 +9,31 @@ namespace SchoolAdministrationSystem.DTOs
         [DisplayName("Входящ номер")]
         public string? SequenceNumber { get; set; }
 
+        [Required(ErrorMessage = "Това поле е задължително")]
         [DisplayName("Причина")]
         public string Reason { get; set; }
 
         [DisplayName("От")]
+        [Required(ErrorMessage = "Това поле е задължително")]
         [DisplayFormat(DataFormatString = "{0:d MMMM yyyyг.}", ApplyFormatInEditMode = true)]
         public DateOnly Start { get; set; }
-        [DisplayName("До")]
 
+        [DisplayName("До")]
+        [Required(ErrorMessage = "Това поле е задължително")]
         [DisplayFormat(DataFormatString = "{0:d MMMM yyyyг.}", ApplyFormatInEditMode = true)]
         public DateOnly End { get; set; }
 
-        public int ClassId { get; set; }
+        [Required(ErrorMessage = "Това поле е задължително")]
         [JsonIgnore]
+        public int ClassId { get; set; }
+
         [DisplayName("Клас")]
         public virtual ClassDTO? Class { get; set; }
-        public int StudentId { get; set; }
+
+        [Required(ErrorMessage = "Това поле е задължително")]
         [JsonIgnore]
+        public int StudentId { get; set; }
+
         [DisplayName("Ученик")]
         public virtual StudentDTO? Student { get; set; }
         public int Days
@@ -42,11 +50,6 @@ namespace SchoolAdministrationSystem.DTOs
             DateTime dt2 = d2.ToDateTime(TimeOnly.MinValue);
 
             int weekdayCount = 0;
-
-            //if (dt1 > dt2 || dt1 < DateTime.Today)
-            //{
-            //    throw new ValidationException("Не може отсъствието да бъде въведено преди днешна дата или началната дата да е по-голяма от крайната!");
-            //}
 
             for (DateTime current = dt1; current <= dt2; current = current.AddDays(1))
             {

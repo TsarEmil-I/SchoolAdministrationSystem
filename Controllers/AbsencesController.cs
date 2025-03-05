@@ -6,6 +6,7 @@ using SchoolAdministrationSystem.DTOs;
 
 namespace SchoolAdministrationSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AbsencesController : Controller
     {
         private readonly AbsenceService _absenceService;
@@ -45,6 +46,11 @@ namespace SchoolAdministrationSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AbsenceDTO absenceDto)
         {
+            if(absenceDto.Days > 5)
+            {
+                ModelState.AddModelError("Days", "Не може ученикът да използва повече от 5 дни наведнъж.");
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.ClassId = (await _classService.GetAllClassesAsync())

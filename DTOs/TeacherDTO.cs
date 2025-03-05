@@ -6,6 +6,8 @@ namespace SchoolAdministrationSystem.DTOs
 {
     public class TeacherDTO : BaseDTO
     {
+        public string? UserId { get; set; }
+
         [Required(ErrorMessage = "Това поле е задължително")]
         [Display(Name = "Име")]
         [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Името трябва да съдържа само букви на кирилица, без специални знаци и цифри.")]

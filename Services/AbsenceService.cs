@@ -43,6 +43,16 @@ public class AbsenceService : IAbsenceService
             throw new Exception("Невалиден ученик или клас!");
         }
 
+        if (absence.Start > absence.End) 
+        {
+            throw new ArgumentException("Не може отсъствието да бъде въведено преди днешна дата!");
+        }
+
+        if (absence.Start.ToDateTime(TimeOnly.MinValue) < DateTime.Today)
+        {
+            throw new ArgumentException("Не може началната дата да е по-голяма от крайната!");
+        }
+
         int absenceDays = absence.Days;
         string leftDays = absence.Student.LeftAbsenceDays.ToString();
 
@@ -68,6 +78,11 @@ public class AbsenceService : IAbsenceService
         if (existingAbsence == null)
         {
             return null;
+        }
+
+        if (absenceDto.Start > absenceDto.End || absenceDto.End.ToDateTime(TimeOnly.MinValue) < DateTime.Today)
+        {
+            throw new ArgumentException("Не може отсъствието да бъде въведено преди днешна дата или началната дата да е по-голяма от крайната!");
         }
 
         if (leftDays <= 0 || leftDays < absenceDays)
@@ -101,7 +116,7 @@ public class AbsenceService : IAbsenceService
         var classEntity = absence.Class;
         if (classEntity == null)
         {
-            throw new Exception("Invalid class selected");
+            throw new Exception("Този клас е невалиден");
         }
 
         var classCode = absence.ClassId;

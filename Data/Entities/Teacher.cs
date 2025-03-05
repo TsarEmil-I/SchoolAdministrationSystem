@@ -7,6 +7,8 @@ namespace SchoolAdministrationSystem.Data.Entities
 {
     public class Teacher : BaseEntity
     {
+        public string? UserId { get; set; }
+
         [Required]
         [DisplayName("Име")]
         [RegularExpression(@"^[А-Яа-яЁё-]+$", ErrorMessage = "Името трябва да съдържа само букви на кирилица, без специални знаци и цифри.")]
