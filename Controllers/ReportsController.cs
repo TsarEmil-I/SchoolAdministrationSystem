@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.Services;
 using SchoolAdministrationSystem.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolAdministrationSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ReportsController : Controller
     {
         private readonly IStudentService _studentService;
