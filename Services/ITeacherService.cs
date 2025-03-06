@@ -5,6 +5,7 @@ namespace SchoolAdministrationSystem.Services
     public interface ITeacherService
     {
         public Task<IEnumerable<TeacherDTO>> GetAllTeachersAsync();
+        public Task<TeacherDTO> GetTeacherByUserIdAsync(int id);
         public Task<IEnumerable<TeacherDTO>> GetAllTeachersWithoutClassesAsync();
         public Task<TeacherDTO> GetTeacherByIdAsync(int id);
         public Task<TeacherDTO> CreateTeacherAsync(TeacherDTO teacherDto);

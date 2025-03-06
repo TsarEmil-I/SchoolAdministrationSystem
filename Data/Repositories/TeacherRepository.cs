@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NuGet.DependencyResolver;
 using SchoolAdministrationSystem.Data.Entities;
+using SchoolAdministrationSystem.DTOs;
 
 namespace SchoolAdministrationSystem.Data.Repositories
 {
@@ -29,7 +31,11 @@ namespace SchoolAdministrationSystem.Data.Repositories
                 .ToListAsync();
         }
 
-
+        public async Task<Teacher> GetTeacherByUserIdAsync(string id)
+        {
+            var teacher = await _context.Teachers.Where(t => t.UserId == id).FirstOrDefaultAsync();
+            return teacher;
+        }
 
         public async Task<Teacher?> GetTeacherByIdAsync(int id)
         {
@@ -44,6 +50,26 @@ namespace SchoolAdministrationSystem.Data.Repositories
             await _context.SaveChangesAsync();
 
             return teacher.Id;
+        }
+
+        public async Task<bool> DeleteTeacherAsync(int id)
+        {
+            var teacher = await _context.Teachers.FindAsync(id);
+            if (teacher == null)
+            {
+                return false;
+            }
+
+            _context.Teachers.Remove(teacher);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<Teacher> UpdateTeacherAsync(Teacher teacher)
+        {
+            _context.Teachers.Update(teacher);
+            await _context.SaveChangesAsync();
+            return teacher;
         }
     }
 }

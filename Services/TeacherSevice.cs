@@ -20,8 +20,14 @@ public class TeacherService : ITeacherService
 
     public async Task<IEnumerable<TeacherDTO>> GetAllTeachersAsync()
     {
-        var teachers = await _context.Teachers.ToListAsync();
+        var teachers = await _teacherRepository.GetAllTeachersAsync();
         return _mapper.Map<IEnumerable<TeacherDTO>>(teachers);
+    }
+
+    public async Task<TeacherDTO> GetTeacherByUserIdAsync(string id)
+    {
+        var teacher = await _teacherRepository.GetTeacherByUserIdAsync(id);
+        return _mapper.Map<TeacherDTO>(teacher);
     }
 
     public async Task<IEnumerable<TeacherDTO>> GetAllTeachersWithoutClassesAsync()
@@ -40,38 +46,27 @@ public class TeacherService : ITeacherService
     public async Task<TeacherDTO> CreateTeacherAsync(TeacherDTO teacherDto)
     {
         var teacherEntity = _mapper.Map<Teacher>(teacherDto);
-
-        _context.Teachers.Add(teacherEntity);
-        await _context.SaveChangesAsync();
-
+        await _teacherRepository.CreateTeacherAsync(teacherEntity);
         return _mapper.Map<TeacherDTO>(teacherEntity);
     }
 
     public async Task<TeacherDTO> UpdateTeacherAsync(int id, TeacherDTO teacherDto)
     {
-        var existingTeacher = await _context.Teachers.FindAsync(id);
+        var existingTeacher = await _teacherRepository.GetTeacherByIdAsync(teacherDto.Id);
         if (existingTeacher == null)
         {
             return null;
         }
 
         _mapper.Map(teacherDto, existingTeacher);
-        _context.Teachers.Update(existingTeacher);
-        await _context.SaveChangesAsync();
+
+        await _teacherRepository.UpdateTeacherAsync(existingTeacher);
 
         return _mapper.Map<TeacherDTO>(existingTeacher);
     }
 
     public async Task<bool> DeleteTeacherAsync(int id)
     {
-        var teacher = await _context.Teachers.FindAsync(id);
-        if (teacher == null)
-        {
-            return false;
-        }
-
-        _context.Teachers.Remove(teacher);
-        await _context.SaveChangesAsync();
-        return true;
+        return await _teacherRepository.DeleteTeacherAsync(id);
     }
 }
