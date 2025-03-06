@@ -65,7 +65,7 @@ namespace SchoolAdministrationSystem.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required(ErrorMessage = "Това поле е задължително")]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = "Това не е валиден имейл адрес")]
             public string Email { get; set; }
 
             /// <summary>
