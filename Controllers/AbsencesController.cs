@@ -6,7 +6,7 @@ using SchoolAdministrationSystem.DTOs;
 
 namespace SchoolAdministrationSystem.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Teacher")]
     public class AbsencesController : Controller
     {
         private readonly AbsenceService _absenceService;
@@ -48,7 +48,7 @@ namespace SchoolAdministrationSystem.Controllers
         {
             if(absenceDto.Days > 5)
             {
-                ModelState.AddModelError("Days", "Не може ученикът да използва повече от 5 дни наведнъж.");
+                ModelState.AddModelError("Days", "Ученикът не може да използва повече от 5 учебни дни наведнъж!");
             }
 
             if (!ModelState.IsValid)

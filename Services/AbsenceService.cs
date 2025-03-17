@@ -45,12 +45,12 @@ public class AbsenceService : IAbsenceService
 
         if (absence.Start > absence.End) 
         {
-            throw new ArgumentException("Не може отсъствието да бъде въведено преди днешна дата!");
+            throw new ArgumentException("Не може началната дата да е по-голяма от крайната!");
         }
 
         if (absence.Start.ToDateTime(TimeOnly.MinValue) < DateTime.Today)
         {
-            throw new ArgumentException("Не може началната дата да е по-голяма от крайната!");
+            throw new ArgumentException("Не може отсъствието да бъде въведено преди днешна дата!");
         }
 
         int absenceDays = absence.Days;
@@ -80,9 +80,14 @@ public class AbsenceService : IAbsenceService
             return null;
         }
 
-        if (absenceDto.Start > absenceDto.End || absenceDto.End.ToDateTime(TimeOnly.MinValue) < DateTime.Today)
+        if (absenceDto.Start > absenceDto.End)
         {
-            throw new ArgumentException("Не може отсъствието да бъде въведено преди днешна дата или началната дата да е по-голяма от крайната!");
+            throw new ArgumentException("Не може началната дата да е по-голяма от крайната!");
+        }
+
+        if (absenceDto.Start.ToDateTime(TimeOnly.MinValue) < DateTime.Today)
+        {
+            throw new ArgumentException("Не може отсъствието да бъде въведено преди днешна дата!");
         }
 
         if (leftDays <= 0 || leftDays < absenceDays)

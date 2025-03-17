@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Models;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace SchoolAdministrationSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ClassesController : Controller
     {
         private readonly ClassService _classService;
