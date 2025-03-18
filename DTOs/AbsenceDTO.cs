@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SchoolAdministrationSystem.Data.Entities;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -36,6 +37,20 @@ namespace SchoolAdministrationSystem.DTOs
 
         [DisplayName("Ученик")]
         public virtual StudentDTO? Student { get; set; }
+
+        [JsonIgnore]
+        public virtual List<Holiday>? Holidays { get; set; } // idk
+            
+        public List<DateTime>? HolidayTimes // idk
+        {
+            get
+            {
+                var h = Holidays?.Select(h => h.Date).ToList();
+                return h ?? new List<DateTime>();
+            }
+
+        }
+
         public int Days
         {
             get
@@ -53,7 +68,7 @@ namespace SchoolAdministrationSystem.DTOs
 
             for (DateTime current = dt1; current <= dt2; current = current.AddDays(1))
             {
-                if (current.DayOfWeek != DayOfWeek.Saturday && current.DayOfWeek != DayOfWeek.Sunday)
+                if (current.DayOfWeek != DayOfWeek.Saturday && current.DayOfWeek != DayOfWeek.Sunday && !HolidayTimes.Contains(current)) // idk
                 {
                     weekdayCount++;
                 }

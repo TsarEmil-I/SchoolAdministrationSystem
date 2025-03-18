@@ -1,0 +1,64 @@
+﻿@model IEnumerable<SchoolAdministrationSystem.Data.Entities.Holiday>
+
+@{
+    ViewData["Title"] = "Настройки";
+}
+
+<h1 class="text-2xl font-semibold mb-6">Настройки</h1>
+
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h4 class="text-lg font-semibold mb-4">Конфигуриране на празници</h4>
+    <hr class="mb-6" />
+
+    <form asp-action="AddHoliday" method="post" class="space-y-6">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
+
+        <div class="form-group">
+            <label for="Date" class="block font-medium text-gray-700">Дата</label>
+            <input type="date" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="Date" name="Date" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="block font-medium text-gray-700">Описание</label>
+            <input type="text" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" id="Description" name="Description" required />
+        </div>
+
+        <div class="flex justify-center">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 font-bold text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                Добави празник
+            </button>
+        </div>
+    </form>
+
+    <h3 class="text-lg font-semibold mb-4 mt-6">Списък с празници</h3>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Дата</th>
+                <th>Описание</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var holiday in Model)
+            {
+                <tr>
+                    <td>@holiday.Date.ToString("yyyy-MM-dd")</td>
+                    <td>@holiday.Description</td>
+                    <td>
+                        <form asp-action="RemoveHoliday" method="post" style="display:inline-block;">
+                            <input type="hidden" name="id" value="@holiday.Id" />
+                            <button type="submit" class="btn btn-danger">Премахни</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
