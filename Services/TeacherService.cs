@@ -7,13 +7,11 @@ using SchoolAdministrationSystem.Services;
 
 public class TeacherService : ITeacherService
 {
-    private readonly ApplicationDbContext _context;
     private readonly ITeacherRepository _teacherRepository;
     private readonly IMapper _mapper;
 
-    public TeacherService(ApplicationDbContext context, ITeacherRepository teacherRepository, IMapper mapper)
+    public TeacherService(ITeacherRepository teacherRepository, IMapper mapper)
     {
-        _context = context;
         _teacherRepository = teacherRepository;
         _mapper = mapper;
     }
@@ -38,8 +36,7 @@ public class TeacherService : ITeacherService
 
     public async Task<TeacherDTO> GetTeacherByIdAsync(int id)
     {
-        var teacher = await _context.Teachers
-            .FirstOrDefaultAsync(t => t.Id == id);
+        var teacher = await _teacherRepository.GetTeacherByIdAsync(id);
         return teacher == null ? null : _mapper.Map<TeacherDTO>(teacher);
     }
 

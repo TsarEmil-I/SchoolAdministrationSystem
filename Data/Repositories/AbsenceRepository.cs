@@ -12,7 +12,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
             _context = context;
         }
 
-        // Get all absences with related student and class information
         public async Task<List<Absence>> GetAllAbsencesAsync()
         {
             return await _context.Absences
@@ -21,7 +20,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
                 .ToListAsync();
         }
 
-        // Get absence by ID with related student and class information
         public async Task<Absence?> GetAbsenceByIdAsync(int id)
         {
             return await _context.Absences
@@ -31,7 +29,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        // Create a new absence record
         public async Task<int> CreateAbsenceAsync(Absence absence)
         {
             _context.Absences.Add(absence);
@@ -40,7 +37,7 @@ namespace SchoolAdministrationSystem.Data.Repositories
             return absence.Id;
         }
 
-        // Update an existing absence record
+        
         public async Task<bool> UpdateAbsenceAsync(Absence absence)
         {
             _context.Absences.Update(absence);
@@ -49,7 +46,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
             return true;
         }
 
-        // Delete an absence record by ID
         public async Task<bool> DeleteAbsenceAsync(int id)
         {
             var absence = await _context.Absences.FindAsync(id);

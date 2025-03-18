@@ -1,80 +1,61 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using SchoolAdministrationSystem.Data.Entities;
+using SchoolAdministrationSystem.Data.Repositories;
 using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Services;
 
 
 public class ClassService : IClassService
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IClassRepository _classRepository;
+    private readonly ITeacherRepository _teacherRepository;
     private readonly IMapper _mapper;
 
-    public ClassService(ApplicationDbContext context, IMapper mapper)
+    public ClassService(IClassRepository classRepository, ITeacherRepository teacherRepository, IMapper mapper)
     {
-        _context = context;
+        _classRepository = classRepository;
+        _teacherRepository = teacherRepository;
         _mapper = mapper;
     }
 
     public async Task<IEnumerable<ClassDTO>> GetAllClassesAsync()
     {
-        var classes = await _context.Classes
-            .Include(c => c.Teacher)
-            .ToListAsync();
+        var classes = await _classRepository.GetAllClassesAsync();
         return _mapper.Map<IEnumerable<ClassDTO>>(classes);
     }
 
     public async Task<ClassDTO> GetClassByIdAsync(int id)
     {
-        var classEntity = await _context.Classes
-            .Include(c => c.Teacher)
-            .FirstOrDefaultAsync(c => c.Id == id);
-
+        var classEntity = await _classRepository.GetClassByIdAsync(id);
         return classEntity == null ? null : _mapper.Map<ClassDTO>(classEntity);
     }
 
     public async Task<ClassDTO> CreateClassAsync(ClassDTO classDto)
     {
         var classEntity = _mapper.Map<Class>(classDto);
-
-        classEntity.Teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.Id == classDto.TeacherId);
+        classEntity.Teacher = await _teacherRepository.GetTeacherByIdAsync(classDto.TeacherId);
 
         if (classEntity.Teacher == null)
         {
-            throw new Exception("Invalid teacher selected.");
+            throw new Exception("Невалиден клас");
         }
 
-        _context.Classes.Add(classEntity);
-        await _context.SaveChangesAsync();
+        var createdClassId = await _classRepository.CreateClassAsync(classEntity);
+        classEntity.Id = createdClassId;
 
         return _mapper.Map<ClassDTO>(classEntity);
     }
 
     public async Task<ClassDTO> UpdateClassAsync(int id, ClassDTO classDto)
     {
-        var existingClass = await _context.Classes.FindAsync(id);
-        if (existingClass == null)
-        {
-            return null;
-        }
-
-        _mapper.Map(classDto, existingClass);
-        _context.Classes.Update(existingClass);
-        await _context.SaveChangesAsync();
-
-        return _mapper.Map<ClassDTO>(existingClass);
+        var classEntity = _mapper.Map<Class>(classDto);
+        var updatedClass = await _classRepository.UpdateClassAsync(id, classEntity);
+        return updatedClass == null ? null : _mapper.Map<ClassDTO>(updatedClass);
     }
+
 
     public async Task<bool> DeleteClassAsync(int id)
     {
-        var classEntity = await _context.Classes.FindAsync(id);
-        if (classEntity == null)
-        {
-            return false;
-        }
-
-        _context.Classes.Remove(classEntity);
-        await _context.SaveChangesAsync();
-        return true;
+        return await _classRepository.DeleteClassAsync(id);
     }
 }

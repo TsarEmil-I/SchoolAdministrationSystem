@@ -1,40 +1,38 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SchoolAdministrationSystem.Data.Entities;
+using SchoolAdministrationSystem.Data.Repositories;
 using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Services;
 
 public class StudentService : IStudentService
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IStudentRepository _studentRepository;
+    private readonly IClassRepository _classRepository;
     private readonly IMapper _mapper;
 
-    public StudentService(ApplicationDbContext context, IMapper mapper)
+    public StudentService(IStudentRepository studentRepository, IClassRepository classRepository, IMapper mapper)
     {
-        _context = context;
+        _studentRepository = studentRepository;
+        _classRepository = classRepository;
         _mapper = mapper;
     }
 
     public async Task<IEnumerable<StudentDTO>> GetAllStudentsByClassIdAsync(int classId)
     {
-        var students = await _context.Students
-            .Where(s => s.ClassId == classId)
-            .Include(s => s.Class)
-            .ToListAsync();
+        var students = await _studentRepository.GetStudentsByClassIdAsync(classId);
         return _mapper.Map<IEnumerable<StudentDTO>>(students);
     }
 
     public async Task<List<StudentDTO>> GetAllStudentsAsync()
     {
-        var students = await _context.Students.ToListAsync();
+        var students = await _studentRepository.GetAllStudentsAsync();
         return _mapper.Map<List<StudentDTO>>(students);
     }
 
     public async Task<StudentDTO> GetStudentByIdAsync(int id)
     {
-        var student = await _context.Students
-            .Include(s => s.Class)
-            .FirstOrDefaultAsync(s => s.Id == id);
+        var student = await _studentRepository.GetStudentByIdAsync(id);
         return student == null ? null : _mapper.Map<StudentDTO>(student);
     }
 
@@ -42,44 +40,34 @@ public class StudentService : IStudentService
     {
         var studentEntity = _mapper.Map<Student>(studentDto);
 
-        studentEntity.Class = await _context.Classes.FindAsync(studentDto.ClassId);
+        studentEntity.Class = await _classRepository.GetClassByIdAsync(studentDto.ClassId);
 
         if (studentEntity.Class == null)
         {
             throw new Exception("Invalid class selected.");
         }
 
-        _context.Students.Add(studentEntity);
-        await _context.SaveChangesAsync();
+        await _studentRepository.CreateStudentAsync(studentEntity);
 
         return _mapper.Map<StudentDTO>(studentEntity);
     }
 
     public async Task<StudentDTO> UpdateStudentAsync(int id, StudentDTO studentDto)
     {
-        var existingStudent = await _context.Students.FindAsync(id);
+        var existingStudent = await _studentRepository.GetStudentByIdAsync(id);
         if (existingStudent == null)
         {
             return null;
         }
 
         _mapper.Map(studentDto, existingStudent);
-        _context.Students.Update(existingStudent);
-        await _context.SaveChangesAsync();
+        await _studentRepository.UpdateStudentAsync(existingStudent);
 
         return _mapper.Map<StudentDTO>(existingStudent);
     }
 
     public async Task<bool> DeleteStudentAsync(int id)
     {
-        var student = await _context.Students.FindAsync(id);
-        if (student == null)
-        {
-            return false;
-        }
-
-        _context.Students.Remove(student);
-        await _context.SaveChangesAsync();
-        return true;
+        return await _studentRepository.DeleteStudentAsync(id);
     }
 }

@@ -34,6 +34,33 @@ namespace SchoolAdministrationSystem.Data.Repositories
 
             return student.Id;
         }
+
+        public async Task UpdateStudentAsync(Student student)
+        {
+            _context.Students.Update(student);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteStudentAsync(int id)
+        {
+            var student = await _context.Students.FindAsync(id);
+            if (student == null)
+            {
+                return false;
+            }
+
+            _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<List<Student>> GetStudentsByClassIdAsync(int classId)
+        {
+            return await _context.Students
+                .Where(s => s.ClassId == classId)
+                .Include(s => s.Class)
+                .ToListAsync();
+        }
     }
 }
 

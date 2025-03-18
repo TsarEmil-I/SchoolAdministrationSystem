@@ -38,6 +38,33 @@ namespace SchoolAdministrationSystem.Data.Repositories
 
             return classItem.Id;
         }
+
+        public async Task<Class> UpdateClassAsync(int id, Class classItem)
+        {
+            var existingClass = await _context.Classes.FindAsync(id);
+            if (existingClass == null)
+            {
+                return null;
+            }
+
+            _context.Entry(existingClass).CurrentValues.SetValues(classItem);
+            await _context.SaveChangesAsync();
+
+            return existingClass;
+        }
+
+        public async Task<bool> DeleteClassAsync(int id)
+        {
+            var classEntity = await _context.Classes.FindAsync(id);
+            if (classEntity == null)
+            {
+                return false;
+            }
+
+            _context.Classes.Remove(classEntity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
 
