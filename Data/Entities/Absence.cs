@@ -29,32 +29,7 @@ namespace SchoolAdministrationSystem.Data.Entities
         [DisplayName("Ученик")]
         public virtual Student? Student { get; set; }
 
-        public int Days
-        {
-            get
-            {
-                return DaysBetween(Start, End);
-            }
-        }
-
-        int DaysBetween(DateOnly d1, DateOnly d2)
-        {
-            DateTime dt1 = d1.ToDateTime(TimeOnly.MinValue);
-            DateTime dt2 = d2.ToDateTime(TimeOnly.MinValue);
-
-            int weekdayCount = 0;
-
-            for (DateTime current = dt1; current <= dt2; current = current.AddDays(1))
-            {
-                if (current.DayOfWeek != DayOfWeek.Saturday && current.DayOfWeek != DayOfWeek.Sunday)
-                {
-                    weekdayCount++;
-                }
-            }
-
-
-            return weekdayCount;
-        }
+        public int Days { get; set; }
 
     }
 }

@@ -46,10 +46,6 @@ namespace SchoolAdministrationSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AbsenceDTO absenceDto)
         {
-            if(absenceDto.Days > 5)
-            {
-                ModelState.AddModelError("Days", "Ученикът не може да използва повече от 5 учебни дни наведнъж!");
-            }
 
             if (!ModelState.IsValid)
             {

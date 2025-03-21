@@ -3,19 +3,22 @@ using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.Data.Repositories;
 using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Services;
+using SchoolAdministrationSystem.Utils;
 
 public class AbsenceService : IAbsenceService
 {
     private readonly IAbsenceRepository _absenceRepository;
     private readonly IStudentRepository _studentRepository;
     private readonly IClassRepository _classRepository;
+    private readonly IHolidayRepository _holidayRepository;
     private readonly IMapper _mapper;
 
-    public AbsenceService(IAbsenceRepository absenceRepository, IStudentRepository studentRepository, IClassRepository classRepository, IMapper mapper)
+    public AbsenceService(IAbsenceRepository absenceRepository, IStudentRepository studentRepository, IClassRepository classRepository, IHolidayRepository holidayRepository, IMapper mapper)
     {
         _absenceRepository = absenceRepository;
         _studentRepository = studentRepository;
         _classRepository = classRepository;
+        _holidayRepository = holidayRepository; 
         _mapper = mapper;
     }
 
@@ -37,15 +40,21 @@ public class AbsenceService : IAbsenceService
 
         absence.Student = await _studentRepository.GetStudentByIdAsync(absence.StudentId);
         absence.Class = await _classRepository.GetClassByIdAsync(absence.ClassId);
+        absence.Days = DaysDifferenceUtil.CalculateWorkingDays(absence.Start.ToDateTime(TimeOnly.MinValue), absence.End.ToDateTime(TimeOnly.MinValue), await _holidayRepository.GetHolidaysAsync());
 
         if (absence.Student == null || absence.Class == null)
         {
             throw new Exception("Невалиден ученик или клас!");
         }
 
-        if (absence.Start > absence.End) 
+        if (absence.Start > absence.End)
         {
             throw new ArgumentException("Не може началната дата да е по-голяма от крайната!");
+        }
+
+        if (absenceDto.Days > 5)
+        {
+            throw new ArgumentException("Ученикът не може да използва повече от 5 учебни дни наведнъж!");
         }
 
         if (absence.Start.ToDateTime(TimeOnly.MinValue) < DateTime.Today)
@@ -119,6 +128,7 @@ public class AbsenceService : IAbsenceService
     private string GenerateSequenceNumber(Absence absence)
     {
         var classEntity = absence.Class;
+
         if (classEntity == null)
         {
             throw new Exception("Този клас е невалиден");

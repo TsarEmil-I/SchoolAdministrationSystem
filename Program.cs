@@ -4,6 +4,7 @@ using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.Data.Repositories;
 using SchoolAdministrationSystem.Data.Seeders;
 using SchoolAdministrationSystem.Services;
+using SchoolAdministrationSystem.Utils;
 
 namespace SchoolAdministrationSystem
 {
@@ -28,6 +29,7 @@ namespace SchoolAdministrationSystem
             builder.Services.AddScoped<StudentService>(); 
             builder.Services.AddScoped<TeacherService>();
 
+            builder.Services.AddScoped<IHolidayRepository, HolidayRepository>();
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
             builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
             builder.Services.AddScoped<IAbsenceRepository, AbsenceRepository>();

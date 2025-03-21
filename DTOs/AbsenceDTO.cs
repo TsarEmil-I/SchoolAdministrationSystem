@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace SchoolAdministrationSystem.DTOs
 {
     public class AbsenceDTO : BaseDTO
-    {
+    {      
         [DisplayName("Входящ номер")]
         public string? SequenceNumber { get; set; }
 
@@ -37,46 +37,6 @@ namespace SchoolAdministrationSystem.DTOs
 
         [DisplayName("Ученик")]
         public virtual StudentDTO? Student { get; set; }
-
-        [JsonIgnore]
-        public virtual List<Holiday>? Holidays { get; set; } // idk
-            
-        public List<DateTime>? HolidayTimes // idk
-        {
-            get
-            {
-                var h = Holidays?.Select(h => h.Date).ToList();
-                return h ?? new List<DateTime>();
-            }
-
-        }
-
-        public int Days
-        {
-            get
-            {
-                return DaysBetween(Start, End);
-            }
-        }
-
-        int DaysBetween(DateOnly d1, DateOnly d2)
-        {
-            DateTime dt1 = d1.ToDateTime(TimeOnly.MinValue);
-            DateTime dt2 = d2.ToDateTime(TimeOnly.MinValue);
-
-            int weekdayCount = 0;
-
-            for (DateTime current = dt1; current <= dt2; current = current.AddDays(1))
-            {
-                if (current.DayOfWeek != DayOfWeek.Saturday && current.DayOfWeek != DayOfWeek.Sunday && !HolidayTimes.Contains(current)) // idk
-                {
-                    weekdayCount++;
-                }
-            }
-
-
-            return weekdayCount;
-        }
-
+        public int Days { get; set; }
     }
 }
