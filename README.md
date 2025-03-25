@@ -3,7 +3,7 @@ This project is a School Administration System designed to help streamline the a
 
 ## 1. Attendance Tracking
 
-+ Allow students to submit requests for absences due to personal reasons (e.g., sick leave, family matters).
++ Allow parents to submit requests for absences due to personal reasons (e.g., sick leave, family matters).
 + Automated approval workflows for absence requests that notify the relevant teachers and staff.
 + Generate attendance reports for both students and administrators to monitor attendance trends over time.
   
