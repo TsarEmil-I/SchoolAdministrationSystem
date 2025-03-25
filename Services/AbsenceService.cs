@@ -38,6 +38,8 @@ public class AbsenceService : IAbsenceService
     {
         var absence = _mapper.Map<Absence>(absenceDto);
 
+        var allAbsences = await _absenceRepository.GetAllAbsencesAsync();
+        var studentAbsences = allAbsences.Where(a => a.StudentId == absence.StudentId);
         absence.Student = await _studentRepository.GetStudentByIdAsync(absence.StudentId);
         absence.Class = await _classRepository.GetClassByIdAsync(absence.ClassId);
         absence.Days = DaysDifferenceUtil.CalculateWorkingDays(absence.Start.ToDateTime(TimeOnly.MinValue), absence.End.ToDateTime(TimeOnly.MinValue), await _holidayRepository.GetHolidaysAsync());
@@ -52,7 +54,7 @@ public class AbsenceService : IAbsenceService
             throw new ArgumentException("Не може началната дата да е по-голяма от крайната!");
         }
 
-        if (absenceDto.Days > 5)
+        if (absence.Days > 5)
         {
             throw new ArgumentException("Ученикът не може да използва повече от 5 учебни дни наведнъж!");
         }
@@ -70,6 +72,14 @@ public class AbsenceService : IAbsenceService
             throw new ArgumentException($"Ученикът няма достатъчно оставащи дни! Оставащи дни: {leftDays}");
         }
 
+        foreach (var existingAbsence in studentAbsences)
+        {
+            if (absence.Start <= existingAbsence.End && absence.End >= existingAbsence.Start)
+            {
+                throw new ArgumentException("Датите на отсъствието се припокриват с друго отсъствие!");
+            }
+        }
+
         await _absenceRepository.CreateAbsenceAsync(absence);
 
         absence.SequenceNumber = GenerateSequenceNumber(absence);
@@ -81,12 +91,21 @@ public class AbsenceService : IAbsenceService
     public async Task<AbsenceDTO> UpdateAbsenceAsync(int id, AbsenceDTO absenceDto)
     {
         var existingAbsence = await _absenceRepository.GetAbsenceByIdAsync(id);
+        absenceDto.Days = DaysDifferenceUtil.CalculateWorkingDays(absenceDto.Start.ToDateTime(TimeOnly.MinValue), absenceDto.End.ToDateTime(TimeOnly.MinValue), await _holidayRepository.GetHolidaysAsync());
         int absenceDays = absenceDto.Days;
         int leftDays = existingAbsence.Student.LeftAbsenceDays;
+
+        var allAbsences = await _absenceRepository.GetAllAbsencesAsync();
+        var studentAbsences = allAbsences.Where(a => a.StudentId == absenceDto.StudentId);
 
         if (existingAbsence == null)
         {
             return null;
+        }
+
+        if (absenceDto.Days > 5)
+        {
+            throw new ArgumentException("Ученикът не може да използва повече от 5 учебни дни наведнъж!");
         }
 
         if (absenceDto.Start > absenceDto.End)
@@ -104,7 +123,20 @@ public class AbsenceService : IAbsenceService
             throw new ArgumentException($"Ученикът няма достатъчно оставащи дни! Оставащи дни: {leftDays}");
         }
 
-        _mapper.Map(absenceDto, existingAbsence);
+        foreach (var aliveAbsence in studentAbsences)
+        {
+            if (absenceDto.Start <= aliveAbsence.End && absenceDto.End >= aliveAbsence.Start)
+            {
+                throw new ArgumentException("Датите на отсъствието се припокриват с друго отсъствие!");
+            }
+        }
+
+        existingAbsence.Start = absenceDto.Start;
+        existingAbsence.End = absenceDto.End;
+        existingAbsence.Reason = absenceDto.Reason;
+        existingAbsence.StudentId = absenceDto.StudentId;
+        existingAbsence.ClassId = absenceDto.ClassId;
+
         await _absenceRepository.UpdateAbsenceAsync(existingAbsence);
 
         existingAbsence.SequenceNumber = GenerateSequenceNumber(existingAbsence);

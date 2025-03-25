@@ -54,6 +54,6 @@ namespace SchoolAdministrationSystem.Data.Entities
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<Absence> Absences { get; set; }
-        public DbSet<Holiday> Holidays { get; set; } // idk
+        public DbSet<Holiday> Holidays { get; set; } 
     }
 }

@@ -5,7 +5,7 @@ using SchoolAdministrationSystem.Data.Entities;
 namespace SchoolAdministrationSystem.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class SettingsController : Controller // idk
+    public class SettingsController : Controller 
     {
         private readonly ApplicationDbContext _context;
 
