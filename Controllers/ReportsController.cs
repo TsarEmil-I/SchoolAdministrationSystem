@@ -17,11 +17,14 @@ namespace SchoolAdministrationSystem.Controllers
     {
         private readonly IStudentService _studentService;
         private readonly IClassService _classService;
+        private readonly IAbsenceService _absenceService;
 
-        public ReportsController(IStudentService studentService, IClassService classService)
+
+        public ReportsController(IStudentService studentService, IClassService classService, IAbsenceService absenceService)
         {
             _studentService = studentService;
             _classService = classService;
+            _absenceService = absenceService;
         }
 
         // GET: Reports/Create
@@ -44,13 +47,19 @@ namespace SchoolAdministrationSystem.Controllers
         // POST: Reports/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReportType,StudentId,ClassId,StartDate,EndDate,Id")] ReportDTO reportRequestDTO)
+        public async Task<IActionResult> Create(ReportDTO reportRequestDTO)
         {
             if (ModelState.IsValid)
             {
-                //_context.Add(reportRequestDTO);
-                //await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (reportRequestDTO.ReportType == "student")
+                {
+                    return RedirectToAction("ListByStudent", "Absences", new { studentId = reportRequestDTO.StudentId.Value });
+                }
+
+                else if (reportRequestDTO.ReportType == "class")
+                {
+                    return RedirectToAction("ListByClass", "Absences", new { classId = reportRequestDTO.ClassId.Value });
+                }
             }
 
             var students = await _studentService.GetAllStudentsAsync();

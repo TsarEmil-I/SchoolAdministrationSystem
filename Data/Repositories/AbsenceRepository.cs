@@ -56,5 +56,23 @@ namespace SchoolAdministrationSystem.Data.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<List<Absence>> GetAllAbsencesByStudentIdAsync(int studentId)
+        {
+            return await _context.Absences
+                .Include(a => a.Student)
+                .Include(a => a.Class)
+                .Where(a => a.StudentId == studentId)
+                .ToListAsync();
+        }
+
+        public async Task<List<Absence>> GetAllAbsencesByClassIdAsync(int classId)
+        {
+            return await _context.Absences
+                .Include(a => a.Student)
+                .Include(a => a.Class)
+                .Where(a => a.ClassId == classId)
+                .ToListAsync();
+        }
     }
 }

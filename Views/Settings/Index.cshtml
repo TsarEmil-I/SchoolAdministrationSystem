@@ -48,7 +48,9 @@
                     <td>
                         <form asp-action="RemoveHoliday" method="post" style="display:inline-block;">
                             <input type="hidden" name="id" value="@holiday.Id" />
-                            <button type="submit" class="btn btn-danger">Премахни</button>
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-sm rounded-md min-w-[100px] whitespace-nowrap">
+                                Премахни ✗
+                            </button>
                         </form>
                     </td>
                 </tr>

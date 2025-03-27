@@ -33,6 +33,17 @@ public class AbsenceService : IAbsenceService
         var absence = await _absenceRepository.GetAbsenceByIdAsync(id);
         return absence == null ? null : _mapper.Map<AbsenceDTO>(absence);
     }
+    public async Task<List<AbsenceDTO>> GetAbsencesByStudentIdAsync(int studentId)
+    {
+        var absences = await _absenceRepository.GetAllAbsencesByStudentIdAsync(studentId);
+        return _mapper.Map<List<AbsenceDTO>>(absences);
+    }
+
+    public async Task<List<AbsenceDTO>> GetAbsencesByClassIdAsync(int classId)
+    {
+        var absences = await _absenceRepository.GetAllAbsencesByClassIdAsync(classId);
+        return _mapper.Map<List<AbsenceDTO>>(absences);
+    }
 
     public async Task<AbsenceDTO> CreateAbsenceAsync(AbsenceDTO absenceDto)
     {

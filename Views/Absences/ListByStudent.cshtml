@@ -1,14 +1,14 @@
-﻿@model IEnumerable<StudentDTO>
+﻿@model IEnumerable<AbsenceDTO>
 
 @{
-    ViewData["Title"] = "Ученици";
+    ViewData["Title"] = "Отсъствия";
 }
 
-<h1 class="text-2xl font-semibold mb-6">Ученици</h1>
+<h1 class="text-2xl font-semibold mb-6">Отсъствия на ученик</h1>
 
 <p class="mb-4">
     <a asp-action="Create" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
-        ✚ Добави
+        + Добави
     </a>
 </p>
 
@@ -17,27 +17,24 @@
         <thead>
             <tr class="bg-gray-100">
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                    @Html.DisplayNameFor(model => model.FirstName) 
+                    @Html.DisplayNameFor(model => model.SequenceNumber)
                 </th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                    @Html.DisplayNameFor(model => model.MiddleName)
+                    @Html.DisplayNameFor(model => model.Reason)
                 </th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                    @Html.DisplayNameFor(model => model.LastName) 
+                    @Html.DisplayNameFor(model => model.Start)
                 </th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                    @Html.DisplayNameFor(model => model.Gender) 
+                    @Html.DisplayNameFor(model => model.End)
                 </th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                    @Html.DisplayNameFor(model => model.Age) 
+                    @Html.DisplayNameFor(model => model.Student)
                 </th>
                 <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                    @Html.DisplayNameFor(model => model.Class.Speciality) 
+                    @Html.DisplayNameFor(model => model.Class)
                 </th>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600">
-                    @Html.DisplayNameFor(model => model.LeftAbsenceDays) 
-                </th>
-                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600"></th> 
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-600"></th>
             </tr>
         </thead>
         <tbody>
@@ -45,38 +42,38 @@
             {
                 <tr class="border-t border-gray-200">
                     <td class="px-6 py-4 text-sm text-gray-600">
-                        @Html.DisplayFor(modelItem => item.FirstName)
+                        @Html.DisplayFor(modelItem => item.SequenceNumber)
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-600">
-                        @Html.DisplayFor(modelItem => item.MiddleName)
+                        @Html.DisplayFor(modelItem => item.Reason)
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-600">
-                        @Html.DisplayFor(modelItem => item.LastName)
+                        @Html.DisplayFor(modelItem => item.Start)
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-600">
-                        @Html.DisplayFor(modelItem => item.Gender)
+                        @Html.DisplayFor(modelItem => item.End)
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-600">
-                        @Html.DisplayFor(modelItem => item.Age)
+                        @Html.DisplayFor(modelItem => item.Student.FullName)
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-600">
                         @Html.DisplayFor(modelItem => item.Class.Speciality)
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-600">
-                        @Html.DisplayFor(modelItem => item.LeftAbsenceDays)
-                    </td>
-                    <td class="px-6 py-4 text-sm text-gray-600">
                         <div class="flex space-x-2">
+                            <!-- Edit Button -->
                             <a asp-action="Edit" asp-route-id="@item.Id" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                                ✎ Редактирай
+                                Редактирай
                             </a>
 
+                            <!-- Details Button -->
                             <a asp-action="Details" asp-route-id="@item.Id" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                ⓘ Информация
+                                Информация
                             </a>
 
+                            <!-- Delete Button -->
                             <a asp-action="Delete" asp-route-id="@item.Id" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400">
-                                ✗ Премахни
+                                Премахни
                             </a>
                         </div>
                     </td>

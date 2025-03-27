@@ -3,17 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.DTOs;
+using SchoolAdministrationSystem.Services;
 
 namespace SchoolAdministrationSystem.Controllers
 {
     [Authorize(Roles = "Admin, Teacher")]
     public class AbsencesController : Controller
     {
-        private readonly AbsenceService _absenceService;
-        private readonly ClassService _classService;
-        private readonly StudentService _studentService;
+        private readonly IAbsenceService _absenceService;
+        private readonly IClassService _classService;
+        private readonly IStudentService _studentService;
 
-        public AbsencesController(AbsenceService absenceService, ClassService classService, StudentService studentService)
+        public AbsencesController(IAbsenceService absenceService, IClassService classService, IStudentService studentService)
         {
             _absenceService = absenceService;
             _classService = classService;
@@ -23,6 +24,20 @@ namespace SchoolAdministrationSystem.Controllers
         public async Task<IActionResult> Index()
         {
             var absences = await _absenceService.GetAllAbsencesAsync();
+            return View(absences);
+        }
+
+        [HttpGet("Absences/ListByStudent/{studentId}")]
+        public async Task<IActionResult> ListByStudent(int studentId)
+        {
+            var absences = await _absenceService.GetAbsencesByStudentIdAsync(studentId);
+            return View(absences);
+        }
+
+        [HttpGet("Absences/ListByClass/{classId}")]
+        public async Task<IActionResult> ListByClass(int classId)
+        {
+            var absences = await _absenceService.GetAbsencesByClassIdAsync(classId);
             return View(absences);
         }
 
