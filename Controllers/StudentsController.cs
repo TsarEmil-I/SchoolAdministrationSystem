@@ -2,16 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.DTOs;
+using SchoolAdministrationSystem.Services;
 
 namespace SchoolAdministrationSystem.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class StudentsController : Controller
     {
-        private readonly StudentService _studentService;
-        private readonly ClassService _classService;
+        private readonly IStudentService _studentService;
+        private readonly IClassService _classService;
 
-        public StudentsController(StudentService studentService, ClassService classService)
+        public StudentsController(IStudentService studentService, IClassService classService)
         {
             _studentService = studentService;
             _classService = classService;

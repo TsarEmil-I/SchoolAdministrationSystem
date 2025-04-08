@@ -14,10 +14,10 @@ namespace SchoolAdministrationSystem.Data.Entities
         public string Reason { get; set; }
         [Required]
         [DisplayName("От дата")]
-        public DateOnly Start { get; set; }
+        public DateTime Start { get; set; }
         [Required]
         [DisplayName("До дата")]
-        public DateOnly End { get; set; }
+        public DateTime End { get; set; }
 
         [Required]
         public int ClassId { get; set; }

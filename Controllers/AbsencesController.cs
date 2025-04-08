@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SchoolAdministrationSystem.Controllers
 {
@@ -38,6 +39,19 @@ namespace SchoolAdministrationSystem.Controllers
         public async Task<IActionResult> ListByClass(int classId)
         {
             var absences = await _absenceService.GetAbsencesByClassIdAsync(classId);
+            return View(absences);
+        }
+
+        [HttpGet("Absences/ListByClassPeriod/{classId}/{start}/{end}")]  
+        public async Task<IActionResult> ListByClassPeriod(int classId, string start, string end)
+        {
+            var decodedStart = Uri.UnescapeDataString(start);
+            var decodedEnd = Uri.UnescapeDataString(end);
+            DateTime.TryParseExact(decodedStart, "MM/dd/yyyy HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out DateTime startDate);
+            DateTime.TryParseExact(decodedEnd, "MM/dd/yyyy HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out DateTime endDate);
+            var absences = await _absenceService.GetAbsencesByClassIdPeriodAsync(classId, startDate, endDate);
+            ViewData["Start"] = startDate.ToString("dd/MM/yyyy");
+            ViewData["End"] = endDate.ToString("dd/MM/yyyy");
             return View(absences);
         }
 

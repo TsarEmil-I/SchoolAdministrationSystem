@@ -74,5 +74,14 @@ namespace SchoolAdministrationSystem.Data.Repositories
                 .Where(a => a.ClassId == classId)
                 .ToListAsync();
         }
+
+        public async Task<List<Absence>> GetAllAbsencesByClassIdPeriodAsync(int classId, DateTime start, DateTime end)
+        {
+            return await _context.Absences
+                .Include(a => a.Student)
+                .Include(a => a.Class)
+                .Where(a => a.ClassId == classId && (a.Start <= end && a.Start >= start))
+                .ToListAsync();
+        }
     }
 }

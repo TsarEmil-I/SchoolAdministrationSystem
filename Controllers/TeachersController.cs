@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Models;
+using SchoolAdministrationSystem.Services;
 using System.Threading.Tasks;
 
 namespace SchoolAdministrationSystem.Controllers
@@ -11,9 +12,9 @@ namespace SchoolAdministrationSystem.Controllers
     [Authorize(Roles = "Admin")]
     public class TeachersController : Controller
     {
-        private readonly TeacherService _teacherService;
+        private readonly ITeacherService _teacherService;
         private readonly UserManager<IdentityUser> _userManager;
-        public TeachersController(TeacherService teacherService, UserManager<IdentityUser> userManager)
+        public TeachersController(ITeacherService teacherService, UserManager<IdentityUser> userManager)
         {
             _teacherService = teacherService;
             _userManager = userManager;

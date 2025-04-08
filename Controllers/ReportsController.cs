@@ -60,6 +60,11 @@ namespace SchoolAdministrationSystem.Controllers
                 {
                     return RedirectToAction("ListByClass", "Absences", new { classId = reportRequestDTO.ClassId.Value });
                 }
+
+                else if (reportRequestDTO.ReportType == "classPeriod")
+                {
+                    return RedirectToAction("ListByClassPeriod", "Absences", new { classId = reportRequestDTO.ClassId.Value, start = reportRequestDTO.StartDate.Value, end = reportRequestDTO.EndDate.Value });
+                }
             }
 
             var students = await _studentService.GetAllStudentsAsync();

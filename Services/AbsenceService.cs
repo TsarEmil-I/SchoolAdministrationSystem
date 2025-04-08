@@ -44,6 +44,11 @@ public class AbsenceService : IAbsenceService
         var absences = await _absenceRepository.GetAllAbsencesByClassIdAsync(classId);
         return _mapper.Map<List<AbsenceDTO>>(absences);
     }
+    public async Task<List<AbsenceDTO>> GetAbsencesByClassIdPeriodAsync(int classId, DateTime start, DateTime end)
+    {
+        var absences = await _absenceRepository.GetAllAbsencesByClassIdPeriodAsync(classId, start, end);
+        return _mapper.Map<List<AbsenceDTO>>(absences);
+    }
 
     public async Task<AbsenceDTO> CreateAbsenceAsync(AbsenceDTO absenceDto)
     {
@@ -53,7 +58,7 @@ public class AbsenceService : IAbsenceService
         var studentAbsences = allAbsences.Where(a => a.StudentId == absence.StudentId);
         absence.Student = await _studentRepository.GetStudentByIdAsync(absence.StudentId);
         absence.Class = await _classRepository.GetClassByIdAsync(absence.ClassId);
-        absence.Days = DaysDifferenceUtil.CalculateWorkingDays(absence.Start.ToDateTime(TimeOnly.MinValue), absence.End.ToDateTime(TimeOnly.MinValue), await _holidayRepository.GetHolidaysAsync());
+        absence.Days = DaysDifferenceUtil.CalculateWorkingDays(DateOnly.FromDateTime(absence.Start).ToDateTime(TimeOnly.MinValue), DateOnly.FromDateTime(absence.End).ToDateTime(TimeOnly.MinValue), await _holidayRepository.GetHolidaysAsync());
 
         if (absence.Student == null || absence.Class == null)
         {
@@ -70,7 +75,7 @@ public class AbsenceService : IAbsenceService
             throw new ArgumentException("Ученикът не може да използва повече от 5 учебни дни наведнъж!");
         }
 
-        if (absence.Start.ToDateTime(TimeOnly.MinValue) < DateTime.Today)
+        if (absence.Start < DateTime.Today)
         {
             throw new ArgumentException("Не може отсъствието да бъде въведено преди днешна дата!");
         }
@@ -102,7 +107,7 @@ public class AbsenceService : IAbsenceService
     public async Task<AbsenceDTO> UpdateAbsenceAsync(int id, AbsenceDTO absenceDto)
     {
         var existingAbsence = await _absenceRepository.GetAbsenceByIdAsync(id);
-        absenceDto.Days = DaysDifferenceUtil.CalculateWorkingDays(absenceDto.Start.ToDateTime(TimeOnly.MinValue), absenceDto.End.ToDateTime(TimeOnly.MinValue), await _holidayRepository.GetHolidaysAsync());
+        absenceDto.Days = DaysDifferenceUtil.CalculateWorkingDays(DateOnly.FromDateTime(absenceDto.Start).ToDateTime(TimeOnly.MinValue), DateOnly.FromDateTime(absenceDto.End).ToDateTime(TimeOnly.MinValue), await _holidayRepository.GetHolidaysAsync());
         int absenceDays = absenceDto.Days;
         int leftDays = existingAbsence.Student.LeftAbsenceDays;
 
@@ -124,7 +129,7 @@ public class AbsenceService : IAbsenceService
             throw new ArgumentException("Не може началната дата да е по-голяма от крайната!");
         }
 
-        if (absenceDto.Start.ToDateTime(TimeOnly.MinValue) < DateTime.Today)
+        if (absenceDto.Start < DateTime.Today)
         {
             throw new ArgumentException("Не може отсъствието да бъде въведено преди днешна дата!");
         }

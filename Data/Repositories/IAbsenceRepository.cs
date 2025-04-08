@@ -7,6 +7,7 @@ namespace SchoolAdministrationSystem.Data.Repositories
         Task<List<Absence>> GetAllAbsencesAsync();
         Task<List<Absence>> GetAllAbsencesByStudentIdAsync(int studentId);
         Task<List<Absence>> GetAllAbsencesByClassIdAsync(int classId);
+        Task<List<Absence>> GetAllAbsencesByClassIdPeriodAsync(int classId, DateTime start, DateTime end);
         Task<Absence?> GetAbsenceByIdAsync(int id);
         Task<int> CreateAbsenceAsync(Absence absence);
         Task<bool> DeleteAbsenceAsync(int id);

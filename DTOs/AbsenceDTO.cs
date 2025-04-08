@@ -17,12 +17,12 @@ namespace SchoolAdministrationSystem.DTOs
         [DisplayName("От")]
         [Required(ErrorMessage = "Това поле е задължително")]
         [DisplayFormat(DataFormatString = "{0:d MMMM yyyyг.}", ApplyFormatInEditMode = true)]
-        public DateOnly Start { get; set; }
+        public DateTime Start { get; set; }
 
         [DisplayName("До")]
         [Required(ErrorMessage = "Това поле е задължително")]
         [DisplayFormat(DataFormatString = "{0:d MMMM yyyyг.}", ApplyFormatInEditMode = true)]
-        public DateOnly End { get; set; }
+        public DateTime End { get; set; }
 
         [Required(ErrorMessage = "Това поле е задължително")]
         [JsonIgnore]
