@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SchoolAdministrationSystem.Data.Entities;
+using SchoolAdministrationSystem.DTOs;
+using SchoolAdministrationSystem.Utils;
 
 namespace SchoolAdministrationSystem.Data.Repositories
 {
     public class AbsenceRepository : IAbsenceRepository
     {
         private readonly ApplicationDbContext _context;
-
         public AbsenceRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -37,7 +39,7 @@ namespace SchoolAdministrationSystem.Data.Repositories
             return absence.Id;
         }
 
-        
+
         public async Task<bool> UpdateAbsenceAsync(Absence absence)
         {
             _context.Absences.Update(absence);
@@ -66,6 +68,19 @@ namespace SchoolAdministrationSystem.Data.Repositories
                 .ToListAsync();
         }
 
+        public async Task<PaginatedListUtil<Absence>> GetPagedAbsencesAsync(int pageNumber, int pageSize)
+        {
+            var absences = await _context.Absences
+                .OrderBy(a => a.Id)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            var totalAbsences = await _context.Absences.CountAsync();
+
+            return new PaginatedListUtil<Absence>(absences, totalAbsences, pageNumber, pageSize);
+        }
+
         public async Task<List<Absence>> GetAllAbsencesByClassIdAsync(int classId)
         {
             return await _context.Absences
@@ -80,7 +95,7 @@ namespace SchoolAdministrationSystem.Data.Repositories
             return await _context.Absences
                 .Include(a => a.Student)
                 .Include(a => a.Class)
-                .Where(a => a.ClassId == classId && (a.Start <= end && a.Start >= start))
+                .Where(a => a.ClassId == classId && a.Start <= end && a.End >= start)
                 .ToListAsync();
         }
     }

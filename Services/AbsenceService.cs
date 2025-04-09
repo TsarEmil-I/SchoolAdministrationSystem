@@ -28,6 +28,15 @@ public class AbsenceService : IAbsenceService
         return _mapper.Map<IEnumerable<AbsenceDTO>>(absences);
     }
 
+    public async Task<PaginatedListUtil<AbsenceDTO>> GetPagedAbsencesAsync(int pageNumber, int pageSize)
+    {
+        var paginatedAbsences = await _absenceRepository.GetPagedAbsencesAsync(pageNumber, pageSize);
+
+        var absenceDTOs = paginatedAbsences.Select(a => _mapper.Map<AbsenceDTO>(a)).ToList();
+
+        return new PaginatedListUtil<AbsenceDTO>(absenceDTOs, paginatedAbsences.TotalPages, paginatedAbsences.PageIndex, paginatedAbsences.PageSize);
+    }
+
     public async Task<AbsenceDTO> GetAbsenceByIdAsync(int id)
     {
         var absence = await _absenceRepository.GetAbsenceByIdAsync(id);

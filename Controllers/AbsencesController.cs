@@ -22,10 +22,10 @@ namespace SchoolAdministrationSystem.Controllers
             _studentService = studentService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 15)
         {
-            var absences = await _absenceService.GetAllAbsencesAsync();
-            return View(absences);
+            var pagedAbsences = await _absenceService.GetPagedAbsencesAsync(pageNumber, pageSize);
+            return View(pagedAbsences);
         }
 
         [HttpGet("Absences/ListByStudent/{studentId}")]
