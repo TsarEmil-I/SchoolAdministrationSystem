@@ -12,6 +12,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
         Task<Teacher> UpdateTeacherAsync(Teacher teacher);
         Task<List<Teacher>> GetAllTeachersWithoutClassesAsync();
         Task<bool> DeleteTeacherAsync(int id);
-
+        Task CreateTeachersFromRangeAsync(List<Teacher> teachers);
     }
 }

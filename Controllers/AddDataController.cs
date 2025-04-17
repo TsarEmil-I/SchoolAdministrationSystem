@@ -13,19 +13,21 @@ public class AddDataController : Controller
     private readonly ApplicationDbContext _context;
     private readonly IClassService _classService;
     private readonly IStudentService _studentService;
+    private readonly ITeacherService _teacherService;
     private readonly IMapper _mapper;
 
-    public AddDataController(ApplicationDbContext context, IMapper mapper, IClassService classService, IStudentService studentService)
+    public AddDataController(ApplicationDbContext context, IMapper mapper, IClassService classService, IStudentService studentService, ITeacherService teacherService)
     {
         _context = context;
         _mapper = mapper;
         _classService = classService;
         _studentService = studentService;
+        _teacherService = teacherService;
     }
 
     public IActionResult Index()
     {
-        return View(); 
+        return View();
     }
 
     [HttpPost]
@@ -72,5 +74,47 @@ public class AddDataController : Controller
         }
 
         return RedirectToAction("Index", "Students");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ImportTeachersCSV(AddDataDTO model)
+    {
+        if (model.CsvFile == null || model.CsvFile.Length == 0)
+        {
+            ModelState.AddModelError("", "Моля, изберете валиден CSV файл.");
+            return View("AddData");
+        }
+
+        using (var stream = new StreamReader(model.CsvFile.OpenReadStream()))
+        {
+            var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = true,
+                Delimiter = ";"
+            };
+
+            using (var csv = new CsvHelper.CsvReader(stream, csvConfig))
+            {
+                var records = csv.GetRecords<ImportTeacherDTO>().ToList();
+                var teachers = new List<TeacherDTO>();
+                foreach (var item in records)
+                {
+                    TeacherDTO teacher = new TeacherDTO()
+                    { 
+                        FirstName = item.FirstName,
+                        MiddleName = item.MiddleName,
+                        LastName = item.LastName,
+                        Email = item.Email,
+                    };
+
+                    teachers.Add(teacher);
+
+                }
+
+                await _teacherService.CreateTeachersFromRangeAsync(teachers);
+            }
+        }
+
+        return RedirectToAction("Index", "Teachers");
     }
 }

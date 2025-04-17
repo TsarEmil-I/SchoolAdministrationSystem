@@ -71,6 +71,12 @@ namespace SchoolAdministrationSystem.Data.Repositories
             await _context.SaveChangesAsync();
             return teacher;
         }
+
+        public async Task CreateTeachersFromRangeAsync(List<Teacher> teachers)
+        {
+            await _context.Teachers.AddRangeAsync(teachers);
+            await _context.SaveChangesAsync();
+        }
     }
 }
 

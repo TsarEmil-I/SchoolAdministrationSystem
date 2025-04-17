@@ -31,6 +31,9 @@ namespace SchoolAdministrationSystem.DTOs
             }
 
         }
+
+        [Required]
+        public string Email { get; set; }
         public int ClassId { get; set; }
 
         [JsonIgnore]

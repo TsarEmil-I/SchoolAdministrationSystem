@@ -9,27 +9,71 @@
     <h4 class="text-lg font-semibold mb-4">Качете CSV файл</h4>
     <hr class="mb-6" />
 
-    <form asp-action="ImportStudentsCSV" method="post" enctype="multipart/form-data" class="space-y-6">
-        <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
+    <div class="form-group">
+        <label for="dataType" class="block font-medium text-gray-700">Тип данни за добавяне</label>
+        <select id="dataType" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" onchange="toggleForms()">
+            <option value="studentsForm">Ученици</option>
+            <option value="teachersForm">Учители</option>
+            <option value="classesForm">Класове</option>
+        </select>
+    </div>
 
+    <form id="studentsForm" asp-action="ImportStudentsCSV" method="post" enctype="multipart/form-data" class="space-y-6">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
         <div class="form-group">
-            <label for="csvFile" class="block font-medium text-gray-700">Изберете CSV файл</label>
+            <label for="csvFile" class="block font-medium text-gray-700">Изберете CSV файл за ученици</label>
             <input type="file" name="csvFile" id="csvFile" accept=".csv"
                    class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
         </div>
-
         <div class="flex justify-center">
             <button type="submit"
-                class="bg-green-500 hover:bg-green-600 font-bold text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
-            Добави данни
+                    class="bg-green-500 hover:bg-green-600 font-bold text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
+                Добави данни
+            </button>
+        </div>
+    </form>
+
+    <form id="teachersForm" asp-action="ImportTeachersCSV" method="post" enctype="multipart/form-data" class="space-y-6" style="display: none;">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
+        <div class="form-group">
+            <label for="csvFile" class="block font-medium text-gray-700">Изберете CSV файл за учители</label>
+            <input type="file" name="csvFile" id="csvFile" accept=".csv"
+                   class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+        </div>
+        <div class="flex justify-center">
+            <button type="submit"
+                    class="bg-green-500 hover:bg-green-600 font-bold text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
+                Добави данни
+            </button>
+        </div>
+    </form>
+
+    <form id="classesForm" asp-action="ImportClassesCSV" method="post" enctype="multipart/form-data" class="space-y-6" style="display: none;">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
+        <div class="form-group">
+            <label for="csvFile" class="block font-medium text-gray-700">Изберете CSV файл за класове</label>
+            <input type="file" name="csvFile" id="csvFile" accept=".csv"
+                   class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+        </div>
+        <div class="flex justify-center">
+            <button type="submit"
+                    class="bg-green-500 hover:bg-green-600 font-bold text-white py-2 px-6 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
+                Добави данни
             </button>
         </div>
     </form>
 </div>
 
 @section Scripts {
+    <script>
+        function toggleForms() {
+            const selectedOption = document.getElementById("dataType").value;
+            document.getElementById("studentsForm").style.display = selectedOption === "studentsForm" ? "block" : "none";
+            document.getElementById("teachersForm").style.display = selectedOption === "teachersForm" ? "block" : "none";
+            document.getElementById("classesForm").style.display = selectedOption === "classesForm" ? "block" : "none";
+        }
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
-

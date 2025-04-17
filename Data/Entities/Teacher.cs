@@ -32,6 +32,8 @@ namespace SchoolAdministrationSystem.Data.Entities
             }
         }
 
+        public string Email { get; set; }  
+
         public int ClassId { get; set; }
 
         [JsonIgnore]

@@ -11,5 +11,6 @@ namespace SchoolAdministrationSystem.Services
         public Task<TeacherDTO> CreateTeacherAsync(TeacherDTO teacherDto);
         public Task<TeacherDTO> UpdateTeacherAsync(int id, TeacherDTO teacherDto);
         public Task<bool> DeleteTeacherAsync(int id);
+        public Task CreateTeachersFromRangeAsync(List<TeacherDTO> teachers);
     }
 }
