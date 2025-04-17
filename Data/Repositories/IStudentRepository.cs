@@ -10,5 +10,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
         Task UpdateStudentAsync(Student student);
         Task<bool> DeleteStudentAsync(int id);
         Task<List<Student>> GetStudentsByClassIdAsync(int classId);
+        Task CreateStudentsFromRangeAsync(List<Student> students);
     }
 }

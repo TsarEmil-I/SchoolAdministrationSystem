@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.Data.Entities;
@@ -14,17 +15,33 @@ namespace SchoolAdministrationSystem.Controllers
         private readonly IAbsenceService _absenceService;
         private readonly IClassService _classService;
         private readonly IStudentService _studentService;
+        private readonly ITeacherService _teacherService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AbsencesController(IAbsenceService absenceService, IClassService classService, IStudentService studentService)
+        public AbsencesController(IAbsenceService absenceService, IClassService classService, IStudentService studentService, ITeacherService teacherService, UserManager<IdentityUser> userManager)
         {
             _absenceService = absenceService;
             _classService = classService;
             _studentService = studentService;
+            _userManager = userManager;
+            _teacherService = teacherService;
         }
 
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 15)
         {
-            var pagedAbsences = await _absenceService.GetPagedAbsencesAsync(pageNumber, pageSize);
+            var pagedAbsences = new Utils.PaginatedListUtil<AbsenceDTO>(new List<AbsenceDTO>(), 0, 0, 0);
+
+            if (User.IsInRole("Admin"))
+            {
+                pagedAbsences = await _absenceService.GetPagedAbsencesAsync(pageNumber, pageSize);
+            }
+
+            else
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var teacher = await _teacherService.GetTeacherByUserIdAsync(user.Id);
+                pagedAbsences = await _absenceService.GetPagedAbsencesByClassIdAsync(teacher.ClassId, pageNumber, pageSize);
+            }
             return View(pagedAbsences);
         }
 
@@ -42,7 +59,7 @@ namespace SchoolAdministrationSystem.Controllers
             return View(absences);
         }
 
-        [HttpGet("Absences/ListByClassPeriod/{classId}/{start}/{end}")]  
+        [HttpGet("Absences/ListByClassPeriod/{classId}/{start}/{end}")]
         public async Task<IActionResult> ListByClassPeriod(int classId, string start, string end)
         {
             var decodedStart = Uri.UnescapeDataString(start);
@@ -91,7 +108,7 @@ namespace SchoolAdministrationSystem.Controllers
             }
             catch (ArgumentException m)
             {
-                ModelState.AddModelError("", m.Message); 
+                ModelState.AddModelError("", m.Message);
                 return View(absenceDto);
             }
 

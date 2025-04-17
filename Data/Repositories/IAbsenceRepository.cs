@@ -15,5 +15,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
         Task<int> CreateAbsenceAsync(Absence absence);
         Task<bool> DeleteAbsenceAsync(int id);
         Task<bool> UpdateAbsenceAsync(Absence absence);
+        Task<PaginatedListUtil<Absence>> GetPagedAbsencesByClassIdAsync(int classId, int pageNumber, int pageSize);
     }
 }

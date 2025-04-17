@@ -1,4 +1,5 @@
 ﻿using SchoolAdministrationSystem.Data.Entities;
+using SchoolAdministrationSystem.DTOs;
 
 namespace SchoolAdministrationSystem.Data.Repositories
 {
@@ -9,6 +10,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
         Task<int> CreateClassAsync(Class classItem);
         Task<Class> UpdateClassAsync(int id, Class classItem);
         Task<bool> DeleteClassAsync(int id);
-
+        Task<Class?> GetClassByClassName(string className);
     }
 }

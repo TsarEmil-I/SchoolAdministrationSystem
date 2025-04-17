@@ -58,4 +58,10 @@ public class ClassService : IClassService
     {
         return await _classRepository.DeleteClassAsync(id);
     }
+
+    public async Task<ClassDTO> GetClassByClassName(string className)
+    {
+        var entity =  await _classRepository.GetClassByClassName(className);
+        return _mapper.Map<ClassDTO>(entity);
+    }
 }

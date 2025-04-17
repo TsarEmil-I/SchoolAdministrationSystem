@@ -44,6 +44,12 @@ namespace SchoolAdministrationSystem.Data.Entities
             modelBuilder.Entity<Absence>().HasKey(a => a.Id);
 
             modelBuilder.Entity<Student>()
+               .HasOne(s => s.Class)
+               .WithMany(c => c.Students)
+               .HasForeignKey(s => s.ClassId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Student>()
             .Property(s => s.Gender)
             .HasConversion(new EnumToStringConverter<Gender>());
 
@@ -54,6 +60,6 @@ namespace SchoolAdministrationSystem.Data.Entities
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<Absence> Absences { get; set; }
-        public DbSet<Holiday> Holidays { get; set; } 
+        public DbSet<Holiday> Holidays { get; set; }
     }
 }

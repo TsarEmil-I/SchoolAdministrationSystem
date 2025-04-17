@@ -198,4 +198,13 @@ public class AbsenceService : IAbsenceService
 
         return $"{classCode}-{studentId}-{leftAbsenceDays}/{currentDate}";
     }
+
+    public async Task<PaginatedListUtil<AbsenceDTO>> GetPagedAbsencesByClassIdAsync(int classId, int pageNumber, int pageSize)
+    {
+        var paginatedAbsences = await _absenceRepository.GetPagedAbsencesByClassIdAsync(classId, pageNumber, pageSize);
+
+        var absenceDTOs = paginatedAbsences.Select(a => _mapper.Map<AbsenceDTO>(a)).ToList();
+
+        return new PaginatedListUtil<AbsenceDTO>(absenceDTOs, paginatedAbsences.TotalPages, paginatedAbsences.PageIndex, paginatedAbsences.PageSize);
+    }
 }

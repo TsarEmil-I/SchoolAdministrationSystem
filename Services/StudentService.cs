@@ -70,4 +70,9 @@ public class StudentService : IStudentService
     {
         return await _studentRepository.DeleteStudentAsync(id);
     }
+
+    public async Task CreateStudentsFromRangeAsync(List<StudentDTO> students)
+    {
+        await _studentRepository.CreateStudentsFromRangeAsync(_mapper.Map<List<Student>>(students));
+    }
 }

@@ -61,6 +61,12 @@ namespace SchoolAdministrationSystem.Data.Repositories
                 .Include(s => s.Class)
                 .ToListAsync();
         }
+
+        public async Task CreateStudentsFromRangeAsync(List<Student> students)
+        {
+            await _context.Students.AddRangeAsync(students);
+            await _context.SaveChangesAsync();
+        }
     }
 }
 

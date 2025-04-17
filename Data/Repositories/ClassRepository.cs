@@ -65,6 +65,15 @@ namespace SchoolAdministrationSystem.Data.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public Task<Class?> GetClassByClassName(string className)
+        {
+            return _context.Classes
+                .Include(c => c.Teacher)
+                .Include(c => c.Students)
+                .Include(c => c.Absences)
+                .FirstOrDefaultAsync(c => c.Speciality == className);
+        }
     }
 }
 

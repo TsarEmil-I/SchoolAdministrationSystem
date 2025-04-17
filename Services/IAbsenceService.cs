@@ -14,6 +14,6 @@ namespace SchoolAdministrationSystem.Services
         public Task<AbsenceDTO> CreateAbsenceAsync(AbsenceDTO absenceDto);
         public Task<AbsenceDTO> UpdateAbsenceAsync(int id, AbsenceDTO absenceDto);
         public Task<bool> DeleteAbsenceAsync(int id);
-        
+        Task<PaginatedListUtil<AbsenceDTO>> GetPagedAbsencesByClassIdAsync(int classId, int pageNumber, int pageSize);
     }
 }

@@ -98,5 +98,19 @@ namespace SchoolAdministrationSystem.Data.Repositories
                 .Where(a => a.ClassId == classId && a.Start <= end && a.End >= start)
                 .ToListAsync();
         }
+
+        public async Task<PaginatedListUtil<Absence>> GetPagedAbsencesByClassIdAsync(int classId, int pageNumber, int pageSize)
+        {
+            var absences = await _context.Absences
+               .Where(item => item.ClassId == classId)
+               .OrderBy(a => a.Id)
+               .Skip((pageNumber - 1) * pageSize)
+               .Take(pageSize)
+               .ToListAsync();
+
+            var totalAbsences = await _context.Absences.CountAsync();
+
+            return new PaginatedListUtil<Absence>(absences, totalAbsences, pageNumber, pageSize);
+        }
     }
 }
