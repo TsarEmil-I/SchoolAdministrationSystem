@@ -52,6 +52,16 @@ namespace SchoolAdministrationSystem.Controllers
                 return View(classDto);
             }
 
+            try
+            {
+                await _classService.CreateClassAsync(classDto);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentException m)
+            {
+                ModelState.AddModelError("", m.Message);
+                return View(classDto);
+            }
 
             await _classService.CreateClassAsync(classDto);
             return RedirectToAction(nameof(Index));

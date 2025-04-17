@@ -32,12 +32,21 @@ public class ClassService : IClassService
 
     public async Task<ClassDTO> CreateClassAsync(ClassDTO classDto)
     {
+        var classes = await _classRepository.GetAllClassesAsync();
         var classEntity = _mapper.Map<Class>(classDto);
         classEntity.Teacher = await _teacherRepository.GetTeacherByIdAsync(classDto.TeacherId);
 
         if (classEntity.Teacher == null)
         {
-            throw new Exception("Невалиден клас");
+            throw new Exception("Невалиден клас.");
+        }
+
+        foreach (var item in classes)
+        {
+            if (item.Speciality == classEntity.Speciality)
+            {
+                throw new ArgumentException("Вече съществува такъв клас.");
+            }
         }
 
         var createdClassId = await _classRepository.CreateClassAsync(classEntity);

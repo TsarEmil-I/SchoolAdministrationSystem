@@ -44,7 +44,7 @@ public class StudentService : IStudentService
 
         if (studentEntity.Class == null)
         {
-            throw new Exception("Invalid class selected.");
+            throw new Exception("Избран е невалиден клас.");
         }
 
         await _studentRepository.CreateStudentAsync(studentEntity);
