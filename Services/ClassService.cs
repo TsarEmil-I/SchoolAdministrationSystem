@@ -4,7 +4,6 @@ using SchoolAdministrationSystem.Data.Repositories;
 using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Services;
 
-
 public class ClassService : IClassService
 {
     private readonly IClassRepository _classRepository;
@@ -68,9 +67,15 @@ public class ClassService : IClassService
         return await _classRepository.DeleteClassAsync(id);
     }
 
-    public async Task<ClassDTO> GetClassByClassName(string className)
+    public async Task<ClassDTO> GetClassByClassNameAsync(string className)
     {
         var entity =  await _classRepository.GetClassByClassName(className);
         return _mapper.Map<ClassDTO>(entity);
+    }
+
+    public async Task CreateClassesFromRangeAsync(List<ClassDTO> classes)
+    {
+        var classEntities =  _mapper.Map<List<Class>>(classes);
+        await _classRepository.CreateClassesFromRangeAsync(classEntities);
     }
 }

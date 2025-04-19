@@ -74,6 +74,12 @@ namespace SchoolAdministrationSystem.Data.Repositories
                 .Include(c => c.Absences)
                 .FirstOrDefaultAsync(c => c.Speciality == className);
         }
+
+        public async Task CreateClassesFromRangeAsync(List<Class> classEntities)
+        {
+            await _context.Classes.AddRangeAsync(classEntities);
+            await _context.SaveChangesAsync();
+        }
     }
 }
 

@@ -11,5 +11,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
         Task<Class> UpdateClassAsync(int id, Class classItem);
         Task<bool> DeleteClassAsync(int id);
         Task<Class?> GetClassByClassName(string className);
+        Task CreateClassesFromRangeAsync(List<Class> classEntities);
     }
 }

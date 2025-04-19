@@ -4,7 +4,6 @@ using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.Data.Repositories;
 using SchoolAdministrationSystem.DTOs;
 using SchoolAdministrationSystem.Services;
-using SchoolAdministrationSystem.Data.Seeders;
 using Microsoft.AspNetCore.Identity;
 
 public class TeacherService : ITeacherService
@@ -95,5 +94,11 @@ public class TeacherService : ITeacherService
     public async Task CreateTeachersFromRangeAsync(List<TeacherDTO> teachers)
     {
         await _teacherRepository.CreateTeachersFromRangeAsync(_mapper.Map<List<Teacher>>(teachers));
+    }
+
+    public async Task<TeacherDTO> GetTeacherByFullNameAsync(string classTeacher)
+    {
+        var teacher = await _teacherRepository.GetTeacherByFullNameAsync(classTeacher);
+        return _mapper.Map<TeacherDTO>(teacher);
     }
 }

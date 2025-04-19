@@ -62,7 +62,7 @@ public class AddDataController : Controller
                         Age = item.Age,
                         Address = item.Address,
                         PhoneNumber = item.PhoneNumber,
-                        ClassId = (await _classService.GetClassByClassName(item.ClassName)).Id
+                        ClassId = (await _classService.GetClassByClassNameAsync(item.ClassName)).Id
                     };
 
                     students.Add(student);
@@ -116,5 +116,44 @@ public class AddDataController : Controller
         }
 
         return RedirectToAction("Index", "Teachers");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ImportClassesCSV(AddDataDTO model)
+    {
+        if (model.CsvFile == null || model.CsvFile.Length == 0)
+        {
+            ModelState.AddModelError("", "Моля, изберете валиден CSV файл.");
+            return View("AddData");
+        }
+
+        using (var stream = new StreamReader(model.CsvFile.OpenReadStream()))
+        {
+            var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = true,
+                Delimiter = ";"
+            };
+
+            using (var csv = new CsvHelper.CsvReader(stream, csvConfig))
+            {
+                var records = csv.GetRecords<ImportClassDTO>().ToList();
+                var classes = new List<ClassDTO>();
+                foreach (var item in records)
+                {
+                    ClassDTO @class = new ClassDTO()
+                    {
+                       Speciality = item.ClassName,
+                       TeacherId = (await _teacherService.GetTeacherByFullNameAsync(item.ClassTeacher)).Id,
+                    };
+
+                    classes.Add(@class);
+                }
+
+                await _classService.CreateClassesFromRangeAsync(classes);
+            }
+        }
+
+        return RedirectToAction("Index", "Classes");
     }
 }

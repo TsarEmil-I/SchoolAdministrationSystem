@@ -13,5 +13,6 @@ namespace SchoolAdministrationSystem.Data.Repositories
         Task<List<Teacher>> GetAllTeachersWithoutClassesAsync();
         Task<bool> DeleteTeacherAsync(int id);
         Task CreateTeachersFromRangeAsync(List<Teacher> teachers);
+        Task<Teacher?> GetTeacherByFullNameAsync(string classTeacher);
     }
 }

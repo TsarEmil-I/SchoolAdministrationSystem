@@ -77,6 +77,13 @@ namespace SchoolAdministrationSystem.Data.Repositories
             await _context.Teachers.AddRangeAsync(teachers);
             await _context.SaveChangesAsync();
         }
+
+        public Task<Teacher?> GetTeacherByFullNameAsync(string classTeacher)
+        {
+            return _context.Teachers
+               .Where(t => (t.FirstName + " " + t.MiddleName + " " + t.LastName) == classTeacher)
+               .FirstOrDefaultAsync();
+        }
     }
 }
 

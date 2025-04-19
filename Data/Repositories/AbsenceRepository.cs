@@ -70,11 +70,24 @@ namespace SchoolAdministrationSystem.Data.Repositories
 
         public async Task<PaginatedListUtil<Absence>> GetPagedAbsencesAsync(int pageNumber, int pageSize)
         {
+            var count = await _context.Absences.CountAsync(); 
             var absences = await _context.Absences
                 .OrderBy(a => a.Id)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            return new PaginatedListUtil<Absence>(absences, count, pageNumber, pageSize);
+        }
+
+        public async Task<PaginatedListUtil<Absence>> GetPagedAbsencesByClassIdAsync(int classId, int pageNumber, int pageSize)
+        {
+            var absences = await _context.Absences
+               .Where(item => item.ClassId == classId)
+               .OrderBy(a => a.Id)
+               .Skip((pageNumber - 1) * pageSize)
+               .Take(pageSize)
+               .ToListAsync();
 
             var totalAbsences = await _context.Absences.CountAsync();
 
@@ -99,18 +112,5 @@ namespace SchoolAdministrationSystem.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<PaginatedListUtil<Absence>> GetPagedAbsencesByClassIdAsync(int classId, int pageNumber, int pageSize)
-        {
-            var absences = await _context.Absences
-               .Where(item => item.ClassId == classId)
-               .OrderBy(a => a.Id)
-               .Skip((pageNumber - 1) * pageSize)
-               .Take(pageSize)
-               .ToListAsync();
-
-            var totalAbsences = await _context.Absences.CountAsync();
-
-            return new PaginatedListUtil<Absence>(absences, totalAbsences, pageNumber, pageSize);
-        }
     }
 }

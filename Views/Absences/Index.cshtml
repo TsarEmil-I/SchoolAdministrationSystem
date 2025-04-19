@@ -81,14 +81,20 @@
 </div>
 
 <div class="mt-4 flex justify-between">
-    <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-pageSize="@Model.PageSize"
-       class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md @(Model.HasPreviousPage ? "" : "opacity-50 cursor-not-allowed")"
-       disabled="@(Model.HasPreviousPage ? "false" : "true")">
-        Предишна <<<
-    </a>
-    <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-pageSize="@Model.PageSize"
-       class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md @(Model.HasNextPage ? "" : "opacity-50 cursor-not-allowed")"
-       disabled="@(Model.HasNextPage ? "false" : "true")">
-        Следваща >>>
-    </a>
+    @if (Model.HasPreviousPage)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-pageSize="15"
+           class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+            Предишна &lt;&lt;&lt;
+        </a>
+    }
+
+    @if (Model.HasNextPage)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-pageSize="15"
+           class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+            Следваща &gt;&gt;&gt;
+        </a>
+    }
 </div>
+
