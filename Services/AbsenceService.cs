@@ -65,9 +65,35 @@ public class AbsenceService : IAbsenceService
 
         var allAbsences = await _absenceRepository.GetAllAbsencesAsync();
         var studentAbsences = allAbsences.Where(a => a.StudentId == absence.StudentId);
+        var lastAbsence = studentAbsences.OrderByDescending(a => a.End).FirstOrDefault();
         absence.Student = await _studentRepository.GetStudentByIdAsync(absence.StudentId);
         absence.Class = await _classRepository.GetClassByIdAsync(absence.ClassId);
         absence.Days = DaysDifferenceUtil.CalculateWorkingDays(DateOnly.FromDateTime(absence.Start).ToDateTime(TimeOnly.MinValue), DateOnly.FromDateTime(absence.End).ToDateTime(TimeOnly.MinValue), await _holidayRepository.GetHolidaysAsync());
+
+        if (lastAbsence != null)
+        {
+            var lastAbsenceDays = DaysDifferenceUtil.CalculateWorkingDays(
+                DateOnly.FromDateTime(lastAbsence.Start).ToDateTime(TimeOnly.MinValue),
+                DateOnly.FromDateTime(lastAbsence.End).ToDateTime(TimeOnly.MinValue),
+                await _holidayRepository.GetHolidaysAsync()
+            );
+
+            var gapDays = DaysDifferenceUtil.CalculateWorkingDays(
+                DateOnly.FromDateTime(lastAbsence.End.AddDays(1)).ToDateTime(TimeOnly.MinValue),
+                DateOnly.FromDateTime(absence.Start.AddDays(-1)).ToDateTime(TimeOnly.MinValue),
+                await _holidayRepository.GetHolidaysAsync()
+            );
+
+            if (gapDays == 0)
+            {
+                var combinedDays = lastAbsenceDays + absence.Days;
+                if (combinedDays > 5)
+                {
+                    throw new ArgumentException("Ученик не може да използва повече от 5 учебни дни наведнъж, дори и в отделни бележки.");
+                }
+            }
+        }
+
 
         if (absence.Student == null || absence.Class == null)
         {

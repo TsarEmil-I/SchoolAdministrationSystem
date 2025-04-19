@@ -9,7 +9,7 @@ namespace SchoolAdministrationSystem.Utils
         {
             if (startDate > endDate)
             {
-                throw new ArgumentException("Start date should not be later than end date.");
+                throw new ArgumentException("Началната дата не може да бъде по-голяма от крайната!");
             }
 
             var h = holidays

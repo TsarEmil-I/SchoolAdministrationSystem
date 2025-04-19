@@ -34,7 +34,8 @@ namespace SchoolAdministrationSystem.Data.Entities
             modelBuilder.Entity<Absence>()
                 .HasOne(a => a.Student)
                 .WithMany(s => s.Absences)
-                .HasForeignKey(a => a.StudentId);
+                .HasForeignKey(a => a.StudentId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Absence>()
                 .HasOne(a => a.Class)
