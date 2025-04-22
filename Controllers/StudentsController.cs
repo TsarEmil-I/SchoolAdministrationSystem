@@ -6,7 +6,6 @@ using SchoolAdministrationSystem.Services;
 
 namespace SchoolAdministrationSystem.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class StudentsController : Controller
     {
         private readonly IStudentService _studentService;
@@ -18,12 +17,14 @@ namespace SchoolAdministrationSystem.Controllers
             _classService = classService;
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var students = await _studentService.GetAllStudentsAsync();
             return View(students);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int id)
         {
             var student = await _studentService.GetStudentByIdAsync(id);
@@ -32,12 +33,14 @@ namespace SchoolAdministrationSystem.Controllers
             return View(student);
         }
 
+        [Authorize]
         [HttpGet("Students/List")]
         public async Task<IEnumerable<StudentDTO>> GetStudents(int id)
         {
             return await _studentService.GetAllStudentsByClassIdAsync(id);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             ViewBag.ClassId = (await _classService.GetAllClassesAsync())
@@ -47,6 +50,7 @@ namespace SchoolAdministrationSystem.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(StudentDTO studentDto)
@@ -64,6 +68,7 @@ namespace SchoolAdministrationSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var student = await _studentService.GetStudentByIdAsync(id);
@@ -74,6 +79,7 @@ namespace SchoolAdministrationSystem.Controllers
             return View(student);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, StudentDTO studentDto)
@@ -90,6 +96,7 @@ namespace SchoolAdministrationSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var student = await _studentService.GetStudentByIdAsync(id);
@@ -98,6 +105,7 @@ namespace SchoolAdministrationSystem.Controllers
             return View(student);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -54,16 +54,10 @@ public class StudentService : IStudentService
 
     public async Task<StudentDTO> UpdateStudentAsync(int id, StudentDTO studentDto)
     {
-        var existingStudent = await _studentRepository.GetStudentByIdAsync(id);
-        if (existingStudent == null)
-        {
-            return null;
-        }
+        var item = _mapper.Map<Student>(studentDto);
+        await _studentRepository.UpdateStudentAsync(item);
 
-        _mapper.Map(studentDto, existingStudent);
-        await _studentRepository.UpdateStudentAsync(existingStudent);
-
-        return _mapper.Map<StudentDTO>(existingStudent);
+        return _mapper.Map<StudentDTO>(item);
     }
 
     public async Task<bool> DeleteStudentAsync(int id)

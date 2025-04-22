@@ -1,14 +1,55 @@
 ﻿@{
     ViewData["Title"] = "СУУА";
+    DateTime now = DateTime.Now;
 }
 
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
-    <!-- Main Heading: Directly set a larger font size -->
-    <h1 class="font-bold text-blue-600 mb-4 text-center" style="font-size: 4rem;">
-        Система за управление на училищната администрация
-    </h1>
-    <!-- Secondary Heading: Adjust size as necessary -->
-    <h3 style="font-size: 4rem;" class="font-bold text-gray-700">
-        СУУА
-    </h3>
+<div class="relative w-full min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('/backgroundhome.jpg');">
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+
+    <div class="relative z-10 flex items-center justify-center min-h-screen w-full">
+        <div class="bg-white bg-opacity-90 p-10 rounded-2xl shadow-2xl max-w-xl w-full text-center mx-4">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4 leading-snug">
+                Система за управление <br />
+                <span class="text-blue-600">на училищната администрация</span>
+            </h1>
+
+            
+            <h2 class="text-xl md:text-2xl text-gray-700 mb-8 font-medium">
+                СУУА - Вашият помощник в администрацията
+               
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (now.Hour >= 6 && now.Hour < 10)
+                    {
+                        <h2 class="text-xl md:text-2xl text-gray-700 mb-8 font-medium">
+                          Добро утро!
+                         </h2>
+                    }
+                    else if (now.Hour >= 10 && now.Hour < 18)
+                    {
+                        <h2 class="text-xl md:text-2xl text-gray-700 mb-8 font-medium">
+                          Добър ден!
+                         </h2>
+                    }
+                    else 
+                    {
+                        <h2 class="text-xl md:text-2xl text-gray-700 mb-8 font-medium">
+                          Добър вечер!
+                        </h2>
+                    }
+
+                }
+            </h2>
+            
+
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a href="@Url.Page("/Account/Login", new { area = "Identity" })"
+                   class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold px-8 py-3 rounded-full shadow-md transition transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                    Влез в системата
+                </a>
+            }
+
+        </div>
+    </div>
 </div>

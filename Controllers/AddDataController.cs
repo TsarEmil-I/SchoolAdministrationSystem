@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CsvHelper.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdministrationSystem.Data.Entities;
 using SchoolAdministrationSystem.DTOs;
@@ -15,14 +16,16 @@ public class AddDataController : Controller
     private readonly IStudentService _studentService;
     private readonly ITeacherService _teacherService;
     private readonly IMapper _mapper;
+    private readonly UserManager<IdentityUser> _userManager;
 
-    public AddDataController(ApplicationDbContext context, IMapper mapper, IClassService classService, IStudentService studentService, ITeacherService teacherService)
+    public AddDataController(ApplicationDbContext context, IMapper mapper, IClassService classService, IStudentService studentService, ITeacherService teacherService, UserManager<IdentityUser> userManager)
     {
         _context = context;
         _mapper = mapper;
         _classService = classService;
         _studentService = studentService;
         _teacherService = teacherService;
+        _userManager = userManager;
     }
 
     public IActionResult Index()
@@ -99,12 +102,31 @@ public class AddDataController : Controller
                 var teachers = new List<TeacherDTO>();
                 foreach (var item in records)
                 {
+                    var user = new IdentityUser()
+                    {
+                        UserName = item.Email,
+                        Email = item.Email,
+                        EmailConfirmed = true
+                    };
+
+                    var userInfo = await _userManager.FindByEmailAsync(user.Email);
+                    if (userInfo == null)
+                    {
+                        var created = await _userManager
+                            .CreateAsync(user, "Teacher@123");
+                        if (created.Succeeded)
+                        {
+                            await _userManager.AddToRoleAsync(user, "Teacher");
+                        }
+                    }
+
                     TeacherDTO teacher = new TeacherDTO()
                     { 
                         FirstName = item.FirstName,
                         MiddleName = item.MiddleName,
                         LastName = item.LastName,
                         Email = item.Email,
+                        UserId = user.Id
                     };
 
                     teachers.Add(teacher);

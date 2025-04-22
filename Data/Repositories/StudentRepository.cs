@@ -37,7 +37,21 @@ namespace SchoolAdministrationSystem.Data.Repositories
 
         public async Task UpdateStudentAsync(Student student)
         {
-            _context.Students.Update(student);
+            var existingStudent = _context.Students
+                .Include(s => s.Absences)
+                .FirstOrDefault(s => s.Id == student.Id);
+
+            if (existingStudent != null)
+            {
+                existingStudent.FirstName = student.FirstName;
+                existingStudent.MiddleName = student.MiddleName;
+                existingStudent.LastName = student.LastName;
+                existingStudent.ClassId = student.ClassId;
+                existingStudent.Gender = student.Gender;
+                existingStudent.Age = student.Age;
+                existingStudent.Address = student.Address;
+                existingStudent.PhoneNumber = student.PhoneNumber;
+            }
             await _context.SaveChangesAsync();
         }
 

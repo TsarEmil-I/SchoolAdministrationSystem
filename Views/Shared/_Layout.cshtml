@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SchoolAdministrationSystem</title>
-    <link rel="stylesheet" href="/css/tailwind-output.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js"></script>
 </head>
@@ -12,73 +12,94 @@
 
     <div class="flex min-h-screen w-full">
         <!-- Sidebar -->
-        <div id="sidebar" class="bg-white shadow-md w-64 min-h-screen fixed top-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
-            <div class="container mx-auto px-4 py-4">
-                <a href="/" class="text-lg font-bold text-blue-600 hover:text-blue-800 block py-2 mb-4">
-                    СУУА
-                </a>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div id="sidebar" class="bg-white shadow-md w-64 min-h-screen fixed top-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 z-50">
+                <div class="container mx-auto px-4 py-4">
+                    <a href="/" class="text-lg font-bold text-blue-600 hover:text-blue-800 block py-2 mb-4">
+                        СУУА
+                    </a>
 
-                <ul class="space-y-6">
-                    <li><a asp-controller="Home" asp-action="Privacy" class="text-gray-600 hover:text-blue-600">За системата</a></li>
-                    <li><a asp-controller="Absences" asp-action="Index" class="text-gray-600 hover:text-blue-600">Отсъствия</a></li>
-                    <li><a asp-controller="Classes" asp-action="Index" class="text-gray-600 hover:text-blue-600">Класове</a></li>
-                    <li><a asp-controller="Students" asp-action="Index" class="text-gray-600 hover:text-blue-600">Ученици</a></li>
-                    <li><a asp-controller="Teachers" asp-action="Index" class="text-gray-600 hover:text-blue-600">Учители</a></li>
-                    @if (User.IsInRole("Admin")){
-                        <li class="relative">
-                            <button id="adminMenuButton" class="text-gray-600 hover:text-blue-600 flex items-center w-full focus:outline-none">
-                                Администрация ▼
-                            </button>
-                            <ul id="adminDropdown" class="absolute left-0 mt-2 w-48 bg-white border rounded-md shadow-lg hidden">
-                                <li><a asp-controller="Settings" asp-action="Index" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Настройки</a></li>
-                                <li><a asp-controller="Reports" asp-action="Create" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Справки</a></li>
-                                <li><a asp-controller="AddData" asp-action="Index" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Добави данни</a></li>
-                            </ul>
-                        </li>
-                    }
-                </ul>
+                    <ul class="space-y-6">
+                        <li><a asp-controller="Home" asp-action="Privacy" class="text-gray-600 hover:text-blue-600">За системата</a></li>
+                        <li><a asp-controller="Absences" asp-action="Index" class="text-gray-600 hover:text-blue-600">Отсъствия</a></li>
+                        <li><a asp-controller="Classes" asp-action="Index" class="text-gray-600 hover:text-blue-600">Класове</a></li>
+                        <li><a asp-controller="Students" asp-action="Index" class="text-gray-600 hover:text-blue-600">Ученици</a></li>
+                        <li><a asp-controller="Teachers" asp-action="Index" class="text-gray-600 hover:text-blue-600">Учители</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="relative">
+                                <button id="adminMenuButton" class="text-gray-600 hover:text-blue-600 flex items-center w-full focus:outline-none">
+                                    Администрация ▼
+                                </button>
+                                <ul id="adminDropdown" class="absolute left-0 mt-2 w-48 bg-white border rounded-md shadow-lg hidden">
+                                    <li><a asp-controller="Settings" asp-action="Index" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Настройки</a></li>
+                                    <li><a asp-controller="Reports" asp-action="Create" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Справки</a></li>
+                                    <li><a asp-controller="AddData" asp-action="Index" class="block px-4 py-2 text-gray-700 hover:text-blue-600">Добави данни</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
 
-                <div class="mt-4">
-                    @if (User.Identity?.IsAuthenticated ?? false)
-                    {
-                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
-                              method="post" class="inline">
-                            <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700">
-                                Излез
-                            </button>
-                        </form>
-                    }
-                    else
-                    {
-                        <div class="flex">
-                            <div>
-                                <a href="@Url.Page("/Account/Login", new { area = "Identity" })" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mr-2">
-                                    Влез
-                                </a>
+                    <div class="mt-4">
+                        @if (User.Identity?.IsAuthenticated ?? false)
+                        {
+                            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+                                  method="post" class="inline">
+                                <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700">
+                                    Излез
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="flex">
+                                <div>
+                                    <a href="@Url.Page("/Account/Login", new { area = "Identity" })" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 mr-2">
+                                        Влез
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="@Url.Page("/Account/Register", new { area = "Identity" })" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                        Регистрация
+                                    </a>
+                                </div>
                             </div>
-                            <div>
-                                <a href="@Url.Page("/Account/Register", new { area = "Identity" })" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400">
-                                    Регистрация
-                                </a>
-                            </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+        }
 
-        <div class="flex-1 w-full ml-0 lg:ml-64 p-4 transition-all duration-300 ease-in-out">
-            <!-- Hamburger Button (Visible only on smaller screens) -->
-            <button id="hamburger" class="lg:hidden p-2 text-gray-600 hover:bg-gray-200 rounded mb-4">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="flex-1 w-full ml-0 lg:ml-64 p-4 transition-all duration-300 ease-in-out">
+                <button id="hamburger" class="lg:hidden p-2 text-gray-600 hover:bg-gray-200 rounded mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
 
-            <main role="main" class="pb-3 min-h-screen">
-                @RenderBody()
-            </main>
-        </div>
+                <main role="main" class="pb-3 min-h-screen">
+                    @RenderBody()
+                </main>
+            </div>
+        }
+        else
+        {
+            <div class="flex-1 w-full ml-0 transition-all duration-300 ease-in-out">
+                <button id="hamburger" class="lg:hidden p-2 text-gray-600 hover:bg-gray-200 rounded mb-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <main role="main" class="pb-3 min-h-screen">
+                    @RenderBody()
+                </main>
+            </div>
+        }
+
     </div>
 
     <footer class="border-t mt-8 py-4 text-center text-gray-600">

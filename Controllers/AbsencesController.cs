@@ -40,7 +40,7 @@ namespace SchoolAdministrationSystem.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
                 var teacher = await _teacherService.GetTeacherByUserIdAsync(user.Id);
-                pagedAbsences = await _absenceService.GetPagedAbsencesByClassIdAsync(teacher.ClassId, pageNumber, pageSize);
+                pagedAbsences = await _absenceService.GetPagedAbsencesByClassIdAsync(teacher.Class.Id, pageNumber, pageSize);
             }
             return View(pagedAbsences);
         }
@@ -82,9 +82,23 @@ namespace SchoolAdministrationSystem.Controllers
 
         public async Task<IActionResult> Create()
         {
-            ViewBag.ClassId = (await _classService.GetAllClassesAsync())
-                           .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
-                           .ToList();
+
+            if (User.IsInRole("Admin"))
+            {
+                ViewBag.ClassId = (await _classService.GetAllClassesAsync())
+                          .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
+                          .ToList();
+            }
+
+            else
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var teacher = await _teacherService.GetTeacherByUserIdAsync(user.Id);
+
+                ViewBag.ClassId = new List<ClassDTO>() { (await _classService.GetClassByIdAsync(teacher.Class.Id)) }
+                         .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
+                         .ToList();
+            }
             return View();
         }
 
@@ -95,9 +109,22 @@ namespace SchoolAdministrationSystem.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.ClassId = (await _classService.GetAllClassesAsync())
-                               .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
-                               .ToList();
+                if (User.IsInRole("Admin"))
+                {
+                    ViewBag.ClassId = (await _classService.GetAllClassesAsync())
+                              .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
+                              .ToList();
+                }
+
+                else
+                {
+                    var user = await _userManager.GetUserAsync(User);
+                    var teacher = await _teacherService.GetTeacherByUserIdAsync(user.Id);
+
+                    ViewBag.ClassId = new List<ClassDTO>() { (await _classService.GetClassByIdAsync(teacher.Class.Id)) }
+                             .Select(c => new SelectListItem() { Text = c.Speciality, Value = c.Id.ToString() })
+                             .ToList();
+                }
                 return View(absenceDto);
             }
 

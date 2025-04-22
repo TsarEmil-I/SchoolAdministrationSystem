@@ -36,7 +36,7 @@ namespace SchoolAdministrationSystem.DTOs
 
         [DisplayName("Възраст")]
         [Required(ErrorMessage = "Това поле е задължително")]
-        [Range(6, 99, ErrorMessage = "Възрастта трябва да бъде положително число: 6-99!")]
+        [System.ComponentModel.DataAnnotations.Range(6, 99, ErrorMessage = "Възрастта трябва да бъде положително число: 6-99!")]
         public int Age { get; set; }
 
         [DisplayName("Адрес")]
