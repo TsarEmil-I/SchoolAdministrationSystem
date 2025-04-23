@@ -7,11 +7,6 @@ namespace SchoolAdministrationSystem.Utils
 
         public static int CalculateWorkingDays(DateTime startDate, DateTime endDate, List<DateTime> holidays)
         {
-            if (startDate > endDate)
-            {
-                throw new ArgumentException("Началната дата не може да бъде по-голяма от крайната!");
-            }
-
             var h = holidays
                            .Where(h => h.Date >= startDate && h.Date <= endDate)
                            .Select(h => h.Date)

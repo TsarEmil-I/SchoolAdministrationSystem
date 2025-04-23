@@ -158,7 +158,7 @@ public class AbsenceService : IAbsenceService
         {
             throw new ArgumentException("Ученикът не може да използва повече от 5 учебни дни наведнъж!");
         }
-
+        
         if (absenceDto.Start > absenceDto.End)
         {
             throw new ArgumentException("Не може началната дата да е по-голяма от крайната!");
