@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolAdministrationSystem.DTOs;
@@ -10,21 +12,36 @@ namespace SchoolAdministrationSystem.Controllers
     {
         private readonly IStudentService _studentService;
         private readonly IClassService _classService;
+        private readonly ITeacherService _teacherService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public StudentsController(IStudentService studentService, IClassService classService)
+        public StudentsController(IStudentService studentService, IClassService classService, ITeacherService teacherService, UserManager<IdentityUser> userManager)
         {
             _studentService = studentService;
             _classService = classService;
+            _teacherService = teacherService;
+            _userManager = userManager;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Teacher")]
         public async Task<IActionResult> Index()
         {
-            var students = await _studentService.GetAllStudentsAsync();
-            return View(students);
+            if (User.IsInRole("Admin"))
+            {
+                var students = await _studentService.GetAllStudentsAsync();
+                return View(students);
+            }
+            else
+            {
+                IdentityUser user = await _userManager.GetUserAsync(User);
+                var teacher = _teacherService.GetTeacherByUserIdAsync(user.Id);
+                var students = await _studentService.GetAllStudentsByClassIdAsync(teacher.Result.Class.Id);
+                return View(students);
+            }
+
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Teacher")]
         public async Task<IActionResult> Details(int id)
         {
             var student = await _studentService.GetStudentByIdAsync(id);
