@@ -6,11 +6,19 @@
 <h1 class="text-2xl font-semibold mb-6">Генериране на справка</h1>
 
 <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+    
     <h4 class="text-lg font-semibold mb-4">Изберете параметри</h4>
     <hr class="mb-6" />
 
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="text-red-600 font-bold mb-4">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
     <form asp-action="Create" class="space-y-6" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
+        <div asp-validation-summary="All" class="text-red-600 font-bold mb-4"></div>
 
         <div class="form-group">
             <label asp-for="ReportType" class="block font-medium text-gray-700">Тип на справката</label>
@@ -75,10 +83,12 @@
             reportTypeDropdown.addEventListener("change", function () {
                 const selectedType = this.value;
 
+                // Hide all fields initially
                 classField.classList.add("hidden");
                 studentField.classList.add("hidden");
                 periodFields.classList.add("hidden");
 
+                // Show relevant fields based on report type
                 if (selectedType === "student") {
                     classField.classList.remove("hidden");
                     studentField.classList.add("hidden");
@@ -94,7 +104,7 @@
                 const classId = this.value;
                 const studentDropdown = document.getElementById("studentId");
 
-                if (classId) {
+                if (classId && reportTypeDropdown.value === "student") {
                     const response = await fetch(`/Students/List?id=${classId}`);
                     const students = await response.json();
 
@@ -107,8 +117,7 @@
                     });
 
                     studentField.classList.remove("hidden");
-                } else 
-                {
+                } else {
                     studentField.classList.add("hidden");
                 }
             });

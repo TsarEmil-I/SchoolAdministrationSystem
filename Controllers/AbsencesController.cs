@@ -48,7 +48,14 @@ namespace SchoolAdministrationSystem.Controllers
         [HttpGet("Absences/ListByStudent/{studentId}")]
         public async Task<IActionResult> ListByStudent(int studentId)
         {
+
             var absences = await _absenceService.GetAbsencesByStudentIdAsync(studentId);
+
+            if (absences == null || !absences.Any())
+            {
+                TempData["ErrorMessage"] = "Ученикът няма заявления!";
+                return RedirectToAction("Create", "Reports");
+            }
             return View(absences);
         }
 
@@ -56,6 +63,11 @@ namespace SchoolAdministrationSystem.Controllers
         public async Task<IActionResult> ListByClass(int classId)
         {
             var absences = await _absenceService.GetAbsencesByClassIdAsync(classId);
+            if (absences == null || !absences.Any())
+            {
+                TempData["ErrorMessage"] = "Класът няма заявления!";
+                return RedirectToAction("Create", "Reports");
+            }
             return View(absences);
         }
 
@@ -67,6 +79,13 @@ namespace SchoolAdministrationSystem.Controllers
             DateTime.TryParseExact(decodedStart, "MM/dd/yyyy HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out DateTime startDate);
             DateTime.TryParseExact(decodedEnd, "MM/dd/yyyy HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out DateTime endDate);
             var absences = await _absenceService.GetAbsencesByClassIdPeriodAsync(classId, startDate, endDate);
+
+            if (absences == null || !absences.Any())
+            {
+                TempData["ErrorMessage"] = "Класът няма заявления за избрания период!";
+                return RedirectToAction("Create", "Reports");
+            }
+
             ViewData["Start"] = startDate.ToString("dd/MM/yyyy");
             ViewData["End"] = endDate.ToString("dd/MM/yyyy");
             return View(absences);
