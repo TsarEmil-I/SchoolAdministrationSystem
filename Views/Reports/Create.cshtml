@@ -23,20 +23,20 @@
             <span asp-validation-for="ReportType" class="text-red-600 font-bold"></span>
         </div>
 
-        <div id="studentField" class="hidden">
-            <label asp-for="StudentId" class="block font-medium text-gray-700">Ученик</label>
-            <select asp-for="StudentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.Students">
-                <option value="" selected disabled>Изберете ученик</option>
-            </select>
-            <span asp-validation-for="StudentId" class="text-red-600 font-bold"></span>
-        </div>
-
         <div id="classField" class="hidden">
             <label asp-for="ClassId" class="block font-medium text-gray-700">Клас</label>
-            <select asp-for="ClassId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.Classes">
+            <select asp-for="ClassId" id="classId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" asp-items="ViewBag.Classes">
                 <option value="" selected disabled>Изберете клас</option>
             </select>
             <span asp-validation-for="ClassId" class="text-red-600 font-bold"></span>
+        </div>
+
+        <div id="studentField" class="hidden">
+            <label asp-for="StudentId" class="block font-medium text-gray-700">Ученик</label>
+            <select asp-for="StudentId" id="studentId" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="" selected disabled>Изберете ученик</option>
+            </select>
+            <span asp-validation-for="StudentId" class="text-red-600 font-bold"></span>
         </div>
 
         <div id="periodFields" class="hidden">
@@ -68,24 +68,48 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const reportTypeDropdown = document.getElementById("reportType");
-            const studentField = document.getElementById("studentField");
             const classField = document.getElementById("classField");
+            const studentField = document.getElementById("studentField");
             const periodFields = document.getElementById("periodFields");
 
             reportTypeDropdown.addEventListener("change", function () {
                 const selectedType = this.value;
 
-                studentField.classList.add("hidden");
                 classField.classList.add("hidden");
+                studentField.classList.add("hidden");
                 periodFields.classList.add("hidden");
 
                 if (selectedType === "student") {
-                    studentField.classList.remove("hidden");
+                    classField.classList.remove("hidden");
+                    studentField.classList.add("hidden");
                 } else if (selectedType === "class") {
                     classField.classList.remove("hidden");
                 } else if (selectedType === "classPeriod") {
                     classField.classList.remove("hidden");
                     periodFields.classList.remove("hidden");
+                }
+            });
+
+            document.getElementById("classId").addEventListener("change", async function () {
+                const classId = this.value;
+                const studentDropdown = document.getElementById("studentId");
+
+                if (classId) {
+                    const response = await fetch(`/Students/List?id=${classId}`);
+                    const students = await response.json();
+
+                    studentDropdown.innerHTML = '<option value="" selected disabled>Изберете ученик</option>';
+                    students.forEach(student => {
+                        const option = document.createElement("option");
+                        option.value = student.id;
+                        option.textContent = student.fullName;
+                        studentDropdown.appendChild(option);
+                    });
+
+                    studentField.classList.remove("hidden");
+                } else 
+                {
+                    studentField.classList.add("hidden");
                 }
             });
         });

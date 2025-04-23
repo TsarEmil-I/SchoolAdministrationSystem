@@ -27,6 +27,8 @@ namespace SchoolAdministrationSystem.Controllers
             _absenceService = absenceService;
         }
 
+       
+
         // GET: Reports/Create
         public async Task<IActionResult> Create()
         {
