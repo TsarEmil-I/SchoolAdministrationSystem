@@ -12,6 +12,13 @@
     </a>
 </p>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="text-green-600 font-bold mb-4">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <div class="overflow-x-auto">
     <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
         <thead>

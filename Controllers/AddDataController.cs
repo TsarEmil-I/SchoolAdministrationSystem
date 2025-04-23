@@ -75,7 +75,7 @@ public class AddDataController : Controller
                 await _studentService.CreateStudentsFromRangeAsync(students);
             }
         }
-
+        TempData["SuccessMessage"] = "Импортирането на CSV файла беше успешно!";
         return RedirectToAction("Index", "Students");
     }
 
@@ -136,7 +136,7 @@ public class AddDataController : Controller
                 await _teacherService.CreateTeachersFromRangeAsync(teachers);
             }
         }
-
+        TempData["SuccessMessage"] = "Импортирането на CSV файла беше успешно!";
         return RedirectToAction("Index", "Teachers");
     }
 
@@ -175,7 +175,7 @@ public class AddDataController : Controller
                 await _classService.CreateClassesFromRangeAsync(classes);
             }
         }
-
+        TempData["SuccessMessage"] = "Импортирането на CSV файла беше успешно!";
         return RedirectToAction("Index", "Classes");
     }
 }
