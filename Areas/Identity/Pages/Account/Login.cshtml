@@ -12,54 +12,31 @@
     <hr class="mb-6" />
 
     <form id="account" method="post" class="space-y-6">
-        <!-- Validation Summary -->
         <div asp-validation-summary="ModelOnly" class="text-red-600 font-bold mb-4"></div>
 
-        <!-- Email -->
         <div class="form-group">
             <label asp-for="Input.Email" class="block font-medium text-gray-700">Е-поща</label>
             <input asp-for="Input.Email" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" autocomplete="username" placeholder="name@example.com" />
             <span asp-validation-for="Input.Email" class="text-red-600 font-bold"></span>
         </div>
 
-        <!-- Password -->
         <div class="form-group">
             <label asp-for="Input.Password" class="block font-medium text-gray-700">Парола</label>
             <input asp-for="Input.Password" type="password" class="form-control block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" autocomplete="current-password" placeholder="Парола" />
             <span asp-validation-for="Input.Password" class="text-red-600 font-bold"></span>
         </div>
 
-        <!-- Remember Me -->
         <div class="form-group flex items-center">
             <input asp-for="Input.RememberMe" class="form-checkbox text-blue-600 border-gray-300 rounded focus:ring focus:ring-blue-300" />
             <label asp-for="Input.RememberMe" class="ml-2 font-medium text-gray-700">Запомни ме</label>
         </div>
 
-        <!-- Hidden Field -->
         <input type="hidden" asp-for="ReturnUrl" />
 
-        <!-- Buttons -->
-        <div class="form-group flex justify-between">
-            <a asp-page="./ForgotPassword" class="px-4 py-2 text-blue-500 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-300">
-                Забравена парола?
-            </a>
+        <div class="form-group flex justify-center">
             <button id="login-submit" type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
                 Влез
             </button>
-        </div>
-
-        <!-- Links -->
-        <div class="text-sm text-gray-600 text-center mt-6">
-            <p class="mb-2">
-                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-blue-600 hover:underline">
-                    Регистрирайте нов потребител
-                </a>
-            </p>
-            <p>
-                <a asp-page="./ResendEmailConfirmation" class="text-blue-600 hover:underline">
-                    ?|Resend email confirmation|?
-                </a>
-            </p>
         </div>
     </form>
 </div>
