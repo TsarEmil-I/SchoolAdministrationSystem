@@ -86,7 +86,7 @@
 <div class="mt-4 flex justify-between">
     @if (Model.HasPreviousPage)
     {
-        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-pageSize="15"
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-pageSize="5"
            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
             Предишна &lt;&lt;&lt;
         </a>
@@ -94,7 +94,7 @@
 
     @if (Model.HasNextPage)
     {
-        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-pageSize="15"
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-pageSize="5"
            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
             Следваща &gt;&gt;&gt;
         </a>

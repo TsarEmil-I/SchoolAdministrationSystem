@@ -27,7 +27,7 @@ namespace SchoolAdministrationSystem.Controllers
             _teacherService = teacherService;
         }
 
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 15)
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 5)
         {
             var pagedAbsences = new Utils.PaginatedListUtil<AbsenceDTO>(new List<AbsenceDTO>(), 0, 0, 0);
 

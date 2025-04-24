@@ -31,10 +31,11 @@ public class AbsenceService : IAbsenceService
     public async Task<PaginatedListUtil<AbsenceDTO>> GetPagedAbsencesAsync(int pageNumber, int pageSize)
     {
         var paginatedAbsences = await _absenceRepository.GetPagedAbsencesAsync(pageNumber, pageSize);
-
+        var count = (await _absenceRepository.GetAllAbsencesAsync()).Count;
         var absenceDTOs = paginatedAbsences.Select(a => _mapper.Map<AbsenceDTO>(a)).ToList();
 
-        return new PaginatedListUtil<AbsenceDTO>(absenceDTOs, paginatedAbsences.TotalPages, paginatedAbsences.PageIndex, paginatedAbsences.PageSize);
+
+        return new PaginatedListUtil<AbsenceDTO>(absenceDTOs, count, paginatedAbsences.PageIndex, paginatedAbsences.PageSize);
     }
 
     public async Task<AbsenceDTO> GetAbsenceByIdAsync(int id)
