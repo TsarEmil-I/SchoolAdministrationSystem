@@ -3,15 +3,13 @@ This project is a School Administration System designed to help streamline the a
 
 ## 1. Attendance Tracking
 
-+ Allow parents to submit requests for absences due to personal reasons (e.g., sick leave, family matters).
-+ Automated approval workflows for absence requests that notify the relevant teachers and staff.
-+ Generate attendance reports for both students and administrators to monitor attendance trends over time.
++ Automated calculation and workflows for absences.
++ Generate absence reports for both students and administrators to monitor absence trends over time.
   
 ## 2. User Roles and Permissions
 + Role-based access control for administrators and teachers.
 + Administrators have full control over managing users, configuring the system, importing .CSV file information and accessing reports.
 + Teachers can manage and track their students' attendance.
-+ Students can access their own information and their parents are able to submit requests for absence.
 
 ### Technologies Used
 + Backend: ASP.NET Core (C#), JavaScript
